@@ -34,7 +34,7 @@
         <span class="value" id="humidity">–</span>
         <span class="unit">%</span>
       </div>
-      <div class="card">
+      <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
         <span class="label">Pressure (MSL)</span>
         <span class="value" id="pressure-msl">–</span>
         <span class="unit">hPa</span>
@@ -61,10 +61,24 @@
     </div>
   </main>
 
+  <div id="pressure-modal" class="modal-overlay hidden" onclick="closePressureModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span>Pressure – last 24h &amp; next 24h</span>
+        <button class="modal-close" onclick="closePressureModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="pressure-chart"></canvas>
+        <p id="pressure-no-data" class="hidden">No pressure data available.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>Last updated: <span id="last-updated">–</span></p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

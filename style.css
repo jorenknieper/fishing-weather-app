@@ -139,6 +139,72 @@ footer {
   color: var(--color-muted);
 }
 
+.card--clickable {
+  cursor: pointer;
+}
+
+.card--clickable:hover {
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-shadow);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--color-muted);
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 1rem;
+  overflow: auto;
+}
+
+#pressure-no-data {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 2rem 0;
+}
+
 @media (max-width: 375px) {
   .card .value {
     font-size: 1.4rem;
