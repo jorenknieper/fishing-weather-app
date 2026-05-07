@@ -10,8 +10,31 @@ function formatTimestamp(isoString) {
   return date.toLocaleString('en-BE', {
     dateStyle: 'medium',
     timeStyle: 'short',
+    timeZone: 'Europe/Brussels',
   });
 }
+
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  updateThemeButton();
+}
+
+function updateThemeButton() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = isDark ? 'Light mode' : 'Dark mode';
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeButton();
+}
+
+initTheme();
 
 function showError() {
   document.getElementById('error-message').classList.remove('hidden');

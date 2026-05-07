@@ -136,3 +136,163 @@ Add `.github/workflows/update-weather.yml` so `scripts/update-weather.sh` runs o
 
 - Secrets or API keys (Open-Meteo is public)
 - Notifications or alerting on failure
+
+---
+
+## TASK-004: Show "Last updated" timestamp on the dashboard
+
+**Status:** To Do  
+**Depends on:** TASK-001, TASK-002
+
+### Goal
+
+Display the timestamp from `data/weather.json` (`current.time`) as a human-readable "Last updated" line on the dashboard so users know how fresh the data is.
+
+### Scope
+
+- Read `current.time` from the already-fetched JSON
+- Format it as a readable local date/time string (e.g. "7 May 2026, 22:45")
+- Render it in the existing footer or below the grid — no new card needed
+
+### Deliverables
+
+**`app.js`**
+- Format `current.time` using `Date` + `toLocaleString` (locale `en-BE`, Brussels timezone)
+- Populate the existing `#last-updated` element
+
+**`index.html`**
+- Confirm `#last-updated` element exists in the footer (add if missing)
+
+### Acceptance criteria
+
+- [ ] Dashboard shows a formatted timestamp that matches the `current.time` value in `data/weather.json`
+- [ ] Timestamp is human-readable and uses the Europe/Brussels timezone
+- [ ] No visible change when `current.time` is missing — element shows "–"
+
+### Risks
+
+- `current.time` from Open-Meteo is a local ISO string without timezone offset; pass `timezone: 'Europe/Brussels'` explicitly to `toLocaleString` to avoid browser-timezone drift
+
+### Out of scope
+
+- Relative time ("5 minutes ago")
+- Auto-refresh of data in the browser
+
+---
+
+## TASK-005: Add dark mode toggle
+
+**Status:** To Do  
+**Depends on:** TASK-001
+
+### Goal
+
+Add a toggle button that switches the dashboard between light and dark mode. Persist the user's preference in `localStorage` so it survives page reloads.
+
+### Scope
+
+- Toggle button in the header
+- CSS custom properties for theming (no duplication of rules)
+- Preference persisted in `localStorage` under a single key
+- No frameworks, no external libraries
+
+### Deliverables
+
+**`index.html`**
+- Add a `<button id="theme-toggle">` in the header
+
+**`style.css`**
+- Define colour tokens as CSS custom properties on `:root` (light defaults)
+- Add a `[data-theme="dark"]` selector on `<html>` that overrides the tokens
+- Ensure all existing colour references use the tokens
+
+**`app.js`**
+- On load: read `localStorage.getItem('theme')`, apply `data-theme` attribute to `<html>` and set button label
+- On button click: toggle `data-theme`, update `localStorage`, update button label
+
+### Acceptance criteria
+
+- [ ] Toggle button is visible and tappable on a 375px screen
+- [ ] Clicking the button switches between light and dark mode without a page reload
+- [ ] Preference survives a page reload (verified by refreshing after toggling)
+- [ ] Dark mode has sufficient contrast on all cards and text elements
+
+### Risks
+
+- System preference (`prefers-color-scheme`) is not required for this task but should not conflict with the manual toggle
+
+### Out of scope
+
+- Automatic system-preference detection
+- Transition animations
+
+---
+
+## TASK-006: Add pressure chart (24h history + 24h forecast)
+
+**Status:** To Do  
+**Depends on:** TASK-001, TASK-002
+
+### Goal
+
+Clicking the pressure card opens a detailed pressure graph showing the past 24 hours of actual pressure and the next 24 hours of forecast pressure, using Open-Meteo hourly data.
+
+### Scope
+
+- Pressure card in the dashboard becomes clickable
+- A modal or expanded panel shows the chart
+- Chart covers past 24h + next 24h of `pressure_msl`
+- Zoom/pan supported if achievable without a heavy dependency
+
+### Data requirements
+
+`scripts/update-weather.sh` must be extended to also fetch hourly `pressure_msl` for a 48-hour window (past 24h + next 24h). Add the `hourly=pressure_msl` parameter and set `forecast_days=2&past_days=1` on the Open-Meteo URL. The resulting JSON gains an `hourly` block:
+
+```json
+{
+  "hourly": {
+    "time": ["2026-05-06T23:00", "2026-05-07T00:00", "..."],
+    "pressure_msl": [1013.2, 1013.8, "..."]
+  }
+}
+```
+
+### Deliverables
+
+**`scripts/update-weather.sh`**
+- Add `hourly=pressure_msl&past_days=1&forecast_days=2` to the Open-Meteo URL
+
+**`index.html`**
+- Make the pressure card(s) clickable (button or anchor role)
+- Add a modal/overlay element for the chart (hidden by default)
+- Add a close button on the modal
+
+**`app.js`**
+- Parse `hourly.time` and `hourly.pressure_msl` arrays
+- Identify the current hour as the boundary between past and forecast
+- Render the chart using the Canvas API (`<canvas>`) — no charting library required for a basic line chart
+- If a lightweight library (e.g. Chart.js via CDN) is chosen, justify the decision in the PR
+
+**`style.css`**
+- Modal overlay styles (full-screen on mobile, centred on desktop)
+- Canvas fills the modal width
+
+### Acceptance criteria
+
+- [ ] Clicking the pressure card opens the chart modal
+- [ ] Chart shows a continuous line for past 24h and forecast 24h, visually distinguished (e.g. solid vs dashed)
+- [ ] Current hour is marked on the chart
+- [ ] Modal closes via the close button and via pressing Escape
+- [ ] Chart is readable on a 375px screen
+- [ ] Page still works if `hourly` block is missing from JSON (modal opens but shows "No data")
+
+### Risks
+
+- Canvas-based charting from scratch can grow complex; if it exceeds ~80 lines of chart code, switch to Chart.js (CDN, no npm)
+- `past_days=1` on Open-Meteo returns up to 24h of past data but coverage depends on model run timing; handle gaps gracefully
+
+### Out of scope
+
+- Other metrics in the chart
+- Saving or sharing the chart
+- Zoom/pan beyond what the Canvas API supports without a library
