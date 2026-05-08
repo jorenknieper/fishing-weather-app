@@ -10,7 +10,7 @@ GitHub Actions (cron: hourly)
                     └── GitHub Pages serves static files
                           └── app.js fetch('./data/weather.json')
                                 ├── renderWeather()  → DOM cards
-                                └── hourlyPressureData → chart on demand
+                                └── hourlyData → charts on demand
 ```
 
 ## Open-Meteo integration
@@ -18,7 +18,7 @@ GitHub Actions (cron: hourly)
 - Endpoint: `https://api.open-meteo.com/v1/forecast`
 - Location: lat 51.0748, lon 3.4486 (Aalter, Belgium)
 - `current` fields: temperature_2m, apparent_temperature, relative_humidity_2m, surface_pressure, pressure_msl, precipitation, wind_speed_10m, wind_direction_10m, is_day
-- `hourly` fields: pressure_msl only
+- `hourly` fields: pressure_msl, temperature_2m, apparent_temperature
 - Range: `past_days=7`, `forecast_days=7` (up to ~336 hourly data points)
 - Timezone: Europe/Brussels
 
@@ -34,17 +34,34 @@ GitHub Actions (cron: hourly)
 
 1. `loadWeather()` fetches `data/weather.json` on page load
 2. `renderWeather(data.current)` populates the 8 DOM cards
-3. `hourlyPressureData = data.hourly` is held in module scope
-4. Clicking the Pressure (MSL) card calls `openPressureModal()` which calls `renderPressureChart()`
+3. `hourlyData = data.hourly` is held in module scope
+4. Clicking a chart card calls `open()` on the corresponding modal instance, which calls `render()`
 5. Chart is destroyed and recreated each time the modal opens
 
-## Pressure chart architecture
+## Chart module: `createChartModal(config)`
 
 - Library: Chart.js 4 (CDN) + chartjs-plugin-zoom 2 (CDN)
-- Type: `line` with two datasets sharing the same `labels[]` array
+- `createChartModal()` is a factory that returns `{ open, close, reset }` — each modal instance has private state (chart, navigator, drag)
+- `config.series[]` drives the multi-series render path. Each entry: `{ key, historicalLabel, forecastLabel, historicalColor, forecastColor }`
+- For each series the factory produces two datasets: historical (solid line, indices ≤ splitAt) and forecast (dashed line, indices ≥ splitAt), sharing the same `labels[]`
+- Y-axis range (`yMin`/`yMax`) spans all values across all series combined
+- `navValues` (navigator length reference) is set from `series[0].key`
+- A legacy single-series code path exists for configs without `series[]`, using top-level `historicalLabel`/`forecastLabel`/`colors` keys; the two current instances both use `series[]`
+
+### Two current modal instances
+
+| Instance | `modalId` | Series keys | Unit |
+|---|---|---|---|
+| `pressureModal` | `pressure-modal` | `pressure_msl` | hPa |
+| `temperatureModal` | `temp-modal` | `temperature_2m`, `apparent_temperature` | °C |
+
+Both call `getData: () => hourlyData`.
+
+### x-axis and times[]
+
 - `times[]` is the authoritative x-axis source — labels are `HH:MM` slices from ISO strings; the full ISO strings live in `times[]` for day-label logic
 - x-axis uses numeric indices (0..n-1) not time values; `callback` and grid color functions both index into `times[]` via the tick value
-- `splitAt` = index of the first future hour; it is the shared boundary point present in **both** Historical and Forecast datasets so the line stays visually connected
+- `splitAt` = index of the first future hour; it is the shared boundary point present in both Historical and Forecast datasets so the line stays visually connected
 - Initial viewport: ±24 h around `splitAt` (set via `zoomScale` or direct option mutation)
 - `initialMin`/`initialMax` are stored so Reset can restore this viewport
 
@@ -57,9 +74,9 @@ GitHub Actions (cron: hourly)
 
 ## Navigator architecture
 
-- A separate `<canvas id="pressure-navigator">` drawn by `drawNavigator()` — not a Chart.js chart
-- Draws a highlighted window rectangle reflecting `pressureChartInstance.scales.x.min/max` relative to total data length
+- Each modal instance owns a separate navigator `<canvas>` drawn by its private `drawNavigator()` — not a Chart.js chart
+- Draws a highlighted window rectangle reflecting `chart.scales.x.min/max` relative to `navValues.length`
 - Redrawn after every zoom/pan event and after every drag move
 - `setupNavigatorDrag()` is called once at startup; attaches mousedown/touchstart to the canvas and mousemove/touchmove/mouseup to `window`
 - Drag maps pixel delta to index delta: `deltaIndex = (deltaX / nav.offsetWidth) * n`
-- During drag: directly mutates `pressureChartInstance.options.scales.x.min/max` then calls `chart.update('none')` (no animation) + `drawNavigator()`
+- During drag: directly mutates `chart.options.scales.x.min/max` then calls `chart.update('none')` (no animation) + `drawNavigator()`
