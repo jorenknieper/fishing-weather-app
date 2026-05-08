@@ -65,10 +65,12 @@
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
         <span>Pressure – last 24h &amp; next 24h</span>
+        <button id="chart-reset" onclick="resetPressureChart()">Reset</button>
         <button class="modal-close" onclick="closePressureModal()">✕</button>
       </div>
       <div class="modal-body">
         <canvas id="pressure-chart"></canvas>
+        <canvas id="pressure-navigator"></canvas>
         <p id="pressure-no-data" class="hidden">No pressure data available.</p>
       </div>
     </div>
@@ -79,6 +81,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
