@@ -226,6 +226,31 @@ function createChartModal(config) {
 
     const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } = config.yAxis;
 
+    const chartType = config.chartType || 'line';
+
+    function buildDataset(label, data, color, isForecast) {
+      if (chartType === 'bar') {
+        return {
+          label,
+          data,
+          backgroundColor: color,
+          borderWidth: 0,
+        };
+      }
+      const dataset = {
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        pointRadius: 0,
+        spanGaps: false,
+        tension: 0.3,
+      };
+      if (isForecast) dataset.borderDash = [5, 5];
+      return dataset;
+    }
+
     let datasets;
     let allValid = [];
 
@@ -237,27 +262,8 @@ function createChartModal(config) {
         const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
         const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
         allValid = allValid.concat(vals.filter(v => v != null));
-        datasets.push({
-          label: s.historicalLabel,
-          data: pastData,
-          borderColor: s.historicalColor,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          pointRadius: 0,
-          spanGaps: false,
-          tension: 0.3,
-        });
-        datasets.push({
-          label: s.forecastLabel,
-          data: forecastData,
-          borderColor: s.forecastColor,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          borderDash: [5, 5],
-          pointRadius: 0,
-          spanGaps: false,
-          tension: 0.3,
-        });
+        datasets.push(buildDataset(s.historicalLabel, pastData, s.historicalColor, false));
+        datasets.push(buildDataset(s.forecastLabel, forecastData, s.forecastColor, true));
       }
       // Navigator uses first series for length reference
       navValues = hourly[config.series[0].key].slice(startIndex, endIndex);
@@ -269,27 +275,8 @@ function createChartModal(config) {
       const pastData = values.map((v, i) => (i <= splitAt ? v : null));
       const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
       datasets = [
-        {
-          label: config.historicalLabel,
-          data: pastData,
-          borderColor: config.colors.historical,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          pointRadius: 0,
-          spanGaps: false,
-          tension: 0.3,
-        },
-        {
-          label: config.forecastLabel,
-          data: forecastData,
-          borderColor: config.colors.forecast,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          borderDash: [5, 5],
-          pointRadius: 0,
-          spanGaps: false,
-          tension: 0.3,
-        },
+        buildDataset(config.historicalLabel, pastData, config.colors.historical, false),
+        buildDataset(config.forecastLabel, forecastData, config.colors.forecast, true),
       ];
     }
 
@@ -301,7 +288,7 @@ function createChartModal(config) {
     if (chart) chart.destroy();
 
     chart = new Chart(canvas, {
-      type: 'line',
+      type: chartType,
       data: {
         labels,
         datasets,
