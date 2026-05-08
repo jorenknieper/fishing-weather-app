@@ -436,9 +436,31 @@ function openTemperatureModal() { temperatureModal.open(); }
 function closeTemperatureModal() { temperatureModal.close(); }
 function resetTemperatureChart() { temperatureModal.reset(); }
 
+const humidityModal = createChartModal({
+  modalId: 'humidity-modal',
+  chartId: 'humidity-chart',
+  navigatorId: 'humidity-navigator',
+  noDataId: 'humidity-no-data',
+  getData: () => hourlyData,
+  series: [
+    { key: 'relative_humidity_2m', historicalLabel: 'Humidity', forecastLabel: 'Humidity (forecast)', historicalColor: '#0987a0', forecastColor: '#76e4f7' },
+  ],
+  colors: { accentLight: '#0987a0', accentDark: '#76e4f7' },
+  yAxis: { unit: '%', stepSize: 10, snapTo: 10, paddingBelow: 5, paddingAbove: 5, fallbackMin: 0, fallbackMax: 100 },
+  historyHours: 168,
+  forecastHours: 168,
+  initialViewportHours: 24,
+  zoomMinRange: 4,
+});
+
+function openHumidityModal() { humidityModal.open(); }
+function closeHumidityModal() { humidityModal.close(); }
+function resetHumidityChart() { humidityModal.reset(); }
+
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
-    if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
+    if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
+    else if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
     else if (!document.getElementById('pressure-modal').classList.contains('hidden')) closePressureModal();
   }
 });

@@ -29,7 +29,7 @@
         <span class="value" id="apparent-temperature">–</span>
         <span class="unit">°C</span>
       </div>
-      <div class="card">
+      <div class="card card--clickable" role="button" tabindex="0" onclick="openHumidityModal()">
         <span class="label">Humidity</span>
         <span class="value" id="humidity">–</span>
         <span class="unit">%</span>
@@ -87,6 +87,21 @@
         <canvas id="temp-chart"></canvas>
         <canvas id="temp-navigator"></canvas>
         <p id="temp-no-data" class="hidden">No temperature data available.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="humidity-modal" class="modal-overlay hidden" onclick="closeHumidityModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span>Humidity – last 7 days &amp; next 7 days</span>
+        <button id="chart-reset-humidity" onclick="resetHumidityChart()">Reset</button>
+        <button class="modal-close" onclick="closeHumidityModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="humidity-chart"></canvas>
+        <canvas id="humidity-navigator"></canvas>
+        <p id="humidity-no-data" class="hidden">No humidity data available.</p>
       </div>
     </div>
   </div>
