@@ -36,7 +36,7 @@ function toggleTheme() {
 
 initTheme();
 
-let hourlyPressureData = null;
+let hourlyData = null;
 
 function makeDayLabelsPlugin(times, textColor) {
   return {
@@ -188,7 +188,13 @@ function createChartModal(config) {
 
     const hourly = config.getData();
 
-    if (!hourly || !hourly.time || !hourly.pressure_msl || typeof Chart === 'undefined') {
+    // Determine which keys to validate against
+    const seriesKeys = config.series
+      ? config.series.map(s => s.key)
+      : ['pressure_msl'];
+
+    if (!hourly || !hourly.time || typeof Chart === 'undefined' ||
+        seriesKeys.some(k => !Array.isArray(hourly[k]))) {
       canvas.classList.add('hidden');
       noData.classList.remove('hidden');
       return;
@@ -211,25 +217,86 @@ function createChartModal(config) {
     const splitAt = boundaryIndex - startIndex;
 
     const times = hourly.time.slice(startIndex, endIndex);
-    const values = hourly.pressure_msl.slice(startIndex, endIndex);
     const labels = times.map(t => t.slice(11, 16));
-
-    navValues = values;
-    navSplitAt = splitAt;
-
-    // splitAt is the shared boundary point — appears in both datasets to stay connected
-    const pastData = values.map((v, i) => (i <= splitAt ? v : null));
-    const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
-
-    const valid = values.filter(v => v != null);
-    const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } = config.yAxis;
-    const yMin = valid.length ? Math.floor((Math.min(...valid) - paddingBelow) / snapTo) * snapTo : fallbackMin;
-    const yMax = valid.length ? Math.ceil((Math.max(...valid) + paddingAbove) / snapTo) * snapTo : fallbackMax;
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#a0aec0' : '#718096';
     const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
     const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
+
+    const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } = config.yAxis;
+
+    let datasets;
+    let allValid = [];
+
+    if (config.series) {
+      // Multi-series path
+      datasets = [];
+      for (const s of config.series) {
+        const vals = hourly[s.key].slice(startIndex, endIndex);
+        const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
+        const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
+        allValid = allValid.concat(vals.filter(v => v != null));
+        datasets.push({
+          label: s.historicalLabel,
+          data: pastData,
+          borderColor: s.historicalColor,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          spanGaps: false,
+          tension: 0.3,
+        });
+        datasets.push({
+          label: s.forecastLabel,
+          data: forecastData,
+          borderColor: s.forecastColor,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          spanGaps: false,
+          tension: 0.3,
+        });
+      }
+      // Navigator uses first series for length reference
+      navValues = hourly[config.series[0].key].slice(startIndex, endIndex);
+    } else {
+      // Single-series backwards-compat path
+      const values = hourly.pressure_msl.slice(startIndex, endIndex);
+      navValues = values;
+      allValid = values.filter(v => v != null);
+      const pastData = values.map((v, i) => (i <= splitAt ? v : null));
+      const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
+      datasets = [
+        {
+          label: config.historicalLabel,
+          data: pastData,
+          borderColor: config.colors.historical,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          spanGaps: false,
+          tension: 0.3,
+        },
+        {
+          label: config.forecastLabel,
+          data: forecastData,
+          borderColor: config.colors.forecast,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          spanGaps: false,
+          tension: 0.3,
+        },
+      ];
+    }
+
+    navSplitAt = splitAt;
+
+    const yMin = allValid.length ? Math.floor((Math.min(...allValid) - paddingBelow) / snapTo) * snapTo : fallbackMin;
+    const yMax = allValid.length ? Math.ceil((Math.max(...allValid) + paddingAbove) / snapTo) * snapTo : fallbackMax;
 
     if (chart) chart.destroy();
 
@@ -237,29 +304,7 @@ function createChartModal(config) {
       type: 'line',
       data: {
         labels,
-        datasets: [
-          {
-            label: config.historicalLabel,
-            data: pastData,
-            borderColor: config.colors.historical,
-            backgroundColor: 'transparent',
-            borderWidth: 2,
-            pointRadius: 0,
-            spanGaps: false,
-            tension: 0.3,
-          },
-          {
-            label: config.forecastLabel,
-            data: forecastData,
-            borderColor: config.colors.forecast,
-            backgroundColor: 'transparent',
-            borderWidth: 2,
-            borderDash: [5, 5],
-            pointRadius: 0,
-            spanGaps: false,
-            tension: 0.3,
-          },
-        ],
+        datasets,
       },
       plugins: [makeDayLabelsPlugin(times, textColor)],
       options: {
@@ -362,12 +407,11 @@ const pressureModal = createChartModal({
   chartId: 'pressure-chart',
   navigatorId: 'pressure-navigator',
   noDataId: 'pressure-no-data',
-  getData: () => hourlyPressureData,
-  historicalLabel: 'Historical',
-  forecastLabel: 'Forecast',
+  getData: () => hourlyData,
+  series: [
+    { key: 'pressure_msl', historicalLabel: 'Historical', forecastLabel: 'Forecast', historicalColor: '#2b6cb0', forecastColor: '#63b3ed' },
+  ],
   colors: {
-    historical: '#2b6cb0',
-    forecast: '#63b3ed',
     accentLight: '#2b6cb0',
     accentDark: '#63b3ed',
   },
@@ -383,9 +427,32 @@ function openPressureModal() { pressureModal.open(); }
 function closePressureModal() { pressureModal.close(); }
 function resetPressureChart() { pressureModal.reset(); }
 
+const temperatureModal = createChartModal({
+  modalId: 'temp-modal',
+  chartId: 'temp-chart',
+  navigatorId: 'temp-navigator',
+  noDataId: 'temp-no-data',
+  getData: () => hourlyData,
+  series: [
+    { key: 'temperature_2m', historicalLabel: 'Temperature', forecastLabel: 'Temperature (forecast)', historicalColor: '#c53030', forecastColor: '#fc8181' },
+    { key: 'apparent_temperature', historicalLabel: 'Feels Like', forecastLabel: 'Feels Like (forecast)', historicalColor: '#dd6b20', forecastColor: '#f6ad55' },
+  ],
+  colors: { accentLight: '#c53030', accentDark: '#fc8181' },
+  yAxis: { unit: '°C', stepSize: 5, snapTo: 5, paddingBelow: 2, paddingAbove: 2, fallbackMin: -10, fallbackMax: 35 },
+  historyHours: 168,
+  forecastHours: 168,
+  initialViewportHours: 24,
+  zoomMinRange: 4,
+});
+
+function openTemperatureModal() { temperatureModal.open(); }
+function closeTemperatureModal() { temperatureModal.close(); }
+function resetTemperatureChart() { temperatureModal.reset(); }
+
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape' && !document.getElementById('pressure-modal').classList.contains('hidden')) {
-    pressureModal.close();
+  if (e.key === 'Escape') {
+    if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
+    else if (!document.getElementById('pressure-modal').classList.contains('hidden')) closePressureModal();
   }
 });
 
@@ -419,7 +486,7 @@ async function loadWeather() {
     const data = await response.json();
     if (!data.current) throw new Error('Missing current block');
 
-    hourlyPressureData = data.hourly || null;
+    hourlyData = data.hourly || null;
     renderWeather(data.current);
   } catch (err) {
     console.error('Failed to load weather data:', err);

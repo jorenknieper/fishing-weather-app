@@ -19,7 +19,7 @@
     </div>
 
     <div id="weather-grid" class="grid hidden">
-      <div class="card">
+      <div class="card card--clickable" role="button" tabindex="0" onclick="openTemperatureModal()">
         <span class="label">Temperature</span>
         <span class="value" id="temperature">–</span>
         <span class="unit">°C</span>
@@ -72,6 +72,21 @@
         <canvas id="pressure-chart"></canvas>
         <canvas id="pressure-navigator"></canvas>
         <p id="pressure-no-data" class="hidden">No pressure data available.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="temp-modal" class="modal-overlay hidden" onclick="closeTemperatureModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span>Temperature – last 7 days &amp; next 7 days</span>
+        <button id="chart-reset-temperature" onclick="resetTemperatureChart()">Reset</button>
+        <button class="modal-close" onclick="closeTemperatureModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="temp-chart"></canvas>
+        <canvas id="temp-navigator"></canvas>
+        <p id="temp-no-data" class="hidden">No temperature data available.</p>
       </div>
     </div>
   </div>

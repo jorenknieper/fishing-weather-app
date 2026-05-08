@@ -147,6 +147,11 @@ footer {
   box-shadow: 0 2px 8px var(--color-shadow);
 }
 
+.card--clickable:focus-visible {
+  outline: 2px solid var(--color-card-value);
+  outline-offset: 2px;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -194,7 +199,7 @@ footer {
   line-height: 1;
 }
 
-#chart-reset {
+#chart-reset, #chart-reset-temperature {
   background: none;
   border: none;
   font-size: 0.75rem;
@@ -209,7 +214,7 @@ footer {
   overflow: auto;
 }
 
-#pressure-navigator {
+#pressure-navigator, #temp-navigator {
   display: block;
   width: 100%;
   height: 16px;
@@ -218,7 +223,7 @@ footer {
   cursor: grab;
 }
 
-#pressure-no-data {
+#pressure-no-data, #temp-no-data {
   text-align: center;
   color: var(--color-muted);
   padding: 2rem 0;
