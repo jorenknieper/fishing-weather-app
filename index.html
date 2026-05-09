@@ -54,7 +54,7 @@
         <span class="value" id="wind-speed">–</span>
         <span class="unit">km/h</span>
       </div>
-      <div class="card">
+      <div class="card card--clickable" role="button" tabindex="0" onclick="openWindDirectionModal()">
         <span class="label">Wind Direction</span>
         <span class="value" id="wind-direction">–</span>
       </div>
@@ -132,6 +132,19 @@
         <canvas id="precipitation-chart"></canvas>
         <canvas id="precipitation-navigator"></canvas>
         <p id="precipitation-no-data" class="hidden">No precipitation data available.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="wind-direction-modal" class="modal-overlay hidden" onclick="closeWindDirectionModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span>Wind Direction – last 7 days &amp; next 7 days</span>
+        <button class="modal-close" onclick="closeWindDirectionModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="wind-direction-chart"></canvas>
+        <p id="wind-direction-no-data" class="hidden">No wind direction data available.</p>
       </div>
     </div>
   </div>
