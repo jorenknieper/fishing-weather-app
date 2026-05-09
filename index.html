@@ -44,7 +44,7 @@
         <span class="value" id="pressure-surface">–</span>
         <span class="unit">hPa</span>
       </div>
-      <div class="card">
+      <div class="card card--clickable" role="button" tabindex="0" onclick="openPrecipitationModal()">
         <span class="label">Precipitation</span>
         <span class="value" id="precipitation">–</span>
         <span class="unit">mm</span>
@@ -117,6 +117,21 @@
         <canvas id="wind-chart"></canvas>
         <canvas id="wind-navigator"></canvas>
         <p id="wind-no-data" class="hidden">No wind speed data available.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="precipitation-modal" class="modal-overlay hidden" onclick="closePrecipitationModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span>Precipitation – last 7 days &amp; next 7 days</span>
+        <button id="chart-reset-precipitation" onclick="resetPrecipitationChart()">Reset</button>
+        <button class="modal-close" onclick="closePrecipitationModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <canvas id="precipitation-chart"></canvas>
+        <canvas id="precipitation-navigator"></canvas>
+        <p id="precipitation-no-data" class="hidden">No precipitation data available.</p>
       </div>
     </div>
   </div>
