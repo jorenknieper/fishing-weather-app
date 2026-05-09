@@ -458,9 +458,31 @@ function openHumidityModal() { humidityModal.open(); }
 function closeHumidityModal() { humidityModal.close(); }
 function resetHumidityChart() { humidityModal.reset(); }
 
+const windSpeedModal = createChartModal({
+  modalId: 'wind-modal',
+  chartId: 'wind-chart',
+  navigatorId: 'wind-navigator',
+  noDataId: 'wind-no-data',
+  getData: () => hourlyData,
+  series: [
+    { key: 'wind_speed_10m', historicalLabel: 'Wind Speed', forecastLabel: 'Wind Speed (forecast)', historicalColor: '#6b46c1', forecastColor: '#b794f4' },
+  ],
+  colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
+  yAxis: { unit: 'km/h', stepSize: 10, snapTo: 5, paddingBelow: 2, paddingAbove: 5, fallbackMin: 0, fallbackMax: 60 },
+  historyHours: 168,
+  forecastHours: 168,
+  initialViewportHours: 24,
+  zoomMinRange: 4,
+});
+
+function openWindSpeedModal() { windSpeedModal.open(); }
+function closeWindSpeedModal() { windSpeedModal.close(); }
+function resetWindSpeedChart() { windSpeedModal.reset(); }
+
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
     if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
+    else if (!document.getElementById('wind-modal').classList.contains('hidden')) closeWindSpeedModal();
     else if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
     else if (!document.getElementById('pressure-modal').classList.contains('hidden')) closePressureModal();
   }
