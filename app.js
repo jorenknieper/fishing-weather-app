@@ -229,14 +229,6 @@ function createChartModal(config) {
     const chartType = config.chartType || 'line';
 
     function buildDataset(label, data, color, isForecast) {
-      if (chartType === 'bar') {
-        return {
-          label,
-          data,
-          backgroundColor: color,
-          borderWidth: 0,
-        };
-      }
       const dataset = {
         label,
         data,
@@ -251,6 +243,11 @@ function createChartModal(config) {
       return dataset;
     }
 
+    function buildBarDataset(label, values, splitAt, historicalColor, forecastColor) {
+      const colors = values.map((_, i) => (i <= splitAt ? historicalColor : forecastColor));
+      return { label, data: values, backgroundColor: colors, borderWidth: 0 };
+    }
+
     let datasets;
     let allValid = [];
 
@@ -259,11 +256,15 @@ function createChartModal(config) {
       datasets = [];
       for (const s of config.series) {
         const vals = hourly[s.key].slice(startIndex, endIndex);
-        const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
-        const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
         allValid = allValid.concat(vals.filter(v => v != null));
-        datasets.push(buildDataset(s.historicalLabel, pastData, s.historicalColor, false));
-        datasets.push(buildDataset(s.forecastLabel, forecastData, s.forecastColor, true));
+        if (chartType === 'bar') {
+          datasets.push(buildBarDataset(s.historicalLabel, vals, splitAt, s.historicalColor, s.forecastColor));
+        } else {
+          const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
+          const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
+          datasets.push(buildDataset(s.historicalLabel, pastData, s.historicalColor, false));
+          datasets.push(buildDataset(s.forecastLabel, forecastData, s.forecastColor, true));
+        }
       }
       // Navigator uses first series for length reference
       navValues = hourly[config.series[0].key].slice(startIndex, endIndex);
