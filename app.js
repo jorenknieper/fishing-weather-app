@@ -396,7 +396,8 @@ const pressureModal = createChartModal({
   noDataId: 'pressure-no-data',
   getData: () => hourlyData,
   series: [
-    { key: 'pressure_msl', historicalLabel: 'Historical', forecastLabel: 'Forecast', historicalColor: '#2b6cb0', forecastColor: '#63b3ed' },
+    { key: 'pressure_msl', historicalLabel: 'MSL', forecastLabel: 'MSL (forecast)', historicalColor: '#2b6cb0', forecastColor: '#63b3ed' },
+    { key: 'surface_pressure', historicalLabel: 'Surface', forecastLabel: 'Surface (forecast)', historicalColor: '#276749', forecastColor: '#68d391' },
   ],
   colors: {
     accentLight: '#2b6cb0',
