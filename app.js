@@ -502,9 +502,152 @@ function openPrecipitationModal() { precipitationModal.open(); }
 function closePrecipitationModal() { precipitationModal.close(); }
 function resetPrecipitationChart() { precipitationModal.reset(); }
 
+function createWindDirectionModal(config) {
+  const DIRECTIONS_16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+
+  // Bin 0 (N) spans [348.75°, 11.25°) — Math.round(348.75/22.5)=16→%16=0 is intentional
+  function degreesTo16Bin(deg) {
+    const d = ((deg % 360) + 360) % 360;
+    return Math.round(d / 22.5) % 16;
+  }
+
+  let chart = null;
+
+  function render() {
+    const canvas = document.getElementById(config.chartId);
+    const noData = document.getElementById(config.noDataId);
+
+    const hourly = config.getData();
+
+    if (!hourly || !Array.isArray(hourly.wind_direction_10m) || !Array.isArray(hourly.time) || typeof Chart === 'undefined') {
+      canvas.classList.add('hidden');
+      noData.classList.remove('hidden');
+      return;
+    }
+
+    canvas.classList.remove('hidden');
+    noData.classList.add('hidden');
+
+    const nowISO = new Date()
+      .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
+      .slice(0, 16)
+      .replace(' ', 'T');
+
+    let boundaryIndex = hourly.time.findIndex(t => t >= nowISO);
+    if (boundaryIndex === -1) boundaryIndex = hourly.time.length;
+
+    const startIndex = Math.max(0, boundaryIndex - config.historyHours);
+    const endIndex = Math.min(hourly.time.length, boundaryIndex + config.forecastHours);
+
+    // Strict halves — boundary hour is not double-counted (unlike line charts)
+    const histSlice = hourly.wind_direction_10m.slice(startIndex, boundaryIndex);
+    const fcstSlice = hourly.wind_direction_10m.slice(boundaryIndex, endIndex);
+
+    const histCounts = new Array(16).fill(0);
+    const fcstCounts = new Array(16).fill(0);
+
+    for (const v of histSlice) {
+      if (v != null && !isNaN(v)) histCounts[degreesTo16Bin(v)]++;
+    }
+    for (const v of fcstSlice) {
+      if (v != null && !isNaN(v)) fcstCounts[degreesTo16Bin(v)]++;
+    }
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#a0aec0' : '#718096';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+    const histBorder = isDark ? config.colors.historicalDark  : config.colors.historicalLight;
+    const fcstBorder = isDark ? config.colors.forecastDark    : config.colors.forecastLight;
+    const histFill   = isDark ? config.colors.historicalDarkFill  : config.colors.historicalLightFill;
+    const fcstFill   = isDark ? config.colors.forecastDarkFill    : config.colors.forecastLightFill;
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(canvas, {
+      type: 'polarArea',
+      data: {
+        labels: DIRECTIONS_16,
+        datasets: [
+          {
+            label: 'Historical (past 7 days)',
+            data: histCounts,
+            backgroundColor: histFill,
+            borderColor: histBorder,
+            borderWidth: 1.5,
+          },
+          {
+            label: 'Forecast (next 7 days)',
+            data: fcstCounts,
+            backgroundColor: fcstFill,
+            borderColor: fcstBorder,
+            borderWidth: 1.5,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: textColor, boxWidth: 20 },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.r} hours`,
+            },
+          },
+        },
+        scales: {
+          r: {
+            startAngle: -101.25,
+            ticks: { color: textColor, backdropColor: 'transparent', precision: 0 },
+            grid: { color: gridColor },
+            angleLines: { color: gridColor },
+            pointLabels: { color: textColor, font: { size: 12 } },
+          },
+        },
+      },
+    });
+  }
+
+  return {
+    open() {
+      document.getElementById(config.modalId).classList.remove('hidden');
+      render();
+    },
+    close() {
+      document.getElementById(config.modalId).classList.add('hidden');
+    },
+  };
+}
+
+const windDirectionModal = createWindDirectionModal({
+  modalId: 'wind-direction-modal',
+  chartId: 'wind-direction-chart',
+  noDataId: 'wind-direction-no-data',
+  getData: () => hourlyData,
+  historyHours: 168,
+  forecastHours: 168,
+  colors: {
+    historicalLight:     '#2b6cb0',
+    historicalLightFill: 'rgba(43,108,176,0.5)',
+    historicalDark:      '#63b3ed',
+    historicalDarkFill:  'rgba(99,179,237,0.5)',
+    forecastLight:       '#9f7aea',
+    forecastLightFill:   'rgba(159,122,234,0.5)',
+    forecastDark:        '#b794f4',
+    forecastDarkFill:    'rgba(183,148,244,0.5)',
+  },
+});
+
+function openWindDirectionModal() { windDirectionModal.open(); }
+function closeWindDirectionModal() { windDirectionModal.close(); }
+
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
-    if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
+    if (!document.getElementById('wind-direction-modal').classList.contains('hidden')) closeWindDirectionModal();
+    else if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
     else if (!document.getElementById('wind-modal').classList.contains('hidden')) closeWindSpeedModal();
     else if (!document.getElementById('precipitation-modal').classList.contains('hidden')) closePrecipitationModal();
     else if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
