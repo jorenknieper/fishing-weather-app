@@ -479,10 +479,33 @@ function openWindSpeedModal() { windSpeedModal.open(); }
 function closeWindSpeedModal() { windSpeedModal.close(); }
 function resetWindSpeedChart() { windSpeedModal.reset(); }
 
+const precipitationModal = createChartModal({
+  modalId: 'precipitation-modal',
+  chartId: 'precipitation-chart',
+  navigatorId: 'precipitation-navigator',
+  noDataId: 'precipitation-no-data',
+  getData: () => hourlyData,
+  chartType: 'bar',
+  series: [
+    { key: 'precipitation', historicalLabel: 'Precipitation', forecastLabel: 'Precipitation (forecast)', historicalColor: '#2b6cb0', forecastColor: 'rgba(99,179,237,0.6)' },
+  ],
+  colors: { accentLight: '#2b6cb0', accentDark: '#63b3ed' },
+  yAxis: { unit: 'mm', stepSize: 1, snapTo: 1, paddingBelow: 0, paddingAbove: 2, fallbackMin: 0, fallbackMax: 10 },
+  historyHours: 168,
+  forecastHours: 168,
+  initialViewportHours: 24,
+  zoomMinRange: 4,
+});
+
+function openPrecipitationModal() { precipitationModal.open(); }
+function closePrecipitationModal() { precipitationModal.close(); }
+function resetPrecipitationChart() { precipitationModal.reset(); }
+
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
     if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
     else if (!document.getElementById('wind-modal').classList.contains('hidden')) closeWindSpeedModal();
+    else if (!document.getElementById('precipitation-modal').classList.contains('hidden')) closePrecipitationModal();
     else if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
     else if (!document.getElementById('pressure-modal').classList.contains('hidden')) closePressureModal();
   }
