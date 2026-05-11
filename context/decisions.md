@@ -52,6 +52,18 @@
 
 ---
 
+## SVG over canvas for wind-direction visualization
+
+**Decision:** The wind-direction modal uses inline SVG arrows rather than a Chart.js `polarArea` chart.
+
+**Context:** The previous `polarArea` chart aggregated directions into 16 compass bins, which obscured per-hour trends and required Chart.js lifecycle management (`chart.destroy()` on close). A scrollable arrow timeline makes individual readings and trends readable at a glance.
+
+**Alternatives:** Retain `polarArea`; use a Chart.js scatter/line chart with custom point rendering; use `<canvas>` with manual 2D drawing.
+
+**Consequences:** SVG scales crisply on HiDPI displays. `currentColor` inherits `--color-card-value`, so dark mode and live theme toggles are automatic with no JS re-render. Arrows are static after render, so no redraw loop is needed and disposal is a simple `innerHTML = ''`. The wind-direction modal intentionally has no navigator or zoom control — the 112-cell horizontal strip is navigated by scroll.
+
+---
+
 ## Why Open-Meteo
 
 **Decision:** Use Open-Meteo as the weather API.

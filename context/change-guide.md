@@ -81,6 +81,22 @@ If the user toggles theme while the modal is open, the chart colors will not upd
 
 ---
 
+## Wind-direction modal
+
+**Safe modifications:**
+- Arrow size: change the `size` argument passed to `renderWindArrowSvg()` in the modal builder
+- Bucket size: adjust the step value in the 3-hour aggregation loop; update the cell count expectation (currently 8 buckets/day × 14 days = 112 cells)
+- Arrow color: controlled by `--color-card-value` via `currentColor` in CSS; change the CSS variable, not the SVG fill directly
+- Forecast opacity: `.wd-cell--forecast` in `style.css` sets `opacity: 0.55`
+
+**Things to watch out for:**
+- Rotation convention: the SVG rotation is `degrees + 180`. `wind_direction_10m` is the direction the wind comes FROM; the +180 makes the arrow point where the wind is going. Removing or changing this offset will reverse all arrows.
+- Circular mean: bucket aggregation uses `atan2(Σsin, Σcos)` over the hourly readings. Do not replace this with arithmetic mean — averaging 350° and 10° arithmetically gives 180° (south), not 0° (north).
+- No navigator: this modal has no `drawNavigator()` call or zoom plugin. Do not attempt to add the standard pressure-chart navigator without also adding the full navigator canvas, drag setup, and zoom plugin initialization.
+- Disposal pattern: `close()` uses `innerHTML = ''` to clear the SVG host. There is no Chart.js instance to destroy. If the modal is ever migrated back to Chart.js, `chart.destroy()` must be restored.
+
+---
+
 ## Safe testing workflow
 
 1. Edit `app.js` or `index.html` locally

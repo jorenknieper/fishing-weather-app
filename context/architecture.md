@@ -63,3 +63,15 @@ GitHub Actions (cron: hourly)
 - `setupNavigatorDrag()` is called once at startup; attaches mousedown/touchstart to the canvas and mousemove/touchmove/mouseup to `window`
 - Drag maps pixel delta to index delta: `deltaIndex = (deltaX / nav.offsetWidth) * n`
 - During drag: directly mutates `pressureChartInstance.options.scales.x.min/max` then calls `chart.update('none')` (no animation) + `drawNavigator()`
+
+## Wind-direction modal architecture
+
+- The wind-direction modal renders a horizontally scrollable SVG arrow timeline — it does **not** use Chart.js
+- `renderWindArrowSvg(degrees, { size })` is a shared helper that generates a single inline SVG arrow; it is called by both the modal builder and `renderWeather()` to show a live preview arrow on the dashboard card
+- Arrow rotation is `degrees + 180`: `wind_direction_10m` is the direction wind comes FROM; the arrow points where the wind is going
+- Hourly data is aggregated into 3-hour buckets (14 days × 8 buckets/day = 112 cells) displayed in a `<div id="wind-direction-timeline">` with `overflow-x: auto`
+- Bucket direction uses circular mean (`atan2(Σsin, Σcos)`) rather than arithmetic mean to handle the 0/360 wraparound correctly
+- Historical buckets render at full opacity; forecast buckets at `opacity: 0.55`
+- No navigator or zoom control — the strip is a simple scroll container
+- Disposal: `close()` sets `innerHTML = ''` on the host div (replaces the old `chart.destroy()` pattern used by the other Chart.js modals)
+- Arrow `fill` uses `currentColor` (resolved to `--color-card-value`), giving automatic dark-mode and live theme-toggle support without any JS re-render
