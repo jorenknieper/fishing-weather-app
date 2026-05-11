@@ -283,70 +283,85 @@ function createChartModal(config) {
 
     navSplitAt = splitAt;
 
-    const yMin = allValid.length ? Math.floor((Math.min(...allValid) - paddingBelow) / snapTo) * snapTo : fallbackMin;
-    const yMax = allValid.length ? Math.ceil((Math.max(...allValid) + paddingAbove) / snapTo) * snapTo : fallbackMax;
+    let yMin = allValid.length ? Math.floor((Math.min(...allValid) - paddingBelow) / snapTo) * snapTo : fallbackMin;
+    let yMax = allValid.length ? Math.ceil((Math.max(...allValid) + paddingAbove) / snapTo) * snapTo : fallbackMax;
+    if (chartType === 'bar' && yMin === yMax) yMax = Math.max(fallbackMax, yMin + snapTo);
 
-    if (chart) chart.destroy();
+    if (chart) {
+      try { chart.destroy(); } catch (_) {}
+      chart = null;
+    }
 
-    chart = new Chart(canvas, {
-      type: chartType,
-      data: {
-        labels,
-        datasets,
-      },
-      plugins: [makeDayLabelsPlugin(times, textColor)],
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        layout: { padding: { top: 20 } },
-        plugins: {
-          legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
-          tooltip: { mode: 'index', intersect: false },
-          zoom: {
-            limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
-            zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
-            pan: { enabled: true, mode: 'x' },
-            onZoomComplete: () => drawNavigator(),
-            onPanComplete: () => drawNavigator(),
-          },
+    try {
+      chart = new Chart(canvas, {
+        type: chartType,
+        data: {
+          labels,
+          datasets,
         },
-        scales: {
-          x: {
-            min: 0,
-            max: times.length - 1,
-            ticks: {
-              color: textColor,
-              maxRotation: 0,
-              callback: function(value) {
-                const t = times[value];
-                if (!t) return undefined;
-                const time = t.slice(11, 16);
-                const visible = Math.round(this.max - this.min);
-                if (visible > 168) return time === '00:00' ? time : undefined;
-                if (visible > 96) return (time === '00:00' || time === '12:00') ? time : undefined;
-                if (visible > 24) return value % 4 === 0 ? time : undefined;
-                if (visible >= 8) return value % 2 === 0 ? time : undefined;
-                return time;
-              },
-            },
-            grid: {
-              color: function(context) {
-                const t = times[context.tick.value];
-                if (t && t.slice(11, 16) === '00:00') return accentColor;
-                return gridColor;
-              },
+        plugins: [makeDayLabelsPlugin(times, textColor)],
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          layout: { padding: { top: 20 } },
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
+            tooltip: { mode: 'index', intersect: false },
+            zoom: {
+              limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
+              zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+              pan: { enabled: true, mode: 'x' },
+              onZoomComplete: () => drawNavigator(),
+              onPanComplete: () => drawNavigator(),
             },
           },
-          y: {
-            min: yMin,
-            max: yMax,
-            ticks: { color: textColor, stepSize },
-            grid: { color: gridColor },
-            title: { display: true, text: unit, color: textColor },
+          scales: {
+            x: {
+              min: 0,
+              max: times.length - 1,
+              ticks: {
+                color: textColor,
+                maxRotation: 0,
+                callback: function(value) {
+                  const t = times[value];
+                  if (!t) return undefined;
+                  const time = t.slice(11, 16);
+                  const visible = Math.round(this.max - this.min);
+                  if (visible > 168) return time === '00:00' ? time : undefined;
+                  if (visible > 96) return (time === '00:00' || time === '12:00') ? time : undefined;
+                  if (visible > 24) return value % 4 === 0 ? time : undefined;
+                  if (visible >= 8) return value % 2 === 0 ? time : undefined;
+                  return time;
+                },
+              },
+              grid: {
+                color: function(context) {
+                  const t = context.tick && times[context.tick.value];
+                  if (t && t.slice(11, 16) === '00:00') return accentColor;
+                  return gridColor;
+                },
+              },
+            },
+            y: {
+              min: yMin,
+              max: yMax,
+              ticks: { color: textColor, stepSize },
+              grid: { color: gridColor },
+              title: { display: true, text: unit, color: textColor },
+            },
           },
         },
-      },
-    });
+      });
+    } catch (err) {
+      console.error('Chart creation failed for', config.chartId, err);
+      if (chart) {
+        try { chart.destroy(); } catch (_) {}
+        chart = null;
+      }
+      canvas.classList.add('hidden');
+      noData.classList.remove('hidden');
+      return;
+    }
 
     initialMin = Math.max(0, splitAt - config.initialViewportHours);
     initialMax = Math.min(times.length - 1, splitAt + config.initialViewportHours);
