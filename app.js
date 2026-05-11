@@ -518,10 +518,11 @@ function closePrecipitationModal() { precipitationModal.close(); }
 function resetPrecipitationChart() { precipitationModal.reset(); }
 
 // wind_direction_10m is degrees the wind comes FROM; the arrow visually points
-// where the wind is going (rotate by deg + 180). Stroke uses currentColor so
-// dark mode and live theme toggles work automatically.
+// where the wind is blowing TO. The SVG base path points south at rotation 0,
+// so rotating by degrees directly gives the correct heading.
+// Stroke uses currentColor so dark mode and live theme toggles work automatically.
 function renderWindArrowSvg(degrees, { size = 28 } = {}) {
-  const rotation = (((degrees % 360) + 360) % 360) + 180;
+  const rotation = ((degrees % 360) + 360) % 360;
   return (
     `<svg viewBox="0 0 24 24" width="${size}" height="${size}" ` +
     `style="transform: rotate(${rotation}deg);" focusable="false" aria-hidden="true">` +
