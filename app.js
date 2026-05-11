@@ -517,30 +517,54 @@ function openPrecipitationModal() { precipitationModal.open(); }
 function closePrecipitationModal() { precipitationModal.close(); }
 function resetPrecipitationChart() { precipitationModal.reset(); }
 
-function createWindDirectionModal(config) {
-  const DIRECTIONS_16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+// wind_direction_10m is degrees the wind comes FROM; the arrow visually points
+// where the wind is going (rotate by deg + 180). Stroke uses currentColor so
+// dark mode and live theme toggles work automatically.
+function renderWindArrowSvg(degrees, { size = 28 } = {}) {
+  const rotation = (((degrees % 360) + 360) % 360) + 180;
+  return (
+    `<svg viewBox="0 0 24 24" width="${size}" height="${size}" ` +
+    `style="transform: rotate(${rotation}deg);" focusable="false" aria-hidden="true">` +
+    '<path d="M12 3 L12 21 M12 21 L6 15 M12 21 L18 15" ' +
+    'fill="none" stroke="currentColor" stroke-width="2.5" ' +
+    'stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>'
+  );
+}
 
-  // Bin 0 (N) spans [348.75°, 11.25°) — Math.round(348.75/22.5)=16→%16=0 is intentional
-  function degreesTo16Bin(deg) {
-    const d = ((deg % 360) + 360) % 360;
-    return Math.round(d / 22.5) % 16;
+function createWindDirectionModal(config) {
+  // Circular mean: arithmetic mean of degrees wraps wrong across 0/360,
+  // so average the unit vectors and take atan2.
+  function circularMean(degList) {
+    let sumSin = 0;
+    let sumCos = 0;
+    let count = 0;
+    for (const d of degList) {
+      if (d == null || isNaN(d)) continue;
+      const rad = (d * Math.PI) / 180;
+      sumSin += Math.sin(rad);
+      sumCos += Math.cos(rad);
+      count++;
+    }
+    if (count === 0) return null;
+    const mean = (Math.atan2(sumSin, sumCos) * 180) / Math.PI;
+    return (mean + 360) % 360;
   }
 
-  let chart = null;
-
   function render() {
-    const canvas = document.getElementById(config.chartId);
+    const host = document.getElementById(config.timelineId);
     const noData = document.getElementById(config.noDataId);
 
     const hourly = config.getData();
 
-    if (!hourly || !Array.isArray(hourly.wind_direction_10m) || !Array.isArray(hourly.time) || typeof Chart === 'undefined') {
-      canvas.classList.add('hidden');
+    if (!hourly || !Array.isArray(hourly.wind_direction_10m) || !Array.isArray(hourly.time)) {
+      host.innerHTML = '';
+      host.classList.add('hidden');
       noData.classList.remove('hidden');
       return;
     }
 
-    canvas.classList.remove('hidden');
+    host.classList.remove('hidden');
     noData.classList.add('hidden');
 
     const nowISO = new Date()
@@ -554,76 +578,55 @@ function createWindDirectionModal(config) {
     const startIndex = Math.max(0, boundaryIndex - config.historyHours);
     const endIndex = Math.min(hourly.time.length, boundaryIndex + config.forecastHours);
 
-    // Strict halves — boundary hour is not double-counted (unlike line charts)
-    const histSlice = hourly.wind_direction_10m.slice(startIndex, boundaryIndex);
-    const fcstSlice = hourly.wind_direction_10m.slice(boundaryIndex, endIndex);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const bucketSize = config.bucketHours;
+    const buckets = [];
 
-    const histCounts = new Array(16).fill(0);
-    const fcstCounts = new Array(16).fill(0);
-
-    for (const v of histSlice) {
-      if (v != null && !isNaN(v)) histCounts[degreesTo16Bin(v)]++;
+    for (let i = startIndex; i < endIndex; i += bucketSize) {
+      const j = Math.min(endIndex, i + bucketSize);
+      const slice = hourly.wind_direction_10m.slice(i, j);
+      const mean = circularMean(slice);
+      const anchorTime = hourly.time[i];
+      if (!anchorTime) continue;
+      const isForecast = i >= boundaryIndex;
+      const hh = anchorTime.slice(11, 13);
+      const dayStart = anchorTime.slice(11, 16) === '00:00';
+      const dateLabel = dayStart
+        ? `${parseInt(anchorTime.slice(8, 10))} ${months[parseInt(anchorTime.slice(5, 7)) - 1]}`
+        : '';
+      buckets.push({ mean, hh, dateLabel, isForecast });
     }
-    for (const v of fcstSlice) {
-      if (v != null && !isNaN(v)) fcstCounts[degreesTo16Bin(v)]++;
+
+    if (buckets.length === 0) {
+      host.innerHTML = '';
+      host.classList.add('hidden');
+      noData.classList.remove('hidden');
+      return;
     }
 
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const textColor = isDark ? '#a0aec0' : '#718096';
-    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
-    const histBorder = isDark ? config.colors.historicalDark  : config.colors.historicalLight;
-    const fcstBorder = isDark ? config.colors.forecastDark    : config.colors.forecastLight;
-    const histFill   = isDark ? config.colors.historicalDarkFill  : config.colors.historicalLightFill;
-    const fcstFill   = isDark ? config.colors.forecastDarkFill    : config.colors.forecastLightFill;
-
-    if (chart) chart.destroy();
-
-    chart = new Chart(canvas, {
-      type: 'polarArea',
-      data: {
-        labels: DIRECTIONS_16,
-        datasets: [
-          {
-            label: 'Historical (past 7 days)',
-            data: histCounts,
-            backgroundColor: histFill,
-            borderColor: histBorder,
-            borderWidth: 1.5,
-          },
-          {
-            label: 'Forecast (next 7 days)',
-            data: fcstCounts,
-            backgroundColor: fcstFill,
-            borderColor: fcstBorder,
-            borderWidth: 1.5,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { color: textColor, boxWidth: 20 },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.r} hours`,
-            },
-          },
-        },
-        scales: {
-          r: {
-            startAngle: -101.25,
-            ticks: { color: textColor, backdropColor: 'transparent', precision: 0 },
-            grid: { color: gridColor },
-            angleLines: { color: gridColor },
-            pointLabels: { color: textColor, font: { size: 12 } },
-          },
-        },
-      },
+    const cells = buckets.map(b => {
+      const arrow = b.mean == null
+        ? '<span class="wd-arrow--empty" aria-hidden="true">·</span>'
+        : renderWindArrowSvg(b.mean, { size: 22 });
+      const titleAttr = b.mean == null
+        ? ''
+        : ` title="${b.dateLabel ? b.dateLabel + ' ' : ''}${b.hh}:00 — from ${Math.round(b.mean)}°"`;
+      const cellClass = b.isForecast ? 'wd-cell wd-cell--forecast' : 'wd-cell';
+      return (
+        `<div class="${cellClass}"${titleAttr}>` +
+        `<div class="wd-cell__date">${b.dateLabel}</div>` +
+        `<div class="wd-cell__arrow">${arrow}</div>` +
+        `<div class="wd-cell__hour">${b.hh}</div>` +
+        '</div>'
+      );
     });
+
+    host.innerHTML =
+      '<div class="wd-legend">' +
+      '<span class="wd-legend__item"><span class="wd-legend__swatch"></span>Historical (past 7 days)</span>' +
+      '<span class="wd-legend__item wd-legend__item--forecast"><span class="wd-legend__swatch"></span>Forecast (next 7 days)</span>' +
+      '</div>' +
+      `<div class="wd-timeline__strip">${cells.join('')}</div>`;
   }
 
   return {
@@ -633,27 +636,20 @@ function createWindDirectionModal(config) {
     },
     close() {
       document.getElementById(config.modalId).classList.add('hidden');
+      const host = document.getElementById(config.timelineId);
+      if (host) host.innerHTML = '';
     },
   };
 }
 
 const windDirectionModal = createWindDirectionModal({
   modalId: 'wind-direction-modal',
-  chartId: 'wind-direction-chart',
+  timelineId: 'wind-direction-timeline',
   noDataId: 'wind-direction-no-data',
   getData: () => hourlyData,
   historyHours: 168,
   forecastHours: 168,
-  colors: {
-    historicalLight:     '#2b6cb0',
-    historicalLightFill: 'rgba(43,108,176,0.5)',
-    historicalDark:      '#63b3ed',
-    historicalDarkFill:  'rgba(99,179,237,0.5)',
-    forecastLight:       '#9f7aea',
-    forecastLightFill:   'rgba(159,122,234,0.5)',
-    forecastDark:        '#b794f4',
-    forecastDarkFill:    'rgba(183,148,244,0.5)',
-  },
+  bucketHours: 3,
 });
 
 function openWindDirectionModal() { windDirectionModal.open(); }
@@ -682,10 +678,13 @@ function renderWeather(current) {
   document.getElementById('pressure-surface').textContent = current.surface_pressure ?? '–';
   document.getElementById('precipitation').textContent = current.precipitation ?? '–';
   document.getElementById('wind-speed').textContent = current.wind_speed_10m ?? '–';
+  const windDir = current.wind_direction_10m;
   document.getElementById('wind-direction').textContent =
-    current.wind_direction_10m != null
-      ? degreesToCompass(current.wind_direction_10m)
-      : '–';
+    windDir != null ? degreesToCompass(windDir) : '–';
+  const arrowHost = document.getElementById('wind-direction-arrow');
+  if (arrowHost) {
+    arrowHost.innerHTML = windDir != null ? renderWindArrowSvg(windDir, { size: 24 }) : '';
+  }
   document.getElementById('last-updated').textContent =
     current.time ? formatTimestamp(current.time) : '–';
 
