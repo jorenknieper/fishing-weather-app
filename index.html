@@ -56,7 +56,10 @@
       </div>
       <div class="card card--clickable" role="button" tabindex="0" onclick="openWindDirectionModal()">
         <span class="label">Wind Direction</span>
-        <span class="value" id="wind-direction">–</span>
+        <span class="value wd-card-value">
+          <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
+          <span id="wind-direction">–</span>
+        </span>
       </div>
     </div>
   </main>
@@ -143,7 +146,7 @@
         <button class="modal-close" onclick="closeWindDirectionModal()">✕</button>
       </div>
       <div class="modal-body">
-        <canvas id="wind-direction-chart"></canvas>
+        <div id="wind-direction-timeline" class="wd-timeline"></div>
         <p id="wind-direction-no-data" class="hidden">No wind direction data available.</p>
       </div>
     </div>
