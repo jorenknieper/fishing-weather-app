@@ -218,7 +218,8 @@ footer {
 #temp-navigator,
 #humidity-navigator,
 #wind-navigator,
-#precipitation-navigator {
+#precipitation-navigator,
+#wind-direction-navigator {
   display: block;
   width: 100%;
   height: 16px;

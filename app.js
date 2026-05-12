@@ -560,6 +560,10 @@ function createWindDirectionModal(config) {
   let eventsAttached = false;
   let initialMin = 0;
   let initialMax = 0;
+  let dragging = false;
+  let dragStartX = null;
+  let dragStartRange = null;
+  let navValues = null;
 
   function setActiveBucket(idx) {
     if (!buckets.length) return;
@@ -592,7 +596,83 @@ function createWindDirectionModal(config) {
     }
   }
 
+  function drawNavigator() {
+    const nav = document.getElementById(config.navigatorId);
+    if (!nav || !navValues || !miniChart) return;
+    const w = nav.offsetWidth;
+    const h = nav.offsetHeight;
+    if (!w || !h) return;
+    nav.width = w;
+    nav.height = h;
+    const ctx = nav.getContext('2d');
+    const n = navValues.length;
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
+    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+    ctx.fillRect(0, 0, w, h);
+    const scale = miniChart.scales.x;
+    const denominator = Math.max(n - 1, 1);
+    const rx = Math.max(0, (scale.min / denominator) * w);
+    const rx2 = Math.min(w, (scale.max / denominator) * w);
+    const rw = Math.max(2, rx2 - rx);
+    ctx.fillStyle = isDark ? 'rgba(99,179,237,0.4)' : 'rgba(43,108,176,0.25)';
+    ctx.fillRect(rx, 0, rw, h);
+    ctx.strokeStyle = accentColor;
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(rx + 0.75, 0.75, Math.max(0, rw - 1.5), Math.max(0, h - 1.5));
+  }
+
+  function setupNavigatorDrag() {
+    const nav = document.getElementById(config.navigatorId);
+    if (!nav) return;
+
+    function getClientX(e) {
+      return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
+    function onStart(e) {
+      if (!miniChart || !navValues) return;
+      if (e.cancelable) e.preventDefault();
+      dragging = true;
+      dragStartX = getClientX(e) - nav.getBoundingClientRect().left;
+      dragStartRange = {
+        min: miniChart.scales.x.min,
+        max: miniChart.scales.x.max,
+      };
+      nav.style.cursor = 'grabbing';
+    }
+
+    function onMove(e) {
+      if (!dragging || !miniChart || !navValues) return;
+      if (e.cancelable) e.preventDefault();
+      const currentX = getClientX(e) - nav.getBoundingClientRect().left;
+      const deltaX = currentX - dragStartX;
+      const n = navValues.length;
+      const visibleRange = dragStartRange.max - dragStartRange.min;
+      const deltaIndex = (deltaX / nav.offsetWidth) * n;
+      const newMin = Math.max(0, Math.min(dragStartRange.min + deltaIndex, n - 1 - visibleRange));
+      const newMax = newMin + visibleRange;
+      miniChart.options.scales.x.min = newMin;
+      miniChart.options.scales.x.max = newMax;
+      miniChart.update('none');
+      drawNavigator();
+    }
+
+    function onEnd() {
+      dragging = false;
+      nav.style.cursor = 'grab';
+    }
+
+    nav.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+    nav.addEventListener('touchstart', onStart, { passive: false });
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
+  }
+
   function buildMiniChart(times, splitAt, windSpeedVals, windGustVals) {
+    navValues = windSpeedVals;
     if (miniChart) {
       try { miniChart.destroy(); } catch (_) {}
       miniChart = null;
@@ -660,6 +740,8 @@ function createWindDirectionModal(config) {
               limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
               zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
               pan: { enabled: true, mode: 'x' },
+              onZoomComplete: () => drawNavigator(),
+              onPanComplete: () => drawNavigator(),
             },
           },
           scales: {
@@ -853,7 +935,10 @@ function createWindDirectionModal(config) {
 
     // Set initial active bucket to present time
     setActiveBucket(initialBucketIndex(nowISO));
+    requestAnimationFrame(() => drawNavigator());
   }
+
+  setupNavigatorDrag();
 
   return {
     open() {
@@ -881,6 +966,7 @@ function createWindDirectionModal(config) {
           miniChart.options.scales.x.max = initialMax;
           miniChart.update('none');
         }
+        drawNavigator();
       }
     },
   };
@@ -890,12 +976,14 @@ const windDirectionModal = createWindDirectionModal({
   modalId: 'wind-direction-modal',
   timelineId: 'wind-direction-timeline',
   noDataId: 'wind-direction-no-data',
+  navigatorId: 'wind-direction-navigator',
   getData: () => hourlyData,
   historyHours: 168,
   forecastHours: 168,
   bucketHours: 3,
   initialViewportHours: 24,
   zoomMinRange: 4,
+  colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
 });
 
 function openWindDirectionModal() { windDirectionModal.open(); }
