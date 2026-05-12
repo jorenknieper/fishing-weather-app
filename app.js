@@ -558,6 +558,8 @@ function createWindDirectionModal(config) {
   let miniChart = null;
   let bucketHoursVal = config.bucketHours;
   let eventsAttached = false;
+  let initialMin = 0;
+  let initialMax = 0;
 
   function setActiveBucket(idx) {
     if (!buckets.length) return;
@@ -654,7 +656,11 @@ function createWindDirectionModal(config) {
           plugins: {
             legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
             tooltip: { enabled: false },
-            zoom: { zoom: { wheel: { enabled: false }, pinch: { enabled: false } } },
+            zoom: {
+              limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
+              zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+              pan: { enabled: true, mode: 'x' },
+            },
           },
           scales: {
             x: {
@@ -690,6 +696,15 @@ function createWindDirectionModal(config) {
       });
     } catch (err) {
       console.error('Wind direction mini-chart creation failed', err);
+    }
+    initialMin = Math.max(0, splitAt - config.initialViewportHours);
+    initialMax = Math.min(times.length - 1, splitAt + config.initialViewportHours);
+    if (miniChart && typeof miniChart.zoomScale === 'function') {
+      miniChart.zoomScale('x', { min: initialMin, max: initialMax }, 'none');
+    } else if (miniChart) {
+      miniChart.options.scales.x.min = initialMin;
+      miniChart.options.scales.x.max = initialMax;
+      miniChart.update('none');
     }
   }
 
@@ -856,6 +871,18 @@ function createWindDirectionModal(config) {
       const host = document.getElementById(config.timelineId);
       if (host) host.innerHTML = '';
     },
+    reset() {
+      if (miniChart) {
+        miniChart.resetZoom();
+        if (typeof miniChart.zoomScale === 'function') {
+          miniChart.zoomScale('x', { min: initialMin, max: initialMax }, 'none');
+        } else {
+          miniChart.options.scales.x.min = initialMin;
+          miniChart.options.scales.x.max = initialMax;
+          miniChart.update('none');
+        }
+      }
+    },
   };
 }
 
@@ -867,10 +894,13 @@ const windDirectionModal = createWindDirectionModal({
   historyHours: 168,
   forecastHours: 168,
   bucketHours: 3,
+  initialViewportHours: 24,
+  zoomMinRange: 4,
 });
 
 function openWindDirectionModal() { windDirectionModal.open(); }
 function closeWindDirectionModal() { windDirectionModal.close(); }
+function resetWindDirectionChart() { windDirectionModal.reset(); }
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
