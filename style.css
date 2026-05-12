@@ -199,7 +199,7 @@ footer {
   line-height: 1;
 }
 
-#chart-reset, #chart-reset-temperature {
+.modal-reset {
   background: none;
   border: none;
   font-size: 0.75rem;
