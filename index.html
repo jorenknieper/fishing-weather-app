@@ -146,7 +146,11 @@
         <button class="modal-close" onclick="closeWindDirectionModal()">✕</button>
       </div>
       <div class="modal-body">
+        <div id="wind-direction-stats" class="wd-stats" aria-live="polite"></div>
         <div id="wind-direction-timeline" class="wd-timeline"></div>
+        <div class="wd-minichart-wrap">
+          <canvas id="wind-direction-minichart"></canvas>
+        </div>
         <p id="wind-direction-no-data" class="hidden">No wind direction data available.</p>
       </div>
     </div>

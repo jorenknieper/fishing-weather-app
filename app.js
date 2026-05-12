@@ -552,6 +552,186 @@ function createWindDirectionModal(config) {
     return (mean + 360) % 360;
   }
 
+  // Closure-scoped state shared between render, setActiveBucket, and scrub handlers
+  let buckets = [];
+  let cellNodes = [];
+  let miniChart = null;
+  let bucketHoursVal = config.bucketHours;
+  let eventsAttached = false;
+
+  function setActiveBucket(idx) {
+    if (!buckets.length) return;
+    idx = Math.max(0, Math.min(buckets.length - 1, idx));
+
+    const b = buckets[idx];
+    const statsEl = document.getElementById('wind-direction-stats');
+    if (statsEl) {
+      const deg = b.mean != null ? Math.round(b.mean) % 360 : null;
+      const compass = deg != null ? degreesToCompass(deg) : '–';
+      const degStr = deg != null ? `${compass} (${deg}°)` : '–';
+      const speedVal = b.windSpeed != null ? `${Math.round(b.windSpeed)} km/h` : '–';
+      const gustVal = b.windGusts != null ? `${Math.round(b.windGusts)} km/h` : '–';
+      statsEl.innerHTML =
+        '<div><div class="wd-stats__label">Time</div><div class="wd-stats__value">' + b.timeLabel + '</div></div>' +
+        '<div><div class="wd-stats__label">Direction</div><div class="wd-stats__value">' + degStr + '</div></div>' +
+        '<div><div class="wd-stats__label">Wind</div><div class="wd-stats__value">' + speedVal + '</div></div>' +
+        '<div><div class="wd-stats__label">Gusts</div><div class="wd-stats__value">' + gustVal + '</div></div>';
+    }
+
+    // Toggle active class on cell nodes
+    for (let i = 0; i < cellNodes.length; i++) {
+      cellNodes[i].classList.toggle('wd-cell--active', i === idx);
+    }
+
+    // Update guide line on mini-chart
+    if (miniChart) {
+      miniChart.$activeChartIdx = idx * bucketHoursVal;
+      miniChart.update('none');
+    }
+  }
+
+  function buildMiniChart(times, splitAt, windSpeedVals, windGustVals) {
+    if (miniChart) {
+      try { miniChart.destroy(); } catch (_) {}
+      miniChart = null;
+    }
+    const canvas = document.getElementById('wind-direction-minichart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#a0aec0' : '#718096';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+
+    const labels = times.map(t => t.slice(11, 16));
+
+    function makeDatasets(vals, histColor, fcastColor, histLabel, fcastLabel) {
+      const past     = vals.map((v, i) => (i <= splitAt ? v : null));
+      const forecast = vals.map((v, i) => (i >= splitAt ? v : null));
+      return [
+        { label: histLabel,  data: past,     borderColor: histColor,  backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, spanGaps: false, tension: 0.3 },
+        { label: fcastLabel, data: forecast, borderColor: fcastColor, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, spanGaps: false, tension: 0.3, borderDash: [5, 5] },
+      ];
+    }
+
+    const datasets = [
+      ...makeDatasets(windSpeedVals, '#6b46c1', '#b794f4', 'Wind speed', 'Wind speed (forecast)'),
+      ...makeDatasets(windGustVals,  '#dd6b20', '#f6ad55', 'Gusts',      'Gusts (forecast)'),
+    ];
+
+    const allValid = [...windSpeedVals, ...windGustVals].filter(v => v != null);
+    const yMin = allValid.length ? Math.floor(Math.min(...allValid) / 5) * 5 : 0;
+    const yMax = allValid.length ? Math.ceil((Math.max(...allValid) + 5) / 5) * 5 : 50;
+
+    const wdGuidePlugin = {
+      id: 'wdGuide',
+      afterDraw(chart) {
+        const idx = chart.$activeChartIdx;
+        if (idx == null || !chart.scales.x) return;
+        const { ctx, chartArea, scales } = chart;
+        const x = scales.x.getPixelForValue(idx);
+        if (x < chartArea.left || x > chartArea.right) return;
+        ctx.save();
+        ctx.strokeStyle = isDark ? '#a0aec0' : '#718096';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.restore();
+      },
+    };
+
+    try {
+      miniChart = new Chart(canvas, {
+        type: 'line',
+        data: { labels, datasets },
+        plugins: [makeDayLabelsPlugin(times, textColor), wdGuidePlugin],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 20 } },
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
+            tooltip: { enabled: false },
+            zoom: { zoom: { wheel: { enabled: false }, pinch: { enabled: false } } },
+          },
+          scales: {
+            x: {
+              min: 0,
+              max: times.length - 1,
+              ticks: {
+                color: textColor,
+                maxRotation: 0,
+                callback(value) {
+                  const t = times[value];
+                  if (!t) return undefined;
+                  const time = t.slice(11, 16);
+                  return (time === '00:00' || time === '12:00') ? time : undefined;
+                },
+              },
+              grid: {
+                color(context) {
+                  const t = context.tick && times[context.tick.value];
+                  if (t && t.slice(11, 16) === '00:00') return isDark ? '#63b3ed' : '#2b6cb0';
+                  return gridColor;
+                },
+              },
+            },
+            y: {
+              min: yMin,
+              max: yMax,
+              ticks: { color: textColor, stepSize: 10 },
+              grid: { color: gridColor },
+              title: { display: true, text: 'km/h', color: textColor },
+            },
+          },
+        },
+      });
+    } catch (err) {
+      console.error('Wind direction mini-chart creation failed', err);
+    }
+  }
+
+  function attachScrubHandlers(host) {
+    if (eventsAttached) return;
+    eventsAttached = true;
+
+    function clientXToBucketIdx(clientX) {
+      if (!buckets.length) return 0;
+      const strip = host.querySelector('.wd-timeline__strip');
+      if (!strip) return 0;
+      const rect = strip.getBoundingClientRect();
+      const relX = clientX - rect.left + strip.scrollLeft;
+      const totalW = strip.scrollWidth;
+      return Math.max(0, Math.min(buckets.length - 1, Math.floor(relX / totalW * buckets.length)));
+    }
+
+    host.addEventListener('mousemove', function(e) {
+      if (!buckets.length) return;
+      setActiveBucket(clientXToBucketIdx(e.clientX));
+    });
+
+    host.addEventListener('touchstart', function(e) {
+      if (!buckets.length) return;
+      if (e.cancelable) e.preventDefault();
+      setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
+    }, { passive: false });
+
+    host.addEventListener('touchmove', function(e) {
+      if (!buckets.length) return;
+      if (e.cancelable) e.preventDefault();
+      setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
+    }, { passive: false });
+  }
+
+  function initialBucketIndex(nowISO) {
+    for (let i = 0; i < buckets.length; i++) {
+      if (buckets[i].anchorTime >= nowISO) return i;
+    }
+    return Math.max(0, buckets.length - 1);
+  }
+
   function render() {
     const host = document.getElementById(config.timelineId);
     const noData = document.getElementById(config.noDataId);
@@ -581,7 +761,11 @@ function createWindDirectionModal(config) {
 
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const bucketSize = config.bucketHours;
-    const buckets = [];
+    bucketHoursVal = bucketSize;
+    buckets = [];
+
+    const windSpeedAll  = Array.isArray(hourly.wind_speed_10m)  ? hourly.wind_speed_10m  : [];
+    const windGustsAll  = Array.isArray(hourly.wind_gusts_10m)  ? hourly.wind_gusts_10m  : [];
 
     for (let i = startIndex; i < endIndex; i += bucketSize) {
       const j = Math.min(endIndex, i + bucketSize);
@@ -595,7 +779,19 @@ function createWindDirectionModal(config) {
       const dateLabel = dayStart
         ? `${parseInt(anchorTime.slice(8, 10))} ${months[parseInt(anchorTime.slice(5, 7)) - 1]}`
         : '';
-      buckets.push({ mean, hh, dateLabel, isForecast });
+      const timeLabel = `${dateLabel ? dateLabel + ' ' : ''}${hh}:00`;
+
+      // Average wind speed and gusts for this bucket
+      const speedSlice = windSpeedAll.slice(i, j);
+      const gustSlice  = windGustsAll.slice(i, j);
+      const windSpeed  = speedSlice.filter(v => v != null).length
+        ? speedSlice.filter(v => v != null).reduce((a, b) => a + b, 0) / speedSlice.filter(v => v != null).length
+        : null;
+      const windGusts  = gustSlice.filter(v => v != null).length
+        ? gustSlice.filter(v => v != null).reduce((a, b) => a + b, 0) / gustSlice.filter(v => v != null).length
+        : null;
+
+      buckets.push({ mean, hh, dateLabel, isForecast, anchorTime, timeLabel, windSpeed, windGusts });
     }
 
     if (buckets.length === 0) {
@@ -609,12 +805,9 @@ function createWindDirectionModal(config) {
       const arrow = b.mean == null
         ? '<span class="wd-arrow--empty" aria-hidden="true">·</span>'
         : renderWindArrowSvg(b.mean, { size: 22 });
-      const titleAttr = b.mean == null
-        ? ''
-        : ` title="${b.dateLabel ? b.dateLabel + ' ' : ''}${b.hh}:00 — from ${Math.round(b.mean)}°"`;
       const cellClass = b.isForecast ? 'wd-cell wd-cell--forecast' : 'wd-cell';
       return (
-        `<div class="${cellClass}"${titleAttr}>` +
+        `<div class="${cellClass}">` +
         `<div class="wd-cell__date">${b.dateLabel}</div>` +
         `<div class="wd-cell__arrow">${arrow}</div>` +
         `<div class="wd-cell__hour">${b.hh}</div>` +
@@ -628,6 +821,23 @@ function createWindDirectionModal(config) {
       '<span class="wd-legend__item wd-legend__item--forecast"><span class="wd-legend__swatch"></span>Forecast (next 7 days)</span>' +
       '</div>' +
       `<div class="wd-timeline__strip">${cells.join('')}</div>`;
+
+    // Cache cell DOM nodes after innerHTML
+    const strip = host.querySelector('.wd-timeline__strip');
+    cellNodes = strip ? Array.from(strip.querySelectorAll('.wd-cell')) : [];
+
+    // Build mini-chart
+    const times = hourly.time.slice(startIndex, endIndex);
+    const splitAt = boundaryIndex - startIndex;
+    const windSpeedVals = windSpeedAll.slice(startIndex, endIndex);
+    const windGustVals  = windGustsAll.slice(startIndex, endIndex);
+    buildMiniChart(times, splitAt, windSpeedVals, windGustVals);
+
+    // Attach scrub handlers once (guard is inside attachScrubHandlers)
+    attachScrubHandlers(host);
+
+    // Set initial active bucket to present time
+    setActiveBucket(initialBucketIndex(nowISO));
   }
 
   return {
@@ -637,6 +847,12 @@ function createWindDirectionModal(config) {
     },
     close() {
       document.getElementById(config.modalId).classList.add('hidden');
+      if (miniChart) {
+        try { miniChart.destroy(); } catch (_) {}
+        miniChart = null;
+      }
+      const statsEl = document.getElementById('wind-direction-stats');
+      if (statsEl) statsEl.innerHTML = '';
       const host = document.getElementById(config.timelineId);
       if (host) host.innerHTML = '';
     },
