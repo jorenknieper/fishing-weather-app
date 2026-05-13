@@ -2,14 +2,14 @@
 
 ## File responsibilities
 
-| File | What it controls |
-|---|---|
-| `index.html` | DOM structure, modal markup, canvas IDs, CDN script tags |
-| `app.js` | All runtime logic: data loading, chart creation, navigator, theme, drag |
-| `style.css` | Layout, dark/light CSS variables, modal, navigator sizing |
-| `data/weather.json` | Live weather payload — never edit by hand |
-| `scripts/update-weather.sh` | API URL, fields requested, output path |
-| `.github/workflows/update-weather.yml` | Schedule, commit identity, push behavior |
+| File                                   | What it controls                                                        |
+| -------------------------------------- | ----------------------------------------------------------------------- |
+| `index.html`                           | DOM structure, modal markup, canvas IDs, CDN script tags                |
+| `app.js`                               | All runtime logic: data loading, chart creation, navigator, theme, drag |
+| `style.css`                            | Layout, dark/light CSS variables, modal, navigator sizing               |
+| `data/weather.json`                    | Live weather payload — never edit by hand                               |
+| `scripts/update-weather.sh`            | API URL, fields requested, output path                                  |
+| `.github/workflows/update-weather.yml` | Schedule, commit identity, push behavior                                |
 
 ---
 
@@ -20,6 +20,7 @@
 **If you change the slicing logic, you must change it consistently for all three arrays (`times`, `pressures`, `labels`).**
 
 A mismatch causes:
+
 - Wrong hour labels on ticks
 - Midnight grid lines appearing at wrong positions
 - Day labels rendering on the wrong date segment
@@ -29,6 +30,7 @@ A mismatch causes:
 ## Navigator synchronization
 
 `drawNavigator()` must be called after every scale change. It is currently called:
+
 - After `chart.update('none')` in the drag handler (`onMove`)
 - Via `onZoomComplete` and `onPanComplete` plugin callbacks
 - At chart init via `requestAnimationFrame(drawNavigator)`

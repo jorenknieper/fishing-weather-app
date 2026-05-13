@@ -72,10 +72,18 @@
         const speedVal = b.windSpeed != null ? `${Math.round(b.windSpeed)} km/h` : '–';
         const gustVal = b.windGusts != null ? `${Math.round(b.windGusts)} km/h` : '–';
         statsEl.innerHTML =
-          '<div><div class="wd-stats__label">Time</div><div class="wd-stats__value">' + b.timeLabel + '</div></div>' +
-          '<div><div class="wd-stats__label">Wind from</div><div class="wd-stats__value">' + degStr + '</div></div>' +
-          '<div><div class="wd-stats__label">Wind</div><div class="wd-stats__value">' + speedVal + '</div></div>' +
-          '<div><div class="wd-stats__label">Gusts</div><div class="wd-stats__value">' + gustVal + '</div></div>';
+          '<div><div class="wd-stats__label">Time</div><div class="wd-stats__value">' +
+          b.timeLabel +
+          '</div></div>' +
+          '<div><div class="wd-stats__label">Wind from</div><div class="wd-stats__value">' +
+          degStr +
+          '</div></div>' +
+          '<div><div class="wd-stats__label">Wind</div><div class="wd-stats__value">' +
+          speedVal +
+          '</div></div>' +
+          '<div><div class="wd-stats__label">Gusts</div><div class="wd-stats__value">' +
+          gustVal +
+          '</div></div>';
       }
 
       // Toggle active class on cell nodes
@@ -174,7 +182,20 @@
       const iMax = Math.round(xMax);
       const firstHour = Math.floor(iMin / size) * size;
       const lastHour = Math.min(hourlyTimes.length, Math.ceil(iMax / size) * size);
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
       for (let i = firstHour; i < lastHour; i += size) {
         const j = Math.min(hourlyTimes.length, i + size);
         const mean = circularMean(hourlyDir.slice(i, j));
@@ -187,11 +208,25 @@
           ? `${parseInt(anchorTime.slice(8, 10))} ${months[parseInt(anchorTime.slice(5, 7)) - 1]}`
           : '';
         const timeLabel = `${dateLabel ? dateLabel + ' ' : ''}${hh}:00`;
-        const speedSlice = hourlySpeed.slice(i, j).filter(v => v != null);
-        const gustSlice  = hourlyGusts.slice(i, j).filter(v => v != null);
-        const windSpeed  = speedSlice.length ? speedSlice.reduce((a, b) => a + b, 0) / speedSlice.length : null;
-        const windGusts  = gustSlice.length  ? gustSlice.reduce((a, b) => a + b, 0)  / gustSlice.length  : null;
-        result.push({ mean, hh, dateLabel, isForecast, anchorTime, timeLabel, windSpeed, windGusts, chartXStart: i });
+        const speedSlice = hourlySpeed.slice(i, j).filter((v) => v != null);
+        const gustSlice = hourlyGusts.slice(i, j).filter((v) => v != null);
+        const windSpeed = speedSlice.length
+          ? speedSlice.reduce((a, b) => a + b, 0) / speedSlice.length
+          : null;
+        const windGusts = gustSlice.length
+          ? gustSlice.reduce((a, b) => a + b, 0) / gustSlice.length
+          : null;
+        result.push({
+          mean,
+          hh,
+          dateLabel,
+          isForecast,
+          anchorTime,
+          timeLabel,
+          windSpeed,
+          windGusts,
+          chartXStart: i,
+        });
       }
       return result;
     }
@@ -202,10 +237,11 @@
       if (!host) return;
       buckets = rebuildBuckets(miniChart.scales.x.min, miniChart.scales.x.max);
       if (buckets.length === 0) return;
-      const cells = buckets.map(b => {
-        const arrow = b.mean == null
-          ? '<span class="wd-arrow--empty" aria-hidden="true">·</span>'
-          : renderArrowSvg(b.mean, { size: 22 });
+      const cells = buckets.map((b) => {
+        const arrow =
+          b.mean == null
+            ? '<span class="wd-arrow--empty" aria-hidden="true">·</span>'
+            : renderArrowSvg(b.mean, { size: 22 });
         const cellClass = b.isForecast ? 'wd-cell wd-cell--forecast' : 'wd-cell';
         return (
           `<div class="${cellClass}">` +
@@ -229,7 +265,11 @@
     function buildMiniChart(times, splitAt, windSpeedVals, windGustVals) {
       navValues = windSpeedVals;
       if (miniChart) {
-        try { miniChart.destroy(); } catch (_) {}
+        try {
+          miniChart.destroy();
+        } catch (_) {
+          // ignore destroy errors
+        }
         miniChart = null;
       }
       const canvas = document.getElementById('wind-direction-minichart');
@@ -239,23 +279,42 @@
       const textColor = isDark ? '#a0aec0' : '#718096';
       const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
 
-      const labels = times.map(t => t.slice(11, 16));
+      const labels = times.map((t) => t.slice(11, 16));
 
       function makeDatasets(vals, histColor, fcastColor, histLabel, fcastLabel) {
-        const past     = vals.map((v, i) => (i <= splitAt ? v : null));
+        const past = vals.map((v, i) => (i <= splitAt ? v : null));
         const forecast = vals.map((v, i) => (i >= splitAt ? v : null));
         return [
-          { label: histLabel,  data: past,     borderColor: histColor,  backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, spanGaps: false, tension: 0.3 },
-          { label: fcastLabel, data: forecast, borderColor: fcastColor, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, spanGaps: false, tension: 0.3, borderDash: [5, 5] },
+          {
+            label: histLabel,
+            data: past,
+            borderColor: histColor,
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 0,
+            spanGaps: false,
+            tension: 0.3,
+          },
+          {
+            label: fcastLabel,
+            data: forecast,
+            borderColor: fcastColor,
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 0,
+            spanGaps: false,
+            tension: 0.3,
+            borderDash: [5, 5],
+          },
         ];
       }
 
       const datasets = [
         ...makeDatasets(windSpeedVals, '#6b46c1', '#b794f4', 'Wind speed', 'Wind speed (forecast)'),
-        ...makeDatasets(windGustVals,  '#dd6b20', '#f6ad55', 'Gusts',      'Gusts (forecast)'),
+        ...makeDatasets(windGustVals, '#dd6b20', '#f6ad55', 'Gusts', 'Gusts (forecast)'),
       ];
 
-      const allValid = [...windSpeedVals, ...windGustVals].filter(v => v != null);
+      const allValid = [...windSpeedVals, ...windGustVals].filter((v) => v != null);
       const yMin = allValid.length ? Math.floor(Math.min(...allValid) / 5) * 5 : 0;
       const yMax = allValid.length ? Math.ceil((Math.max(...allValid) + 5) / 5) * 5 : 50;
 
@@ -289,14 +348,24 @@
             maintainAspectRatio: false,
             layout: { padding: { top: 20 } },
             plugins: {
-              legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: { color: textColor, boxWidth: 20 },
+              },
               tooltip: { enabled: false },
               zoom: {
                 limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
                 zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
                 pan: { enabled: true, mode: 'x' },
-                onZoomComplete: () => { drawNavigator(); renderArrowStrip(); },
-                onPanComplete: () => { drawNavigator(); renderArrowStrip(); },
+                onZoomComplete: () => {
+                  drawNavigator();
+                  renderArrowStrip();
+                },
+                onPanComplete: () => {
+                  drawNavigator();
+                  renderArrowStrip();
+                },
               },
             },
             scales: {
@@ -310,7 +379,7 @@
                     const t = times[value];
                     if (!t) return undefined;
                     const time = t.slice(11, 16);
-                    return (time === '00:00' || time === '12:00') ? time : undefined;
+                    return time === '00:00' || time === '12:00' ? time : undefined;
                   },
                 },
                 grid: {
@@ -356,25 +425,36 @@
         const rect = strip.getBoundingClientRect();
         const relX = clientX - rect.left + strip.scrollLeft;
         const totalW = strip.scrollWidth;
-        return Math.max(0, Math.min(buckets.length - 1, Math.floor(relX / totalW * buckets.length)));
+        return Math.max(
+          0,
+          Math.min(buckets.length - 1, Math.floor((relX / totalW) * buckets.length)),
+        );
       }
 
-      host.addEventListener('mousemove', function(e) {
+      host.addEventListener('mousemove', function (e) {
         if (!buckets.length) return;
         setActiveBucket(clientXToBucketIdx(e.clientX));
       });
 
-      host.addEventListener('touchstart', function(e) {
-        if (!buckets.length) return;
-        if (e.cancelable) e.preventDefault();
-        setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
-      }, { passive: false });
+      host.addEventListener(
+        'touchstart',
+        function (e) {
+          if (!buckets.length) return;
+          if (e.cancelable) e.preventDefault();
+          setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
+        },
+        { passive: false },
+      );
 
-      host.addEventListener('touchmove', function(e) {
-        if (!buckets.length) return;
-        if (e.cancelable) e.preventDefault();
-        setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
-      }, { passive: false });
+      host.addEventListener(
+        'touchmove',
+        function (e) {
+          if (!buckets.length) return;
+          if (e.cancelable) e.preventDefault();
+          setActiveBucket(clientXToBucketIdx(e.touches[0].clientX));
+        },
+        { passive: false },
+      );
     }
 
     function initialBucketIndex(nowISO) {
@@ -405,7 +485,7 @@
         .slice(0, 16)
         .replace(' ', 'T');
 
-      let boundaryIndex = hourly.time.findIndex(t => t >= nowISO);
+      let boundaryIndex = hourly.time.findIndex((t) => t >= nowISO);
       if (boundaryIndex === -1) boundaryIndex = hourly.time.length;
 
       const startIndex = Math.max(0, boundaryIndex - config.historyHours);
@@ -415,11 +495,11 @@
       const windGustsAll = Array.isArray(hourly.wind_gusts_10m) ? hourly.wind_gusts_10m : [];
 
       // Save windowed hourly slices for adaptive bucket rebuilding on viewport change
-      lastNowISO    = nowISO;
-      hourlyTimes   = hourly.time.slice(startIndex, endIndex);
-      hourlyDir     = hourly.wind_direction_10m.slice(startIndex, endIndex);
-      hourlySpeed   = windSpeedAll.slice(startIndex, endIndex);
-      hourlyGusts   = windGustsAll.slice(startIndex, endIndex);
+      lastNowISO = nowISO;
+      hourlyTimes = hourly.time.slice(startIndex, endIndex);
+      hourlyDir = hourly.wind_direction_10m.slice(startIndex, endIndex);
+      hourlySpeed = windSpeedAll.slice(startIndex, endIndex);
+      hourlyGusts = windGustsAll.slice(startIndex, endIndex);
       hourlySplitAt = boundaryIndex - startIndex;
 
       // Build mini-chart (sets navValues and applies initial viewport)
@@ -429,7 +509,10 @@
       attachScrubHandlers(host);
 
       // Render navigator and arrow strip after layout is ready
-      requestAnimationFrame(() => { drawNavigator(); renderArrowStrip(); });
+      requestAnimationFrame(() => {
+        drawNavigator();
+        renderArrowStrip();
+      });
     }
 
     setupNavigatorDrag();
@@ -442,7 +525,11 @@
       close() {
         document.getElementById(config.modalId).classList.add('hidden');
         if (miniChart) {
-          try { miniChart.destroy(); } catch (_) {}
+          try {
+            miniChart.destroy();
+          } catch (_) {
+            // ignore destroy errors
+          }
           miniChart = null;
         }
         const statsEl = document.getElementById('wind-direction-stats');

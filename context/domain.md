@@ -23,15 +23,15 @@
 
 ## Weather fields relevant to fishing
 
-| Field | Why it matters |
-|---|---|
-| pressure_msl | Primary bite-activity indicator |
-| temperature_2m | Fish metabolism, surface layer activity |
-| apparent_temperature | Angler comfort |
-| relative_humidity_2m | Fog risk, comfort |
-| precipitation | Runoff, water clarity, fish location |
-| wind_speed_10m | Surface drift, presentation control |
-| wind_direction_10m | Wind-driven food concentrations |
+| Field                | Why it matters                          |
+| -------------------- | --------------------------------------- |
+| pressure_msl         | Primary bite-activity indicator         |
+| temperature_2m       | Fish metabolism, surface layer activity |
+| apparent_temperature | Angler comfort                          |
+| relative_humidity_2m | Fog risk, comfort                       |
+| precipitation        | Runoff, water clarity, fish location    |
+| wind_speed_10m       | Surface drift, presentation control     |
+| wind_direction_10m   | Wind-driven food concentrations         |
 
 ## Viewport terminology
 

@@ -1,2 +1,4 @@
 .claude/
 data/weather.json
+node_modules/
+.eslintcache

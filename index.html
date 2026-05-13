@@ -1,170 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fishing Weather – Aalter</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>Fishing Weather</h1>
-    <p class="location">Aalter, Belgium</p>
-    <button id="theme-toggle" onclick="toggleTheme()">Dark mode</button>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fishing Weather – Aalter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Fishing Weather</h1>
+      <p class="location">Aalter, Belgium</p>
+      <button id="theme-toggle" onclick="toggleTheme()">Dark mode</button>
+    </header>
 
-  <main id="dashboard">
-    <div id="error-message" class="error hidden">
-      <p>Could not load weather data. Please try again later.</p>
-    </div>
+    <main id="dashboard">
+      <div id="error-message" class="error hidden">
+        <p>Could not load weather data. Please try again later.</p>
+      </div>
 
-    <div id="weather-grid" class="grid hidden">
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openTemperatureModal()">
-        <span class="label">Temperature</span>
-        <span class="value" id="temperature">–</span>
-        <span class="unit">°C</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openTemperatureModal()">
-        <span class="label">Feels Like</span>
-        <span class="value" id="apparent-temperature">–</span>
-        <span class="unit">°C</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openHumidityModal()">
-        <span class="label">Humidity</span>
-        <span class="value" id="humidity">–</span>
-        <span class="unit">%</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
-        <span class="label">Pressure (MSL)</span>
-        <span class="value" id="pressure-msl">–</span>
-        <span class="unit">hPa</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
-        <span class="label">Pressure (Surface)</span>
-        <span class="value" id="pressure-surface">–</span>
-        <span class="unit">hPa</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openPrecipitationModal()">
-        <span class="label">Precipitation</span>
-        <span class="value" id="precipitation">–</span>
-        <span class="unit">mm</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openWindSpeedModal()">
-        <span class="label">Wind Speed</span>
-        <span class="value" id="wind-speed">–</span>
-        <span class="unit">km/h</span>
-      </div>
-      <div class="card card--clickable" role="button" tabindex="0" onclick="openWindDirectionModal()">
-        <span class="label">Wind Direction</span>
-        <span class="value wd-card-value">
-          <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
-          <span id="wind-direction">–</span>
-        </span>
-      </div>
-    </div>
-  </main>
-
-  <div id="pressure-modal" class="modal-overlay hidden" onclick="closePressureModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Pressure – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset" class="modal-reset" onclick="resetPressureChart()">Reset</button>
-        <button class="modal-close" onclick="closePressureModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <canvas id="pressure-chart"></canvas>
-        <canvas id="pressure-navigator"></canvas>
-        <p id="pressure-no-data" class="hidden">No pressure data available.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="temp-modal" class="modal-overlay hidden" onclick="closeTemperatureModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Temperature – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset-temperature" class="modal-reset" onclick="resetTemperatureChart()">Reset</button>
-        <button class="modal-close" onclick="closeTemperatureModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <canvas id="temp-chart"></canvas>
-        <canvas id="temp-navigator"></canvas>
-        <p id="temp-no-data" class="hidden">No temperature data available.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="humidity-modal" class="modal-overlay hidden" onclick="closeHumidityModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Humidity – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset-humidity" class="modal-reset" onclick="resetHumidityChart()">Reset</button>
-        <button class="modal-close" onclick="closeHumidityModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <canvas id="humidity-chart"></canvas>
-        <canvas id="humidity-navigator"></canvas>
-        <p id="humidity-no-data" class="hidden">No humidity data available.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="wind-modal" class="modal-overlay hidden" onclick="closeWindSpeedModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Wind Speed – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset-wind" class="modal-reset" onclick="resetWindSpeedChart()">Reset</button>
-        <button class="modal-close" onclick="closeWindSpeedModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <canvas id="wind-chart"></canvas>
-        <canvas id="wind-navigator"></canvas>
-        <p id="wind-no-data" class="hidden">No wind speed data available.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="precipitation-modal" class="modal-overlay hidden" onclick="closePrecipitationModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Precipitation – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset-precipitation" class="modal-reset" onclick="resetPrecipitationChart()">Reset</button>
-        <button class="modal-close" onclick="closePrecipitationModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <canvas id="precipitation-chart"></canvas>
-        <canvas id="precipitation-navigator"></canvas>
-        <p id="precipitation-no-data" class="hidden">No precipitation data available.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="wind-direction-modal" class="modal-overlay hidden" onclick="closeWindDirectionModal()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span>Wind Direction – last 7 days &amp; next 7 days</span>
-        <button id="chart-reset-wind-direction" class="modal-reset" onclick="resetWindDirectionChart()">Reset</button>
-        <button class="modal-close" onclick="closeWindDirectionModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <div id="wind-direction-stats" class="wd-stats" aria-live="polite"></div>
-        <div id="wind-direction-timeline" class="wd-timeline"></div>
-        <div class="wd-minichart-wrap">
-          <canvas id="wind-direction-minichart"></canvas>
+      <div id="weather-grid" class="grid hidden">
+        <div
+          class="card card--clickable"
+          role="button"
+          tabindex="0"
+          onclick="openTemperatureModal()"
+        >
+          <span class="label">Temperature</span>
+          <span class="value" id="temperature">–</span>
+          <span class="unit">°C</span>
         </div>
-        <canvas id="wind-direction-navigator"></canvas>
-        <p id="wind-direction-no-data" class="hidden">No wind direction data available.</p>
+        <div
+          class="card card--clickable"
+          role="button"
+          tabindex="0"
+          onclick="openTemperatureModal()"
+        >
+          <span class="label">Feels Like</span>
+          <span class="value" id="apparent-temperature">–</span>
+          <span class="unit">°C</span>
+        </div>
+        <div class="card card--clickable" role="button" tabindex="0" onclick="openHumidityModal()">
+          <span class="label">Humidity</span>
+          <span class="value" id="humidity">–</span>
+          <span class="unit">%</span>
+        </div>
+        <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
+          <span class="label">Pressure (MSL)</span>
+          <span class="value" id="pressure-msl">–</span>
+          <span class="unit">hPa</span>
+        </div>
+        <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
+          <span class="label">Pressure (Surface)</span>
+          <span class="value" id="pressure-surface">–</span>
+          <span class="unit">hPa</span>
+        </div>
+        <div
+          class="card card--clickable"
+          role="button"
+          tabindex="0"
+          onclick="openPrecipitationModal()"
+        >
+          <span class="label">Precipitation</span>
+          <span class="value" id="precipitation">–</span>
+          <span class="unit">mm</span>
+        </div>
+        <div class="card card--clickable" role="button" tabindex="0" onclick="openWindSpeedModal()">
+          <span class="label">Wind Speed</span>
+          <span class="value" id="wind-speed">–</span>
+          <span class="unit">km/h</span>
+        </div>
+        <div
+          class="card card--clickable"
+          role="button"
+          tabindex="0"
+          onclick="openWindDirectionModal()"
+        >
+          <span class="label">Wind Direction</span>
+          <span class="value wd-card-value">
+            <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
+            <span id="wind-direction">–</span>
+          </span>
+        </div>
+      </div>
+    </main>
+
+    <div id="pressure-modal" class="modal-overlay hidden" onclick="closePressureModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Pressure – last 7 days &amp; next 7 days</span>
+          <button id="chart-reset" class="modal-reset" onclick="resetPressureChart()">Reset</button>
+          <button class="modal-close" onclick="closePressureModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <canvas id="pressure-chart"></canvas>
+          <canvas id="pressure-navigator"></canvas>
+          <p id="pressure-no-data" class="hidden">No pressure data available.</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <footer>
-    <p>Last updated: <span id="last-updated">–</span></p>
-  </footer>
+    <div id="temp-modal" class="modal-overlay hidden" onclick="closeTemperatureModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Temperature – last 7 days &amp; next 7 days</span>
+          <button
+            id="chart-reset-temperature"
+            class="modal-reset"
+            onclick="resetTemperatureChart()"
+          >
+            Reset
+          </button>
+          <button class="modal-close" onclick="closeTemperatureModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <canvas id="temp-chart"></canvas>
+          <canvas id="temp-navigator"></canvas>
+          <p id="temp-no-data" class="hidden">No temperature data available.</p>
+        </div>
+      </div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"></script>
-  <script src="js/wind-direction.js"></script>
-  <script src="app.js"></script>
-</body>
+    <div id="humidity-modal" class="modal-overlay hidden" onclick="closeHumidityModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Humidity – last 7 days &amp; next 7 days</span>
+          <button id="chart-reset-humidity" class="modal-reset" onclick="resetHumidityChart()">
+            Reset
+          </button>
+          <button class="modal-close" onclick="closeHumidityModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <canvas id="humidity-chart"></canvas>
+          <canvas id="humidity-navigator"></canvas>
+          <p id="humidity-no-data" class="hidden">No humidity data available.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="wind-modal" class="modal-overlay hidden" onclick="closeWindSpeedModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Wind Speed – last 7 days &amp; next 7 days</span>
+          <button id="chart-reset-wind" class="modal-reset" onclick="resetWindSpeedChart()">
+            Reset
+          </button>
+          <button class="modal-close" onclick="closeWindSpeedModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <canvas id="wind-chart"></canvas>
+          <canvas id="wind-navigator"></canvas>
+          <p id="wind-no-data" class="hidden">No wind speed data available.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="precipitation-modal" class="modal-overlay hidden" onclick="closePrecipitationModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Precipitation – last 7 days &amp; next 7 days</span>
+          <button
+            id="chart-reset-precipitation"
+            class="modal-reset"
+            onclick="resetPrecipitationChart()"
+          >
+            Reset
+          </button>
+          <button class="modal-close" onclick="closePrecipitationModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <canvas id="precipitation-chart"></canvas>
+          <canvas id="precipitation-navigator"></canvas>
+          <p id="precipitation-no-data" class="hidden">No precipitation data available.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="wind-direction-modal" class="modal-overlay hidden" onclick="closeWindDirectionModal()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <span>Wind Direction – last 7 days &amp; next 7 days</span>
+          <button
+            id="chart-reset-wind-direction"
+            class="modal-reset"
+            onclick="resetWindDirectionChart()"
+          >
+            Reset
+          </button>
+          <button class="modal-close" onclick="closeWindDirectionModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="wind-direction-stats" class="wd-stats" aria-live="polite"></div>
+          <div id="wind-direction-timeline" class="wd-timeline"></div>
+          <div class="wd-minichart-wrap">
+            <canvas id="wind-direction-minichart"></canvas>
+          </div>
+          <canvas id="wind-direction-navigator"></canvas>
+          <p id="wind-direction-no-data" class="hidden">No wind direction data available.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Last updated: <span id="last-updated">–</span></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="js/wind-direction.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

@@ -10,14 +10,14 @@ Static GitHub Pages dashboard showing fishing-relevant weather for Aalter, Belgi
 
 ## Main files
 
-| File | Role |
-|---|---|
-| `index.html` | Single-page shell, DOM structure |
-| `app.js` | All runtime logic: data loading, chart, navigator, theme |
-| `style.css` | CSS variables for light/dark themes, responsive grid |
-| `data/weather.json` | Static weather payload committed by GitHub Actions |
-| `scripts/update-weather.sh` | Curl script that calls Open-Meteo and writes the JSON |
-| `.github/workflows/update-weather.yml` | Hourly Actions trigger |
+| File                                   | Role                                                     |
+| -------------------------------------- | -------------------------------------------------------- |
+| `index.html`                           | Single-page shell, DOM structure                         |
+| `app.js`                               | All runtime logic: data loading, chart, navigator, theme |
+| `style.css`                            | CSS variables for light/dark themes, responsive grid     |
+| `data/weather.json`                    | Static weather payload committed by GitHub Actions       |
+| `scripts/update-weather.sh`            | Curl script that calls Open-Meteo and writes the JSON    |
+| `.github/workflows/update-weather.yml` | Hourly Actions trigger                                   |
 
 ## Data flow summary
 
