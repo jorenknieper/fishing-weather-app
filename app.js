@@ -49,7 +49,20 @@ function makeDayLabelsPlugin(times, textColor) {
       const n = times.length;
       const visMin = scale.min;
       const visMax = scale.max;
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
 
       const midnights = [];
       for (let i = Math.max(0, Math.floor(visMin)); i <= Math.min(n - 1, Math.ceil(visMax)); i++) {
@@ -59,7 +72,10 @@ function makeDayLabelsPlugin(times, textColor) {
       const segments = [];
       let segStart = visMin;
       for (const m of midnights) {
-        if (m > visMin) { segments.push([segStart, m]); segStart = m; }
+        if (m > visMin) {
+          segments.push([segStart, m]);
+          segStart = m;
+        }
       }
       segments.push([segStart, visMax]);
 
@@ -189,12 +205,14 @@ function createChartModal(config) {
     const hourly = config.getData();
 
     // Determine which keys to validate against
-    const seriesKeys = config.series
-      ? config.series.map(s => s.key)
-      : ['pressure_msl'];
+    const seriesKeys = config.series ? config.series.map((s) => s.key) : ['pressure_msl'];
 
-    if (!hourly || !hourly.time || typeof Chart === 'undefined' ||
-        seriesKeys.some(k => !Array.isArray(hourly[k]))) {
+    if (
+      !hourly ||
+      !hourly.time ||
+      typeof Chart === 'undefined' ||
+      seriesKeys.some((k) => !Array.isArray(hourly[k]))
+    ) {
       canvas.classList.add('hidden');
       noData.classList.remove('hidden');
       return;
@@ -209,7 +227,7 @@ function createChartModal(config) {
       .slice(0, 16)
       .replace(' ', 'T');
 
-    let boundaryIndex = hourly.time.findIndex(t => t >= nowISO);
+    let boundaryIndex = hourly.time.findIndex((t) => t >= nowISO);
     if (boundaryIndex === -1) boundaryIndex = hourly.time.length;
 
     const startIndex = Math.max(0, boundaryIndex - config.historyHours);
@@ -217,14 +235,15 @@ function createChartModal(config) {
     const splitAt = boundaryIndex - startIndex;
 
     const times = hourly.time.slice(startIndex, endIndex);
-    const labels = times.map(t => t.slice(11, 16));
+    const labels = times.map((t) => t.slice(11, 16));
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#a0aec0' : '#718096';
     const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
     const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
 
-    const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } = config.yAxis;
+    const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } =
+      config.yAxis;
 
     const chartType = config.chartType || 'line';
 
@@ -256,9 +275,11 @@ function createChartModal(config) {
       datasets = [];
       for (const s of config.series) {
         const vals = hourly[s.key].slice(startIndex, endIndex);
-        allValid = allValid.concat(vals.filter(v => v != null));
+        allValid = allValid.concat(vals.filter((v) => v != null));
         if (chartType === 'bar') {
-          datasets.push(buildBarDataset(s.historicalLabel, vals, splitAt, s.historicalColor, s.forecastColor));
+          datasets.push(
+            buildBarDataset(s.historicalLabel, vals, splitAt, s.historicalColor, s.forecastColor),
+          );
         } else {
           const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
           const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
@@ -272,7 +293,7 @@ function createChartModal(config) {
       // Single-series backwards-compat path
       const values = hourly.pressure_msl.slice(startIndex, endIndex);
       navValues = values;
-      allValid = values.filter(v => v != null);
+      allValid = values.filter((v) => v != null);
       const pastData = values.map((v, i) => (i <= splitAt ? v : null));
       const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
       datasets = [
@@ -283,12 +304,20 @@ function createChartModal(config) {
 
     navSplitAt = splitAt;
 
-    let yMin = allValid.length ? Math.floor((Math.min(...allValid) - paddingBelow) / snapTo) * snapTo : fallbackMin;
-    let yMax = allValid.length ? Math.ceil((Math.max(...allValid) + paddingAbove) / snapTo) * snapTo : fallbackMax;
+    let yMin = allValid.length
+      ? Math.floor((Math.min(...allValid) - paddingBelow) / snapTo) * snapTo
+      : fallbackMin;
+    let yMax = allValid.length
+      ? Math.ceil((Math.max(...allValid) + paddingAbove) / snapTo) * snapTo
+      : fallbackMax;
     if (chartType === 'bar' && yMin === yMax) yMax = Math.max(fallbackMax, yMin + snapTo);
 
     if (chart) {
-      try { chart.destroy(); } catch (_) {}
+      try {
+        chart.destroy();
+      } catch (_) {
+        // ignore destroy errors
+      }
       chart = null;
     }
 
@@ -305,7 +334,11 @@ function createChartModal(config) {
           maintainAspectRatio: true,
           layout: { padding: { top: 20 } },
           plugins: {
-            legend: { display: true, position: 'bottom', labels: { color: textColor, boxWidth: 20 } },
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: { color: textColor, boxWidth: 20 },
+            },
             tooltip: { mode: 'index', intersect: false },
             zoom: {
               limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
@@ -322,20 +355,20 @@ function createChartModal(config) {
               ticks: {
                 color: textColor,
                 maxRotation: 0,
-                callback: function(value) {
+                callback: function (value) {
                   const t = times[value];
                   if (!t) return undefined;
                   const time = t.slice(11, 16);
                   const visible = Math.round(this.max - this.min);
                   if (visible > 168) return time === '00:00' ? time : undefined;
-                  if (visible > 96) return (time === '00:00' || time === '12:00') ? time : undefined;
+                  if (visible > 96) return time === '00:00' || time === '12:00' ? time : undefined;
                   if (visible > 24) return value % 4 === 0 ? time : undefined;
                   if (visible >= 8) return value % 2 === 0 ? time : undefined;
                   return time;
                 },
               },
               grid: {
-                color: function(context) {
+                color: function (context) {
                   const t = context.tick && times[context.tick.value];
                   if (t && t.slice(11, 16) === '00:00') return accentColor;
                   return gridColor;
@@ -355,7 +388,11 @@ function createChartModal(config) {
     } catch (err) {
       console.error('Chart creation failed for', config.chartId, err);
       if (chart) {
-        try { chart.destroy(); } catch (_) {}
+        try {
+          chart.destroy();
+        } catch (_) {
+          // ignore destroy errors
+        }
         chart = null;
       }
       canvas.classList.add('hidden');
@@ -412,14 +449,34 @@ const pressureModal = createChartModal({
   noDataId: 'pressure-no-data',
   getData: () => hourlyData,
   series: [
-    { key: 'pressure_msl', historicalLabel: 'MSL', forecastLabel: 'MSL (forecast)', historicalColor: '#2b6cb0', forecastColor: '#63b3ed' },
-    { key: 'surface_pressure', historicalLabel: 'Surface', forecastLabel: 'Surface (forecast)', historicalColor: '#276749', forecastColor: '#68d391' },
+    {
+      key: 'pressure_msl',
+      historicalLabel: 'MSL',
+      forecastLabel: 'MSL (forecast)',
+      historicalColor: '#2b6cb0',
+      forecastColor: '#63b3ed',
+    },
+    {
+      key: 'surface_pressure',
+      historicalLabel: 'Surface',
+      forecastLabel: 'Surface (forecast)',
+      historicalColor: '#276749',
+      forecastColor: '#68d391',
+    },
   ],
   colors: {
     accentLight: '#2b6cb0',
     accentDark: '#63b3ed',
   },
-  yAxis: { unit: 'hPa', stepSize: 5, snapTo: 5, paddingBelow: 5, paddingAbove: 5, fallbackMin: 990, fallbackMax: 1040 },
+  yAxis: {
+    unit: 'hPa',
+    stepSize: 5,
+    snapTo: 5,
+    paddingBelow: 5,
+    paddingAbove: 5,
+    fallbackMin: 990,
+    fallbackMax: 1040,
+  },
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 24,
@@ -427,9 +484,15 @@ const pressureModal = createChartModal({
 });
 
 // Thin wrappers so index.html inline onclick handlers continue to work
-function openPressureModal() { pressureModal.open(); }
-function closePressureModal() { pressureModal.close(); }
-function resetPressureChart() { pressureModal.reset(); }
+function openPressureModal() {
+  pressureModal.open();
+}
+function closePressureModal() {
+  pressureModal.close();
+}
+function resetPressureChart() {
+  pressureModal.reset();
+}
 
 const temperatureModal = createChartModal({
   modalId: 'temp-modal',
@@ -438,20 +501,46 @@ const temperatureModal = createChartModal({
   noDataId: 'temp-no-data',
   getData: () => hourlyData,
   series: [
-    { key: 'temperature_2m', historicalLabel: 'Temperature', forecastLabel: 'Temperature (forecast)', historicalColor: '#c53030', forecastColor: '#fc8181' },
-    { key: 'apparent_temperature', historicalLabel: 'Feels Like', forecastLabel: 'Feels Like (forecast)', historicalColor: '#dd6b20', forecastColor: '#f6ad55' },
+    {
+      key: 'temperature_2m',
+      historicalLabel: 'Temperature',
+      forecastLabel: 'Temperature (forecast)',
+      historicalColor: '#c53030',
+      forecastColor: '#fc8181',
+    },
+    {
+      key: 'apparent_temperature',
+      historicalLabel: 'Feels Like',
+      forecastLabel: 'Feels Like (forecast)',
+      historicalColor: '#dd6b20',
+      forecastColor: '#f6ad55',
+    },
   ],
   colors: { accentLight: '#c53030', accentDark: '#fc8181' },
-  yAxis: { unit: '°C', stepSize: 5, snapTo: 5, paddingBelow: 2, paddingAbove: 2, fallbackMin: -10, fallbackMax: 35 },
+  yAxis: {
+    unit: '°C',
+    stepSize: 5,
+    snapTo: 5,
+    paddingBelow: 2,
+    paddingAbove: 2,
+    fallbackMin: -10,
+    fallbackMax: 35,
+  },
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 24,
   zoomMinRange: 4,
 });
 
-function openTemperatureModal() { temperatureModal.open(); }
-function closeTemperatureModal() { temperatureModal.close(); }
-function resetTemperatureChart() { temperatureModal.reset(); }
+function openTemperatureModal() {
+  temperatureModal.open();
+}
+function closeTemperatureModal() {
+  temperatureModal.close();
+}
+function resetTemperatureChart() {
+  temperatureModal.reset();
+}
 
 const humidityModal = createChartModal({
   modalId: 'humidity-modal',
@@ -460,19 +549,39 @@ const humidityModal = createChartModal({
   noDataId: 'humidity-no-data',
   getData: () => hourlyData,
   series: [
-    { key: 'relative_humidity_2m', historicalLabel: 'Humidity', forecastLabel: 'Humidity (forecast)', historicalColor: '#0987a0', forecastColor: '#76e4f7' },
+    {
+      key: 'relative_humidity_2m',
+      historicalLabel: 'Humidity',
+      forecastLabel: 'Humidity (forecast)',
+      historicalColor: '#0987a0',
+      forecastColor: '#76e4f7',
+    },
   ],
   colors: { accentLight: '#0987a0', accentDark: '#76e4f7' },
-  yAxis: { unit: '%', stepSize: 10, snapTo: 10, paddingBelow: 5, paddingAbove: 5, fallbackMin: 0, fallbackMax: 100 },
+  yAxis: {
+    unit: '%',
+    stepSize: 10,
+    snapTo: 10,
+    paddingBelow: 5,
+    paddingAbove: 5,
+    fallbackMin: 0,
+    fallbackMax: 100,
+  },
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 24,
   zoomMinRange: 4,
 });
 
-function openHumidityModal() { humidityModal.open(); }
-function closeHumidityModal() { humidityModal.close(); }
-function resetHumidityChart() { humidityModal.reset(); }
+function openHumidityModal() {
+  humidityModal.open();
+}
+function closeHumidityModal() {
+  humidityModal.close();
+}
+function resetHumidityChart() {
+  humidityModal.reset();
+}
 
 const windSpeedModal = createChartModal({
   modalId: 'wind-modal',
@@ -481,19 +590,39 @@ const windSpeedModal = createChartModal({
   noDataId: 'wind-no-data',
   getData: () => hourlyData,
   series: [
-    { key: 'wind_speed_10m', historicalLabel: 'Wind Speed', forecastLabel: 'Wind Speed (forecast)', historicalColor: '#6b46c1', forecastColor: '#b794f4' },
+    {
+      key: 'wind_speed_10m',
+      historicalLabel: 'Wind Speed',
+      forecastLabel: 'Wind Speed (forecast)',
+      historicalColor: '#6b46c1',
+      forecastColor: '#b794f4',
+    },
   ],
   colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
-  yAxis: { unit: 'km/h', stepSize: 10, snapTo: 5, paddingBelow: 2, paddingAbove: 5, fallbackMin: 0, fallbackMax: 60 },
+  yAxis: {
+    unit: 'km/h',
+    stepSize: 10,
+    snapTo: 5,
+    paddingBelow: 2,
+    paddingAbove: 5,
+    fallbackMin: 0,
+    fallbackMax: 60,
+  },
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 24,
   zoomMinRange: 4,
 });
 
-function openWindSpeedModal() { windSpeedModal.open(); }
-function closeWindSpeedModal() { windSpeedModal.close(); }
-function resetWindSpeedChart() { windSpeedModal.reset(); }
+function openWindSpeedModal() {
+  windSpeedModal.open();
+}
+function closeWindSpeedModal() {
+  windSpeedModal.close();
+}
+function resetWindSpeedChart() {
+  windSpeedModal.reset();
+}
 
 const precipitationModal = createChartModal({
   modalId: 'precipitation-modal',
@@ -503,19 +632,39 @@ const precipitationModal = createChartModal({
   getData: () => hourlyData,
   chartType: 'bar',
   series: [
-    { key: 'precipitation', historicalLabel: 'Precipitation', forecastLabel: 'Precipitation (forecast)', historicalColor: '#2b6cb0', forecastColor: 'rgba(99,179,237,0.6)' },
+    {
+      key: 'precipitation',
+      historicalLabel: 'Precipitation',
+      forecastLabel: 'Precipitation (forecast)',
+      historicalColor: '#2b6cb0',
+      forecastColor: 'rgba(99,179,237,0.6)',
+    },
   ],
   colors: { accentLight: '#2b6cb0', accentDark: '#63b3ed' },
-  yAxis: { unit: 'mm', stepSize: 1, snapTo: 1, paddingBelow: 0, paddingAbove: 2, fallbackMin: 0, fallbackMax: 10 },
+  yAxis: {
+    unit: 'mm',
+    stepSize: 1,
+    snapTo: 1,
+    paddingBelow: 0,
+    paddingAbove: 2,
+    fallbackMin: 0,
+    fallbackMax: 10,
+  },
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 24,
   zoomMinRange: 4,
 });
 
-function openPrecipitationModal() { precipitationModal.open(); }
-function closePrecipitationModal() { precipitationModal.close(); }
-function resetPrecipitationChart() { precipitationModal.reset(); }
+function openPrecipitationModal() {
+  precipitationModal.open();
+}
+function closePrecipitationModal() {
+  precipitationModal.close();
+}
+function resetPrecipitationChart() {
+  precipitationModal.reset();
+}
 
 const windDirectionModal = window.WindDirection.createModal({
   modalId: 'wind-direction-modal',
@@ -531,18 +680,30 @@ const windDirectionModal = window.WindDirection.createModal({
   colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
 });
 
-function openWindDirectionModal() { windDirectionModal.open(); }
-function closeWindDirectionModal() { windDirectionModal.close(); }
-function resetWindDirectionChart() { windDirectionModal.reset(); }
+function openWindDirectionModal() {
+  windDirectionModal.open();
+}
+function closeWindDirectionModal() {
+  windDirectionModal.close();
+}
+function resetWindDirectionChart() {
+  windDirectionModal.reset();
+}
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
-    if (!document.getElementById('wind-direction-modal').classList.contains('hidden')) closeWindDirectionModal();
-    else if (!document.getElementById('humidity-modal').classList.contains('hidden')) closeHumidityModal();
-    else if (!document.getElementById('wind-modal').classList.contains('hidden')) closeWindSpeedModal();
-    else if (!document.getElementById('precipitation-modal').classList.contains('hidden')) closePrecipitationModal();
-    else if (!document.getElementById('temp-modal').classList.contains('hidden')) closeTemperatureModal();
-    else if (!document.getElementById('pressure-modal').classList.contains('hidden')) closePressureModal();
+    if (!document.getElementById('wind-direction-modal').classList.contains('hidden'))
+      closeWindDirectionModal();
+    else if (!document.getElementById('humidity-modal').classList.contains('hidden'))
+      closeHumidityModal();
+    else if (!document.getElementById('wind-modal').classList.contains('hidden'))
+      closeWindSpeedModal();
+    else if (!document.getElementById('precipitation-modal').classList.contains('hidden'))
+      closePrecipitationModal();
+    else if (!document.getElementById('temp-modal').classList.contains('hidden'))
+      closeTemperatureModal();
+    else if (!document.getElementById('pressure-modal').classList.contains('hidden'))
+      closePressureModal();
   }
 });
 
@@ -563,10 +724,12 @@ function renderWeather(current) {
     windDir != null ? degreesToCompass(windDir) : '–';
   const arrowHost = document.getElementById('wind-direction-arrow');
   if (arrowHost) {
-    arrowHost.innerHTML = windDir != null ? window.WindDirection.renderArrowSvg(windDir, { size: 24 }) : '';
+    arrowHost.innerHTML =
+      windDir != null ? window.WindDirection.renderArrowSvg(windDir, { size: 24 }) : '';
   }
-  document.getElementById('last-updated').textContent =
-    current.time ? formatTimestamp(current.time) : '–';
+  document.getElementById('last-updated').textContent = current.time
+    ? formatTimestamp(current.time)
+    : '–';
 
   document.getElementById('weather-grid').classList.remove('hidden');
 }
