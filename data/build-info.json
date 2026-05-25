@@ -1,8 +1,8 @@
 {
-  "issueNumber": 76,
-  "issueTitle": "[P0-6] Dark mode color token overhaul (maritime instrument palette)",
-  "prNumber": 105,
-  "commitShaShort": "589bcb8",
-  "commitShaFull": "589bcb81fa573f9349c1e1911ed26bf976ba236e",
-  "builtAt": "2026-05-25T10:23:05.652Z"
+  "issueNumber": 71,
+  "issueTitle": "[P0-1] Dark mode as default with sun/moon SVG toggle in header",
+  "prNumber": 106,
+  "commitShaShort": "b99963c",
+  "commitShaFull": "b99963cbafc6318f34e0d0f5490e52e2150a36be",
+  "builtAt": "2026-05-25T11:52:51.852Z"
 }
