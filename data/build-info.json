@@ -1,8 +1,8 @@
 {
-  "issueNumber": 75,
-  "issueTitle": "[P0-5] Monospace font stack and tabular-nums on all value elements",
-  "prNumber": 110,
-  "commitShaShort": "5d0b6fb",
-  "commitShaFull": "5d0b6fb4ae197d5843e567bb4e0c3d2f75347def",
-  "builtAt": "2026-05-25T12:06:32.238Z"
+  "issueNumber": 77,
+  "issueTitle": "[P0-7] Card hover lift and border brightening animation",
+  "prNumber": 111,
+  "commitShaShort": "f066d96",
+  "commitShaFull": "f066d96c3eb2dfb744bf5dea64c9ff87ba6f96cd",
+  "builtAt": "2026-05-25T12:17:52.631Z"
 }
