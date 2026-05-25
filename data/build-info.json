@@ -1,8 +1,8 @@
 {
-  "issueNumber": 73,
-  "issueTitle": "[P0-3] Pressure hero card: full-width, 3rem value, amber accent",
-  "prNumber": 108,
-  "commitShaShort": "5e6b1b9",
-  "commitShaFull": "5e6b1b986fe2aec008790cfa01ec91a110f67746",
-  "builtAt": "2026-05-25T12:00:52.968Z"
+  "issueNumber": 74,
+  "issueTitle": "[P0-4] Pressure trend label (Rising / Stable / Falling / Falling Fast) on hero",
+  "prNumber": 109,
+  "commitShaShort": "edc31d8",
+  "commitShaFull": "edc31d8df361b925128a8091dbc909fc47b4b19b",
+  "builtAt": "2026-05-25T12:04:06.609Z"
 }
