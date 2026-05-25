@@ -1,8 +1,8 @@
 {
-  "issueNumber": 83,
-  "issueTitle": "[P1-4] Data staleness indicator on last-updated element",
-  "prNumber": 113,
-  "commitShaShort": "8405f48",
-  "commitShaFull": "8405f48793ed4402e8deeab5ab376a7f3f7141f7",
-  "builtAt": "2026-05-25T12:43:36.167Z"
+  "issueNumber": 86,
+  "issueTitle": "[P1-7] Chart tooltip redesign: compact, dark, bordered",
+  "prNumber": 114,
+  "commitShaShort": "5f0a1ad",
+  "commitShaFull": "5f0a1ad90369436233f2dafd85a21df703d81f06",
+  "builtAt": "2026-05-25T12:59:10.510Z"
 }
