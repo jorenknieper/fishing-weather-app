@@ -121,6 +121,29 @@ function animatedClose(overlayEl) {
   setTimeout(finish, 350); // safety fallback
 }
 
+/**
+ * setupDoubleTap — #94
+ * Detects two touchend events on a canvas within 300 ms and calls onDoubleTap.
+ * Ignores multi-touch events so pinch-zoom is unaffected.
+ * Single-tap tooltip is unaffected because we only act on the second tap.
+ */
+function setupDoubleTap(canvas, onDoubleTap) {
+  if (!canvas) return;
+  let lastTap = 0;
+  canvas.addEventListener('touchend', function (e) {
+    // Ignore multi-finger gestures (pinch)
+    if (e.changedTouches.length !== 1) return;
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      e.preventDefault();
+      onDoubleTap();
+      lastTap = 0;
+    } else {
+      lastTap = now;
+    }
+  });
+}
+
 function attachSwipeGesture(overlayEl) {
   const modal = overlayEl.querySelector('.modal');
   if (!modal) return;
@@ -153,6 +176,23 @@ function degreesToCompass(degrees) {
   const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   const index = Math.round(degrees / 45) % 8;
   return directions[index];
+}
+
+// Wind speed buckets (#92)
+// Thresholds in km/h — tune by adjusting these constants.
+const WIND_BUCKETS = [
+  { max: 5,   bucket: 'calm' },
+  { max: 15,  bucket: 'moderate' },
+  { max: 30,  bucket: 'strong' },
+  { max: Infinity, bucket: 'stormy' },
+];
+
+function getWindBucket(speedKmh) {
+  if (speedKmh == null) return null;
+  for (const { max, bucket } of WIND_BUCKETS) {
+    if (speedKmh < max) return bucket;
+  }
+  return 'stormy';
 }
 
 function formatTimestamp(isoString) {
@@ -579,6 +619,11 @@ function createChartModal(config) {
   setupNavigatorDrag();
   attachSwipeGesture(document.getElementById(config.modalId));
 
+  // Double-tap to reset chart viewport on mobile (#94)
+  setupDoubleTap(document.getElementById(config.chartId), () => {
+    if (chart) reset();
+  });
+
   const overlayEl = document.getElementById(config.modalId);
   const focusTrap = makeFocusTrap(overlayEl.querySelector('.modal'));
 
@@ -858,6 +903,11 @@ const windDirectionModal = window.WindDirection.createModal({
 });
 attachSwipeGesture(document.getElementById('wind-direction-modal'));
 
+// Double-tap to reset wind direction mini-chart on mobile (#94)
+setupDoubleTap(document.getElementById('wind-direction-minichart'), () => {
+  windDirectionModal.reset();
+});
+
 const wdOverlayEl = document.getElementById('wind-direction-modal');
 const wdFocusTrap = makeFocusTrap(wdOverlayEl.querySelector('.modal'));
 let wdOriginator = null;
@@ -918,6 +968,79 @@ function computePressureTrend(hourly) {
   return { label: 'Stable', state: 'stable' };
 }
 
+/**
+ * synthesizeConditionSummary — #93
+ *
+ * Verdict rules (single source of truth):
+ *   favourable — pressure rising AND dry (no precip) AND calm/moderate wind
+ *   poor       — pressure falling fast OR stormy wind
+ *   mixed      — everything else
+ *
+ * Returns a plain-text one-liner, or null if critical fields are missing.
+ */
+function synthesizeConditionSummary(current, hourly) {
+  if (!current) return null;
+
+  // Pressure direction — reuse computePressureTrend logic
+  const trend = computePressureTrend(hourly);
+  const pressureLabel = trend ? trend.label : null; // e.g. "Rising", "Stable", …
+
+  // Recent precipitation
+  const precip = current.precipitation;
+  let precipLabel;
+  if (precip == null) {
+    precipLabel = null;
+  } else if (precip === 0) {
+    precipLabel = 'dry';
+  } else if (precip < 1) {
+    precipLabel = 'light showers';
+  } else {
+    precipLabel = 'rain';
+  }
+
+  // Wind speed bucket — reuse #92 logic
+  const windSpeed = current.wind_speed_10m;
+  const bucket = getWindBucket(windSpeed);
+  const windDir = current.wind_direction_10m;
+  const cardinal = windDir != null ? degreesToCompass(windDir) : null;
+
+  let windLabel;
+  if (bucket === 'calm') windLabel = 'calm';
+  else if (bucket === 'moderate') windLabel = cardinal ? `light ${cardinal} wind` : 'light wind';
+  else if (bucket === 'strong') windLabel = cardinal ? `moderate ${cardinal} wind` : 'moderate wind';
+  else if (bucket === 'stormy') windLabel = cardinal ? `strong ${cardinal} wind` : 'strong wind';
+  else windLabel = null;
+
+  // Overall verdict
+  let verdict;
+  if (bucket === 'stormy' || trend?.state === 'falling-fast') {
+    verdict = 'poor conditions';
+  } else if (trend?.state === 'rising' && precip === 0 && (bucket === 'calm' || bucket === 'moderate')) {
+    verdict = 'favourable conditions';
+  } else {
+    verdict = 'mixed conditions';
+  }
+
+  // Build sentence — omit any segment that has no data
+  const parts = [pressureLabel, precipLabel, windLabel].filter(Boolean);
+  if (!parts.length) return null;
+
+  return `${parts.join(', ')} — ${verdict}.`;
+}
+
+function renderConditionSummary(current, hourly) {
+  const el = document.getElementById('condition-summary');
+  if (!el) return;
+  const text = synthesizeConditionSummary(current, hourly);
+  if (text) {
+    el.textContent = text;
+    el.classList.remove('hidden');
+  } else {
+    el.textContent = '';
+    el.classList.add('hidden');
+  }
+}
+
 function renderPressureSparkline(hourly) {
   const el = document.getElementById('pressure-sparkline');
   if (!el) return;
@@ -966,7 +1089,11 @@ function renderWeather(current) {
     }
   }
   document.getElementById('precipitation').textContent = current.precipitation ?? '–';
-  document.getElementById('wind-speed').textContent = current.wind_speed_10m ?? '–';
+  const windSpeedEl = document.getElementById('wind-speed');
+  windSpeedEl.textContent = current.wind_speed_10m ?? '–';
+  // Apply wind bucket colour (#92)
+  const windBucket = getWindBucket(current.wind_speed_10m);
+  windSpeedEl.dataset.windBucket = windBucket ?? '';
   const windDir = current.wind_direction_10m;
   document.getElementById('wind-direction').textContent =
     windDir != null ? degreesToCompass(windDir) : '–';
@@ -996,6 +1123,7 @@ function renderWeather(current) {
 
   document.getElementById('weather-grid').classList.remove('hidden');
   renderPressureSparkline(hourlyData);
+  renderConditionSummary(current, hourlyData);
 }
 
 async function loadWeather() {
