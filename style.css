@@ -226,6 +226,17 @@ footer {
   outline-offset: 2px;
 }
 
+.card--hero {
+  grid-column: 1 / -1;
+  border-top: 3px solid var(--accent-pressure);
+}
+
+.card--hero .value {
+  font-size: 3rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-pressure);
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -454,6 +465,10 @@ footer {
 @media (width <= 375px) {
   .card .value {
     font-size: 1.4rem;
+  }
+
+  .card--hero .value {
+    font-size: 2.25rem;
   }
 
   .wd-arrow-preview {
