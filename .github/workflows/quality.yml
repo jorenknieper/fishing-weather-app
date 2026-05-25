@@ -1,0 +1,50 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (blocking)
+        run: |
+          echo "::group::Lint (blocking)"
+          npm run lint
+          echo "::endgroup::"
+
+      - name: Max app.js lines (blocking)
+        run: |
+          echo "::group::Max app.js lines (blocking)"
+          npm run check:app-lines
+          echo "::endgroup::"
+
+      - name: Prettier format check (warn-only)
+        continue-on-error: true
+        run: |
+          echo "::group::Prettier format check (warn-only)"
+          npm run format:check
+          echo "::endgroup::"
+
+      - name: Stylelint (warn-only)
+        continue-on-error: true
+        run: |
+          echo "::group::Stylelint (warn-only)"
+          npm run lint:css
+          echo "::endgroup::"
