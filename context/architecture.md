@@ -22,13 +22,12 @@ GitHub Actions (cron: hourly)
 - Range: `past_days=7`, `forecast_days=7` (up to ~336 hourly data points)
 - Timezone: Europe/Brussels
 
-## GitHub Actions flow
+## GitHub Actions flows
 
-- Workflow: `.github/workflows/update-weather.yml`
-- Schedule: every hour at minute 0
-- Also triggerable manually via `workflow_dispatch`
-- Steps: checkout → run shell script → `git add data/weather.json` → commit + push only if changed
-- The shell script validates the response contains a `"current"` block before overwriting
+Two workflows run in CI:
+
+- **`update-weather.yml`** — Schedule: every hour at minute 0; also `workflow_dispatch`. Steps: checkout → run shell script → `git add data/weather.json` → commit + push only if changed. The shell script validates the response contains a `"current"` block before overwriting.
+- **`quality.yml`** — Triggers: `pull_request` (any base branch) and `push` to `main`. Runner: `ubuntu-latest`, Node 20. Steps: checkout + `npm ci` → `npm run lint` (blocking, ESLint) → `npm run check:app-lines` (blocking, 1000-line ceiling on `app.js`) → `npm run format:check` (warn-only, Prettier) → `npm run lint:css` (warn-only, Stylelint). Timeout: 5 min. Permissions: `contents: read` (fork-PR safe).
 
 ## Frontend rendering flow
 

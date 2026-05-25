@@ -52,6 +52,20 @@
 
 ---
 
+## Quality CI: blocking lint vs. warn-only style checks
+
+**Decision:** In `quality.yml`, ESLint and the `app.js` line-count check are blocking; Prettier and Stylelint run with `continue-on-error: true` (warn-only).
+
+**Context:** Style-only churn (trailing commas, quote style) should not fail a PR, but code quality issues (lint errors) and file-size creep (app.js exceeding 1000 lines) indicate structural problems worth gating on.
+
+**Alternatives:** `|| true` in the shell step would also avoid failure, but `continue-on-error: true` surfaces a visible warning glyph in the GitHub UI so the signal is not silently lost.
+
+**Dual trigger (PR + push to main):** Both inbound contributions via pull request and direct pushes to main are gated. Without the `push` trigger, a committer with write access bypassing PR review would skip quality checks entirely.
+
+**Consequences:** PRs will be blocked by lint or line-count violations but will pass with only Prettier or Stylelint warnings. The 1000-line ceiling creates a hard incentive to extract logic before `app.js` grows unwieldy.
+
+---
+
 ## Why Open-Meteo
 
 **Decision:** Use Open-Meteo as the weather API.
