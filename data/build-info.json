@@ -1,8 +1,8 @@
 {
-  "issueNumber": 92,
-  "issueTitle": "[P2-3] Wind stats: colour-code wind speed by range",
-  "prNumber": 116,
-  "commitShaShort": "b1ab596",
-  "commitShaFull": "b1ab596b67e98d9465955941ff320694f32b7f42",
-  "builtAt": "2026-05-25T13:31:33.395Z"
+  "issueNumber": 95,
+  "issueTitle": "[P2-6] Respect prefers-color-scheme on first load before localStorage is set",
+  "prNumber": 117,
+  "commitShaShort": "07ab1ed",
+  "commitShaFull": "07ab1ed49223a41fb5c8973f7ae4b433dd7e05ed",
+  "builtAt": "2026-05-25T13:43:41.756Z"
 }
