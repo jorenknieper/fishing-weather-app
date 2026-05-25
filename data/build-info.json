@@ -1,8 +1,8 @@
 {
-  "issueNumber": 72,
-  "issueTitle": "[P0-2] Compact header: flex bar with location, last-updated, theme toggle",
-  "prNumber": 107,
-  "commitShaShort": "c7de0d7",
-  "commitShaFull": "c7de0d7c602b9dc006c66ffed1d5b32c151e35b3",
-  "builtAt": "2026-05-25T11:56:34.408Z"
+  "issueNumber": 73,
+  "issueTitle": "[P0-3] Pressure hero card: full-width, 3rem value, amber accent",
+  "prNumber": 108,
+  "commitShaShort": "5e6b1b9",
+  "commitShaFull": "5e6b1b986fe2aec008790cfa01ec91a110f67746",
+  "builtAt": "2026-05-25T12:00:52.968Z"
 }
