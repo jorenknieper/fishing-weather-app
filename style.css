@@ -217,7 +217,6 @@ footer {
 #pressure-navigator,
 #temp-navigator,
 #humidity-navigator,
-#wind-navigator,
 #precipitation-navigator,
 #wind-direction-navigator {
   display: block;
@@ -228,7 +227,7 @@ footer {
   cursor: grab;
 }
 
-#pressure-no-data, #temp-no-data, #humidity-no-data, #wind-no-data, #precipitation-no-data, #wind-direction-no-data {
+#pressure-no-data, #temp-no-data, #humidity-no-data, #precipitation-no-data, #wind-direction-no-data {
   text-align: center;
   color: var(--color-muted);
   padding: 2rem 0;
