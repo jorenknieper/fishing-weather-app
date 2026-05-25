@@ -12,6 +12,7 @@
     "lint:css": "stylelint \"style.css\"",
     "lint:css:fix": "stylelint --fix \"style.css\"",
     "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
+    "build-info": "node scripts/generate-build-info.js",
     "format:check": "prettier --check \"**/*.{js,css,html,json,md}\""
   },
   "devDependencies": {
