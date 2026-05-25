@@ -1,8 +1,8 @@
 {
-  "issueNumber": 86,
-  "issueTitle": "[P1-7] Chart tooltip redesign: compact, dark, bordered",
-  "prNumber": 114,
-  "commitShaShort": "5f0a1ad",
-  "commitShaFull": "5f0a1ad90369436233f2dafd85a21df703d81f06",
-  "builtAt": "2026-05-25T12:59:10.510Z"
+  "issueNumber": 89,
+  "issueTitle": "[P1-10] Modal accessibility: role=dialog, aria-modal, focus management",
+  "prNumber": 115,
+  "commitShaShort": "d68ed19",
+  "commitShaFull": "d68ed197a5fb2135671906774a884f43a237affb",
+  "builtAt": "2026-05-25T13:22:09.212Z"
 }
