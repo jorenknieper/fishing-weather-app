@@ -1,5 +1,9 @@
 (function () {
-  // Private helper — duplicated here so the module is self-contained.
+  // Private helpers — duplicated here so the module is self-contained.
+  function cssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
   function degreesToCompass(degrees) {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     const index = Math.round(degrees / 45) % 8;
@@ -108,16 +112,15 @@
       nav.height = h;
       const ctx = nav.getContext('2d');
       const n = navValues.length;
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
-      ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+      const accentColor = cssVar(config.colors.accentToken);
+      ctx.fillStyle = cssVar('--color-shadow');
       ctx.fillRect(0, 0, w, h);
       const scale = miniChart.scales.x;
       const denominator = Math.max(n - 1, 1);
       const rx = Math.max(0, (scale.min / denominator) * w);
       const rx2 = Math.min(w, (scale.max / denominator) * w);
       const rw = Math.max(2, rx2 - rx);
-      ctx.fillStyle = isDark ? 'rgba(99,179,237,0.4)' : 'rgba(43,108,176,0.25)';
+      ctx.fillStyle = cssVar(config.colors.accentSoftToken);
       ctx.fillRect(rx, 0, rw, h);
       ctx.strokeStyle = accentColor;
       ctx.lineWidth = 1.5;
@@ -275,9 +278,8 @@
       const canvas = document.getElementById('wind-direction-minichart');
       if (!canvas || typeof Chart === 'undefined') return;
 
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const textColor = isDark ? '#a0aec0' : '#718096';
-      const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+      const textColor = cssVar('--text-muted');
+      const gridColor = cssVar('--color-shadow');
 
       const labels = times.map((t) => t.slice(11, 16));
 
@@ -310,8 +312,8 @@
       }
 
       const datasets = [
-        ...makeDatasets(windSpeedVals, '#6b46c1', '#b794f4', 'Wind speed', 'Wind speed (forecast)'),
-        ...makeDatasets(windGustVals, '#dd6b20', '#f6ad55', 'Gusts', 'Gusts (forecast)'),
+        ...makeDatasets(windSpeedVals, cssVar('--accent-wind'), cssVar('--accent-wind-soft'), 'Wind speed', 'Wind speed (forecast)'),
+        ...makeDatasets(windGustVals, cssVar('--accent-pressure'), cssVar('--accent-pressure-soft'), 'Gusts', 'Gusts (forecast)'),
       ];
 
       const allValid = [...windSpeedVals, ...windGustVals].filter((v) => v != null);
@@ -327,7 +329,7 @@
           const x = scales.x.getPixelForValue(idx);
           if (x < chartArea.left || x > chartArea.right) return;
           ctx.save();
-          ctx.strokeStyle = isDark ? '#a0aec0' : '#718096';
+          ctx.strokeStyle = cssVar('--text-muted');
           ctx.lineWidth = 1;
           ctx.setLineDash([3, 3]);
           ctx.beginPath();
@@ -357,10 +359,10 @@
               tooltip: {
                 enabled: true,
                 displayColors: false,
-                backgroundColor: isDark ? 'rgba(26,32,44,0.92)' : 'rgba(255,255,255,0.92)',
-                titleColor: isDark ? '#f7fafc' : '#1a202c',
-                bodyColor: isDark ? '#e2e8f0' : '#2d3748',
-                borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
+                backgroundColor: cssVar('--bg-surface'),
+                titleColor: cssVar('--text-primary'),
+                bodyColor: cssVar('--text-muted'),
+                borderColor: cssVar('--border-subtle'),
                 borderWidth: 1,
                 padding: 8,
                 callbacks: {
@@ -437,7 +439,7 @@
                 grid: {
                   color(context) {
                     const t = context.tick && times[context.tick.value];
-                    if (t && t.slice(11, 16) === '00:00') return isDark ? '#63b3ed' : '#2b6cb0';
+                    if (t && t.slice(11, 16) === '00:00') return cssVar('--accent-temp');
                     return gridColor;
                   },
                 },
