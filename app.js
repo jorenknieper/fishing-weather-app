@@ -2,6 +2,58 @@ function cssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
+const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
+
+const SWIPE_THRESHOLD = 80;
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 639px)').matches;
+}
+
+function animatedClose(overlayEl) {
+  if (!isMobileViewport() || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    overlayEl.classList.add('hidden');
+    return;
+  }
+  overlayEl.classList.add('sheet-closing');
+  const modal = overlayEl.querySelector('.modal');
+  function finish() {
+    overlayEl.classList.remove('sheet-closing');
+    overlayEl.classList.add('hidden');
+    modal.style.transform = '';
+  }
+  modal.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 350); // safety fallback
+}
+
+function attachSwipeGesture(overlayEl) {
+  const modal = overlayEl.querySelector('.modal');
+  if (!modal) return;
+  let startY = 0;
+  let dragging = false;
+  modal.addEventListener('pointerdown', (e) => {
+    if (!isMobileViewport()) return;
+    startY = e.clientY;
+    dragging = true;
+    modal.setPointerCapture(e.pointerId);
+  });
+  modal.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const delta = Math.max(0, e.clientY - startY);
+    modal.style.transform = `translateY(${delta}px)`;
+  });
+  modal.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    const delta = e.clientY - startY;
+    if (delta > SWIPE_THRESHOLD) {
+      animatedClose(overlayEl);
+    } else {
+      modal.style.transform = '';
+    }
+  });
+}
+
 function degreesToCompass(degrees) {
   const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   const index = Math.round(degrees / 45) % 8;
@@ -424,6 +476,7 @@ function createChartModal(config) {
 
   // Set up navigator drag once at factory construction time
   setupNavigatorDrag();
+  attachSwipeGesture(document.getElementById(config.modalId));
 
   function open() {
     document.getElementById(config.modalId).classList.remove('hidden');
@@ -431,7 +484,7 @@ function createChartModal(config) {
   }
 
   function close() {
-    document.getElementById(config.modalId).classList.add('hidden');
+    animatedClose(document.getElementById(config.modalId));
   }
 
   function reset() {
@@ -691,6 +744,7 @@ const windDirectionModal = window.WindDirection.createModal({
   zoomMinRange: 4,
   colors: { accentToken: '--accent-wind', accentSoftToken: '--accent-wind-soft' },
 });
+attachSwipeGesture(document.getElementById('wind-direction-modal'));
 
 function openWindDirectionModal() {
   windDirectionModal.open();
@@ -771,6 +825,21 @@ function renderWeather(current) {
   document.getElementById('last-updated').textContent = current.time
     ? formatTimestamp(current.time)
     : '–';
+
+  const headerUpdatedEl = document.querySelector('.header-updated');
+  if (headerUpdatedEl && current.time) {
+    const dataTime = new Date(current.time.replace('T', ' ') + ':00');
+    const ageMs = Date.now() - dataTime.getTime();
+    const isStale = ageMs > STALE_THRESHOLD_MS;
+    headerUpdatedEl.dataset.stale = isStale ? 'true' : 'false';
+    if (isStale) {
+      const ageH = Math.floor(ageMs / 3600000);
+      const ageM = Math.floor((ageMs % 3600000) / 60000);
+      headerUpdatedEl.title = `Last update ${ageH}h ${ageM}m ago`;
+    } else {
+      headerUpdatedEl.title = '';
+    }
+  }
 
   document.getElementById('weather-grid').classList.remove('hidden');
 }
