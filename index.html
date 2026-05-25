@@ -36,6 +36,11 @@
       </div>
 
       <div id="weather-grid" class="grid hidden">
+        <div class="card card--hero card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
+          <span class="label">Pressure (MSL)</span>
+          <span class="value" id="pressure-msl">–</span>
+          <span class="unit">hPa</span>
+        </div>
         <div
           class="card card--clickable"
           role="button"
@@ -60,11 +65,6 @@
           <span class="label">Humidity</span>
           <span class="value" id="humidity">–</span>
           <span class="unit">%</span>
-        </div>
-        <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
-          <span class="label">Pressure (MSL)</span>
-          <span class="value" id="pressure-msl">–</span>
-          <span class="unit">hPa</span>
         </div>
         <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
           <span class="label">Pressure (Surface)</span>
