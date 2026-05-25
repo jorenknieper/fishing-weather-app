@@ -638,7 +638,23 @@ footer {
   }
 }
 
+/* Drag handle for mobile bottom sheet (#97) */
+.modal-drag-handle {
+  display: none;
+}
+
 @media (max-width: 639px) {
+  .modal-drag-handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-subtle);
+    margin: 0.5rem auto 0;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
   .modal-overlay {
     align-items: flex-end;
     padding: 0;
