@@ -675,7 +675,7 @@ const windDirectionModal = window.WindDirection.createModal({
   dayLabelsPlugin: makeDayLabelsPlugin,
   historyHours: 168,
   forecastHours: 168,
-  initialViewportHours: 24,
+  initialViewportHours: 4,
   zoomMinRange: 4,
   colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
 });
