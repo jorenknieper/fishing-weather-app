@@ -163,12 +163,14 @@ main {
 
 .card {
   background: var(--color-card-bg);
+  border: 1px solid transparent;
   border-radius: 0.5rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   box-shadow: 0 1px 3px var(--color-shadow);
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
 
 .card .label {
@@ -215,7 +217,6 @@ footer {
 
 .build-info {
   font-size: 0.7rem;
-  margin-top: 0.25rem;
 }
 
 .build-info a {
@@ -227,12 +228,16 @@ footer {
 }
 
 .card--clickable:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-subtle);
   box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .card--clickable:focus-visible {
   outline: 2px solid var(--color-card-value);
   outline-offset: 2px;
+  transform: translateY(-1px);
+  border-color: var(--border-subtle);
 }
 
 .card--hero {
@@ -533,5 +538,15 @@ footer {
 
   .wd-minichart-wrap {
     height: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .card--clickable:hover,
+  .card--clickable:focus-visible {
+    transform: none;
   }
 }
