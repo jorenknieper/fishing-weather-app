@@ -484,6 +484,12 @@ footer {
   font-family: var(--font-mono);
 }
 
+.wd-cell__cardinal {
+  font-size: 0.6rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
 .wd-arrow--empty {
   color: var(--color-muted);
   font-size: 1rem;
@@ -564,6 +570,13 @@ footer {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   text-align: right;
+}
+
+.hero-sparkline {
+  display: block;
+  margin-top: 0.5rem;
+  line-height: 0;
+  color: var(--accent-pressure);
 }
 
 @media (width <= 375px) {

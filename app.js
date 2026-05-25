@@ -77,6 +77,26 @@ function makeNowLinePlugin(nowIndex) {
   };
 }
 
+function makeFocusTrap(modalEl) {
+  const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function handler(e) {
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(modalEl.querySelectorAll(FOCUSABLE));
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+  return {
+    activate() { modalEl.addEventListener('keydown', handler); },
+    deactivate() { modalEl.removeEventListener('keydown', handler); },
+  };
+}
+
 const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
 
 const SWIPE_THRESHOLD = 80;
@@ -246,6 +266,7 @@ function createChartModal(config) {
   let dragStartRange = null;
   let initialMin = 0;
   let initialMax = 0;
+  let originator = null;
 
   function drawNavigator() {
     const nav = document.getElementById(config.navigatorId);
@@ -558,14 +579,23 @@ function createChartModal(config) {
   setupNavigatorDrag();
   attachSwipeGesture(document.getElementById(config.modalId));
 
+  const overlayEl = document.getElementById(config.modalId);
+  const focusTrap = makeFocusTrap(overlayEl.querySelector('.modal'));
+
   function open() {
-    document.getElementById(config.modalId).classList.remove('hidden');
+    originator = document.activeElement;
+    overlayEl.classList.remove('hidden');
+    overlayEl.querySelector('.modal-close').focus();
+    focusTrap.activate();
     render();
   }
 
   function close() {
+    focusTrap.deactivate();
     getOrCreateTooltipEl().style.opacity = '0';
-    animatedClose(document.getElementById(config.modalId));
+    animatedClose(overlayEl);
+    originator?.focus();
+    originator = null;
   }
 
   function reset() {
@@ -828,11 +858,21 @@ const windDirectionModal = window.WindDirection.createModal({
 });
 attachSwipeGesture(document.getElementById('wind-direction-modal'));
 
+const wdOverlayEl = document.getElementById('wind-direction-modal');
+const wdFocusTrap = makeFocusTrap(wdOverlayEl.querySelector('.modal'));
+let wdOriginator = null;
+
 function openWindDirectionModal() {
+  wdOriginator = document.activeElement;
   windDirectionModal.open();
+  wdOverlayEl.querySelector('.modal-close').focus();
+  wdFocusTrap.activate();
 }
 function closeWindDirectionModal() {
+  wdFocusTrap.deactivate();
   windDirectionModal.close();
+  wdOriginator?.focus();
+  wdOriginator = null;
 }
 function resetWindDirectionChart() {
   windDirectionModal.reset();
@@ -876,6 +916,37 @@ function computePressureTrend(hourly) {
   if (delta < -1.0) return { label: 'Falling', state: 'falling' };
   if (delta > 1.0)  return { label: 'Rising', state: 'rising' };
   return { label: 'Stable', state: 'stable' };
+}
+
+function renderPressureSparkline(hourly) {
+  const el = document.getElementById('pressure-sparkline');
+  if (!el) return;
+  if (!hourly?.pressure_msl || !hourly?.time) { el.innerHTML = ''; return; }
+
+  const nowISO = new Date()
+    .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
+    .slice(0, 16)
+    .replace(' ', 'T');
+  let boundaryIndex = hourly.time.findIndex((t) => t >= nowISO);
+  if (boundaryIndex === -1) boundaryIndex = hourly.time.length;
+
+  const values = hourly.pressure_msl
+    .slice(Math.max(0, boundaryIndex - 48), boundaryIndex)
+    .filter((v) => v != null);
+  if (values.length < 2) { el.innerHTML = ''; return; }
+
+  const W = 72;
+  const H = 24;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const points = values
+    .map((v, i) => `${((i / (values.length - 1)) * W).toFixed(1)},${(H - ((v - min) / range) * H).toFixed(1)}`)
+    .join(' ');
+  el.innerHTML =
+    `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">` +
+    `<polyline points="${points}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `</svg>`;
 }
 
 function renderWeather(current) {
@@ -924,6 +995,7 @@ function renderWeather(current) {
   }
 
   document.getElementById('weather-grid').classList.remove('hidden');
+  renderPressureSparkline(hourlyData);
 }
 
 async function loadWeather() {
