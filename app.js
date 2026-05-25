@@ -718,11 +718,41 @@ function showError() {
   document.getElementById('error-message').classList.remove('hidden');
 }
 
+function computePressureTrend(hourly) {
+  if (!hourly?.time || !hourly?.pressure_msl) return null;
+  const nowISO = new Date()
+    .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
+    .slice(0, 16).replace(' ', 'T');
+  // Find the last index whose time <= nowISO
+  let idx = -1;
+  for (let i = 0; i < hourly.time.length; i++) {
+    if (hourly.time[i] <= nowISO) idx = i;
+    else break;
+  }
+  if (idx < 3) return null;
+  const delta = hourly.pressure_msl[idx] - hourly.pressure_msl[idx - 3];
+  if (delta < -2.0) return { label: 'Falling Fast', state: 'falling-fast' };
+  if (delta < -1.0) return { label: 'Falling', state: 'falling' };
+  if (delta > 1.0)  return { label: 'Rising', state: 'rising' };
+  return { label: 'Stable', state: 'stable' };
+}
+
 function renderWeather(current) {
   document.getElementById('temperature').textContent = current.temperature_2m ?? '–';
   document.getElementById('apparent-temperature').textContent = current.apparent_temperature ?? '–';
   document.getElementById('humidity').textContent = current.relative_humidity_2m ?? '–';
   document.getElementById('pressure-msl').textContent = current.pressure_msl ?? '–';
+  const trend = computePressureTrend(hourlyData);
+  const trendEl = document.getElementById('pressure-trend');
+  if (trendEl) {
+    if (trend) {
+      trendEl.dataset.state = trend.state;
+      trendEl.textContent = trend.label;
+    } else {
+      trendEl.dataset.state = '';
+      trendEl.textContent = '–';
+    }
+  }
   document.getElementById('pressure-surface').textContent = current.surface_pressure ?? '–';
   document.getElementById('precipitation').textContent = current.precipitation ?? '–';
   document.getElementById('wind-speed').textContent = current.wind_speed_10m ?? '–';
