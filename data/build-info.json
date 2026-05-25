@@ -1,8 +1,8 @@
 {
-  "issueNumber": 74,
-  "issueTitle": "[P0-4] Pressure trend label (Rising / Stable / Falling / Falling Fast) on hero",
-  "prNumber": 109,
-  "commitShaShort": "edc31d8",
-  "commitShaFull": "edc31d8df361b925128a8091dbc909fc47b4b19b",
-  "builtAt": "2026-05-25T12:04:06.609Z"
+  "issueNumber": 75,
+  "issueTitle": "[P0-5] Monospace font stack and tabular-nums on all value elements",
+  "prNumber": 110,
+  "commitShaShort": "5d0b6fb",
+  "commitShaFull": "5d0b6fb4ae197d5843e567bb4e0c3d2f75347def",
+  "builtAt": "2026-05-25T12:06:32.238Z"
 }
