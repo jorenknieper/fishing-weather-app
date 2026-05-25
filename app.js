@@ -206,8 +206,16 @@ function formatTimestamp(isoString) {
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
+  const saved = localStorage.getItem('theme');
+  let theme;
+  if (saved) {
+    // User has manually toggled before — honour their choice.
+    theme = saved;
+  } else {
+    // No stored preference: respect the OS colour scheme.
+    theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  document.documentElement.setAttribute('data-theme', theme);
   updateThemeButton();
 }
 
@@ -217,12 +225,17 @@ function updateThemeButton() {
   if (btn) btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
 }
 
+// Registry of open-chart re-render callbacks, populated by createChartModal.
+const _themeRerenderCallbacks = [];
+
 function toggleTheme() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const next = isDark ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   updateThemeButton();
+  // Re-render any chart currently visible so colours update immediately (#96).
+  for (const cb of _themeRerenderCallbacks) cb();
 }
 
 initTheme();
@@ -626,6 +639,11 @@ function createChartModal(config) {
 
   const overlayEl = document.getElementById(config.modalId);
   const focusTrap = makeFocusTrap(overlayEl.querySelector('.modal'));
+
+  // Register a theme re-render callback (#96): re-renders only when the modal is open.
+  _themeRerenderCallbacks.push(function () {
+    if (!overlayEl.classList.contains('hidden') && chart) render();
+  });
 
   function open() {
     originator = document.activeElement;
