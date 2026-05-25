@@ -2,6 +2,81 @@ function cssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
+function getOrCreateTooltipEl() {
+  let el = document.getElementById('chart-tooltip');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'chart-tooltip';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+function makeExternalTooltipHandler(times) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return function ({ chart, tooltip }) {
+    const el = getOrCreateTooltipEl();
+    if (tooltip.opacity === 0) {
+      el.style.opacity = '0';
+      return;
+    }
+    const idx = tooltip.dataPoints?.[0]?.dataIndex;
+    const t = times[idx];
+    let title = '';
+    if (t) {
+      const [, month, day] = t.slice(0, 10).split('-');
+      title = `${parseInt(day)} ${months[parseInt(month) - 1]} ${t.slice(11, 16)}`;
+    }
+    const rows = (tooltip.dataPoints || [])
+      .filter((p) => p.raw != null)
+      .map(
+        (p) =>
+          `<div class="ct-row"><span class="ct-label">${p.dataset.label}</span><span class="ct-value">${p.formattedValue}</span></div>`,
+      )
+      .join('');
+    el.innerHTML = `<div class="ct-title">${title}</div>${rows}`;
+    el.style.opacity = '1';
+    const rect = chart.canvas.getBoundingClientRect();
+    const isRightHalf = tooltip.caretX > chart.width / 2;
+    el.style.left = `${rect.left + tooltip.caretX}px`;
+    el.style.top = `${rect.top + tooltip.caretY - 8}px`;
+    el.style.transform = isRightHalf ? 'translateX(calc(-100% - 14px))' : 'translateX(14px)';
+  };
+}
+
+function makeNowLinePlugin(nowIndex) {
+  return {
+    id: 'nowLine',
+    afterDraw(chart) {
+      const scale = chart.scales.x;
+      if (!scale || nowIndex < scale.min || nowIndex > scale.max) return;
+      const { top, bottom, left, right } = chart.chartArea;
+      const ctx = chart.ctx;
+      const x = scale.getPixelForValue(nowIndex);
+      const color = cssVar('--accent-pressure');
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(left, 0, right - left, bottom);
+      ctx.clip();
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = 0.7;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.font = '10px system-ui, sans-serif';
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText('Now', x, top - 2);
+      ctx.restore();
+    },
+  };
+}
+
 const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
 
 const SWIPE_THRESHOLD = 80;
@@ -389,7 +464,7 @@ function createChartModal(config) {
           labels,
           datasets,
         },
-        plugins: [makeDayLabelsPlugin(times, textColor)],
+        plugins: [makeDayLabelsPlugin(times, textColor), makeNowLinePlugin(splitAt)],
         options: {
           responsive: true,
           maintainAspectRatio: true,
@@ -400,7 +475,12 @@ function createChartModal(config) {
               position: 'bottom',
               labels: { color: textColor, boxWidth: 20 },
             },
-            tooltip: { mode: 'index', intersect: false },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              enabled: false,
+              external: makeExternalTooltipHandler(times),
+            },
             zoom: {
               limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
               zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
@@ -484,6 +564,7 @@ function createChartModal(config) {
   }
 
   function close() {
+    getOrCreateTooltipEl().style.opacity = '0';
     animatedClose(document.getElementById(config.modalId));
   }
 
@@ -738,6 +819,7 @@ const windDirectionModal = window.WindDirection.createModal({
   navigatorId: 'wind-direction-navigator',
   getData: () => hourlyData,
   dayLabelsPlugin: makeDayLabelsPlugin,
+  nowLinePlugin: makeNowLinePlugin,
   historyHours: 168,
   forecastHours: 168,
   initialViewportHours: 4,
@@ -859,5 +941,14 @@ async function loadWeather() {
     showError();
   }
 }
+
+document.querySelectorAll('.card--clickable').forEach((card) => {
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.click();
+    }
+  });
+});
 
 loadWeather();

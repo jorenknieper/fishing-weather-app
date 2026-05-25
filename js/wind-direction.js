@@ -344,7 +344,11 @@
         miniChart = new Chart(canvas, {
           type: 'line',
           data: { labels, datasets },
-          plugins: [config.dayLabelsPlugin(times, textColor), wdGuidePlugin],
+          plugins: [
+            config.dayLabelsPlugin(times, textColor),
+            wdGuidePlugin,
+            ...(config.nowLinePlugin ? [config.nowLinePlugin(hourlySplitAt)] : []),
+          ],
           options: {
             responsive: true,
             maintainAspectRatio: false,

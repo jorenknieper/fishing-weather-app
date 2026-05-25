@@ -36,7 +36,7 @@
       </div>
 
       <div id="weather-grid" class="grid hidden">
-        <div class="card card--hero card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
+        <div class="card card--hero card--clickable" role="button" tabindex="0" aria-label="Open pressure chart" onclick="openPressureModal()">
           <span class="label">Pressure (MSL)</span>
           <span class="value" id="pressure-msl">–</span>
           <span class="unit">hPa</span>
@@ -46,6 +46,7 @@
           class="card card--clickable"
           role="button"
           tabindex="0"
+          aria-label="Open temperature chart"
           onclick="openTemperatureModal()"
         >
           <span class="label">Temperature</span>
@@ -53,7 +54,7 @@
           <span class="unit">°C</span>
           <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
         </div>
-        <div class="card card--clickable" role="button" tabindex="0" onclick="openHumidityModal()">
+        <div class="card card--clickable" role="button" tabindex="0" aria-label="Open humidity chart" onclick="openHumidityModal()">
           <span class="label">Humidity</span>
           <span class="value" id="humidity">–</span>
           <span class="unit">%</span>
@@ -62,13 +63,14 @@
           class="card card--clickable"
           role="button"
           tabindex="0"
+          aria-label="Open precipitation chart"
           onclick="openPrecipitationModal()"
         >
           <span class="label">Precipitation</span>
           <span class="value" id="precipitation">–</span>
           <span class="unit">mm</span>
         </div>
-        <div class="card card--clickable" role="button" tabindex="0" onclick="openWindSpeedModal()">
+        <div class="card card--clickable" role="button" tabindex="0" aria-label="Open wind speed chart" onclick="openWindSpeedModal()">
           <span class="label">Wind</span>
           <span class="value" id="wind-speed">–</span>
           <span class="unit">km/h</span>
