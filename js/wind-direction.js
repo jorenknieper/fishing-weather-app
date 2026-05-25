@@ -347,13 +347,65 @@
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 20 } },
+            interaction: { mode: 'index', intersect: false, axis: 'x' },
             plugins: {
               legend: {
                 display: true,
                 position: 'bottom',
                 labels: { color: textColor, boxWidth: 20 },
               },
-              tooltip: { enabled: false },
+              tooltip: {
+                enabled: true,
+                displayColors: false,
+                backgroundColor: isDark ? 'rgba(26,32,44,0.92)' : 'rgba(255,255,255,0.92)',
+                titleColor: isDark ? '#f7fafc' : '#1a202c',
+                bodyColor: isDark ? '#e2e8f0' : '#2d3748',
+                borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
+                borderWidth: 1,
+                padding: 8,
+                callbacks: {
+                  title(items) {
+                    const i = items[0].dataIndex;
+                    const iso = hourlyTimes[i];
+                    if (!iso) return '';
+                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    const mons = [
+                      'Jan',
+                      'Feb',
+                      'Mar',
+                      'Apr',
+                      'May',
+                      'Jun',
+                      'Jul',
+                      'Aug',
+                      'Sep',
+                      'Oct',
+                      'Nov',
+                      'Dec',
+                    ];
+                    const d = new Date(iso);
+                    const label = `${days[d.getDay()]} ${mons[d.getMonth()]} ${d.getDate()}`;
+                    return i >= hourlySplitAt ? `(forecast) ${label}` : label;
+                  },
+                  label() {
+                    return '';
+                  },
+                  afterBody(items) {
+                    const i = items[0].dataIndex;
+                    const iso = hourlyTimes[i];
+                    const time = iso ? iso.slice(11, 16) : '–';
+                    const speed =
+                      hourlySpeed[i] != null ? `${Math.round(hourlySpeed[i])} km/h` : '–';
+                    const gusts =
+                      hourlyGusts[i] != null ? `${Math.round(hourlyGusts[i])} km/h` : '–';
+                    const rawDir = hourlyDir[i];
+                    const normDir =
+                      rawDir != null ? Math.round(((rawDir % 360) + 360) % 360) : null;
+                    const dir = normDir != null ? `${normDir}° ${degreesToCompass(normDir)}` : '–';
+                    return [`Time  ${time}`, `Wind  ${speed}`, `Gusts  ${gusts}`, `Dir  ${dir}`];
+                  },
+                },
+              },
               zoom: {
                 limits: { x: { min: 0, max: times.length - 1, minRange: config.zoomMinRange } },
                 zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
