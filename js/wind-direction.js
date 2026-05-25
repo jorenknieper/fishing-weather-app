@@ -10,6 +10,11 @@
     return directions[index];
   }
 
+  function degreesToCompass16(degrees) {
+    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    return dirs[Math.round(((degrees % 360) + 360) % 360 / 22.5) % 16];
+  }
+
   // wind_direction_10m is degrees the wind comes FROM; the arrow visually points
   // where the wind is blowing TO. The SVG base path points south at rotation 0,
   // so rotating by degrees directly gives the correct heading.
@@ -246,11 +251,13 @@
             ? '<span class="wd-arrow--empty" aria-hidden="true">·</span>'
             : renderArrowSvg(b.mean, { size: 22 });
         const cellClass = b.isForecast ? 'wd-cell wd-cell--forecast' : 'wd-cell';
+        const cardinal = b.mean != null ? degreesToCompass16(b.mean) : '';
         return (
           `<div class="${cellClass}">` +
           `<div class="wd-cell__date">${b.dateLabel}</div>` +
           `<div class="wd-cell__arrow">${arrow}</div>` +
           `<div class="wd-cell__hour">${b.hh}</div>` +
+          `<div class="wd-cell__cardinal">${cardinal}</div>` +
           '</div>'
         );
       });

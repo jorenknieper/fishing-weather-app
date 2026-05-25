@@ -41,6 +41,7 @@
           <span class="value" id="pressure-msl">–</span>
           <span class="unit">hPa</span>
           <span id="pressure-trend" class="pressure-trend"></span>
+          <span id="pressure-sparkline" class="hero-sparkline"></span>
         </div>
         <div
           class="card card--clickable"
@@ -83,9 +84,9 @@
     </main>
 
     <div id="pressure-modal" class="modal-overlay hidden" onclick="closePressureModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pressure-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Pressure – last 7 days &amp; next 7 days</span>
+          <span id="pressure-modal-heading">Pressure – last 7 days &amp; next 7 days</span>
           <button id="chart-reset" class="modal-reset" onclick="resetPressureChart()">Reset</button>
           <button class="modal-close" onclick="closePressureModal()">✕</button>
         </div>
@@ -98,9 +99,9 @@
     </div>
 
     <div id="temp-modal" class="modal-overlay hidden" onclick="closeTemperatureModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="temp-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Temperature – last 7 days &amp; next 7 days</span>
+          <span id="temp-modal-heading">Temperature – last 7 days &amp; next 7 days</span>
           <button
             id="chart-reset-temperature"
             class="modal-reset"
@@ -119,9 +120,9 @@
     </div>
 
     <div id="humidity-modal" class="modal-overlay hidden" onclick="closeHumidityModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="humidity-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Humidity – last 7 days &amp; next 7 days</span>
+          <span id="humidity-modal-heading">Humidity – last 7 days &amp; next 7 days</span>
           <button id="chart-reset-humidity" class="modal-reset" onclick="resetHumidityChart()">
             Reset
           </button>
@@ -136,9 +137,9 @@
     </div>
 
     <div id="wind-modal" class="modal-overlay hidden" onclick="closeWindSpeedModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wind-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Wind Speed – last 7 days &amp; next 7 days</span>
+          <span id="wind-modal-heading">Wind Speed – last 7 days &amp; next 7 days</span>
           <button id="chart-reset-wind" class="modal-reset" onclick="resetWindSpeedChart()">
             Reset
           </button>
@@ -153,9 +154,9 @@
     </div>
 
     <div id="precipitation-modal" class="modal-overlay hidden" onclick="closePrecipitationModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="precipitation-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Precipitation – last 7 days &amp; next 7 days</span>
+          <span id="precipitation-modal-heading">Precipitation – last 7 days &amp; next 7 days</span>
           <button
             id="chart-reset-precipitation"
             class="modal-reset"
@@ -174,9 +175,9 @@
     </div>
 
     <div id="wind-direction-modal" class="modal-overlay hidden" onclick="closeWindDirectionModal()">
-      <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wind-direction-modal-heading" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <span>Wind Direction – last 7 days &amp; next 7 days</span>
+          <span id="wind-direction-modal-heading">Wind Direction – last 7 days &amp; next 7 days</span>
           <button
             id="chart-reset-wind-direction"
             class="modal-reset"
