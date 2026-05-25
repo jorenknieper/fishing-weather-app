@@ -51,26 +51,12 @@
           <span class="label">Temperature</span>
           <span class="value" id="temperature">–</span>
           <span class="unit">°C</span>
-        </div>
-        <div
-          class="card card--clickable"
-          role="button"
-          tabindex="0"
-          onclick="openTemperatureModal()"
-        >
-          <span class="label">Feels Like</span>
-          <span class="value" id="apparent-temperature">–</span>
-          <span class="unit">°C</span>
+          <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
         </div>
         <div class="card card--clickable" role="button" tabindex="0" onclick="openHumidityModal()">
           <span class="label">Humidity</span>
           <span class="value" id="humidity">–</span>
           <span class="unit">%</span>
-        </div>
-        <div class="card card--clickable" role="button" tabindex="0" onclick="openPressureModal()">
-          <span class="label">Pressure (Surface)</span>
-          <span class="value" id="pressure-surface">–</span>
-          <span class="unit">hPa</span>
         </div>
         <div
           class="card card--clickable"
@@ -83,18 +69,10 @@
           <span class="unit">mm</span>
         </div>
         <div class="card card--clickable" role="button" tabindex="0" onclick="openWindSpeedModal()">
-          <span class="label">Wind Speed</span>
+          <span class="label">Wind</span>
           <span class="value" id="wind-speed">–</span>
           <span class="unit">km/h</span>
-        </div>
-        <div
-          class="card card--clickable"
-          role="button"
-          tabindex="0"
-          onclick="openWindDirectionModal()"
-        >
-          <span class="label">Wind Direction</span>
-          <span class="value wd-card-value">
+          <span class="wd-card-value card-sub">
             <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
             <span id="wind-direction">–</span>
           </span>

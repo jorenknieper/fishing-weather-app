@@ -249,7 +249,7 @@ function createChartModal(config) {
 
     const chartType = config.chartType || 'line';
 
-    function buildDataset(label, data, color, isForecast) {
+    function buildDataset(label, data, color, isForecast, alwaysDash = false) {
       const dataset = {
         label,
         data,
@@ -260,7 +260,7 @@ function createChartModal(config) {
         spanGaps: false,
         tension: 0.3,
       };
-      if (isForecast) dataset.borderDash = [5, 5];
+      if (isForecast || alwaysDash) dataset.borderDash = [5, 5];
       return dataset;
     }
 
@@ -288,8 +288,10 @@ function createChartModal(config) {
         } else {
           const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
           const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
-          datasets.push(buildDataset(s.historicalLabel, pastData, histColor, false));
-          datasets.push(buildDataset(s.forecastLabel, forecastData, fcastColor, true));
+          const histDs = buildDataset(s.historicalLabel, pastData, histColor, false, !!s.alwaysDash);
+          const fcastDs = buildDataset(s.forecastLabel, forecastData, fcastColor, true, !!s.alwaysDash);
+          if (s.order != null) { histDs.order = s.order; fcastDs.order = s.order; }
+          datasets.push(histDs, fcastDs);
         }
       }
       // Navigator uses first series for length reference
@@ -462,6 +464,7 @@ const pressureModal = createChartModal({
       forecastLabel: 'MSL (forecast)',
       historicalColor: () => cssVar('--accent-pressure'),
       forecastColor: () => cssVar('--accent-pressure-soft'),
+      order: 1,
     },
     {
       key: 'surface_pressure',
@@ -469,6 +472,8 @@ const pressureModal = createChartModal({
       forecastLabel: 'Surface (forecast)',
       historicalColor: () => cssVar('--accent-wind'),
       forecastColor: () => cssVar('--accent-wind-soft'),
+      alwaysDash: true,
+      order: 2,
     },
   ],
   colors: {
@@ -753,7 +758,6 @@ function renderWeather(current) {
       trendEl.textContent = '–';
     }
   }
-  document.getElementById('pressure-surface').textContent = current.surface_pressure ?? '–';
   document.getElementById('precipitation').textContent = current.precipitation ?? '–';
   document.getElementById('wind-speed').textContent = current.wind_speed_10m ?? '–';
   const windDir = current.wind_direction_10m;
