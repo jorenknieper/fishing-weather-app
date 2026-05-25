@@ -1,8 +1,8 @@
 {
-  "issueNumber": 77,
-  "issueTitle": "[P0-7] Card hover lift and border brightening animation",
-  "prNumber": 111,
-  "commitShaShort": "f066d96",
-  "commitShaFull": "f066d96c3eb2dfb744bf5dea64c9ff87ba6f96cd",
-  "builtAt": "2026-05-25T12:17:52.631Z"
+  "issueNumber": 80,
+  "issueTitle": "[P1-1] Merge Temperature and Feels-Like into a single card",
+  "prNumber": 112,
+  "commitShaShort": "2b04dff",
+  "commitShaFull": "2b04dff3737146c7cb1ad738f7eb579e3cd890d9",
+  "builtAt": "2026-05-25T12:26:30.266Z"
 }
