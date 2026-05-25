@@ -1,8 +1,8 @@
 {
-  "issueNumber": 50,
-  "issueTitle": "Add ESLint + Prettier + Stylelint configs and npm scripts",
-  "prNumber": 60,
-  "commitShaShort": "507e613",
-  "commitShaFull": "507e613f254afee0aa6edc015d2c0131af224884",
-  "builtAt": "2026-05-25T07:12:56.195Z"
+  "issueNumber": 69,
+  "issueTitle": "Re-land footer build metadata (issues #53 + #56 missed main)",
+  "prNumber": 70,
+  "commitShaShort": "40b9716",
+  "commitShaFull": "40b971650d9e0043d819aeee4008973290f1741f",
+  "builtAt": "2026-05-25T09:33:49.566Z"
 }
