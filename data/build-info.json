@@ -1,0 +1,8 @@
+{
+  "issueNumber": 50,
+  "issueTitle": "Add ESLint + Prettier + Stylelint configs and npm scripts",
+  "prNumber": 60,
+  "commitShaShort": "507e613",
+  "commitShaFull": "507e613f254afee0aa6edc015d2c0131af224884",
+  "builtAt": "2026-05-25T07:12:56.195Z"
+}
