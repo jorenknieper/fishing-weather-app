@@ -577,7 +577,11 @@
         render();
       },
       close() {
-        document.getElementById(config.modalId).classList.add('hidden');
+        if (typeof animatedClose === 'function') {
+          animatedClose(document.getElementById(config.modalId));
+        } else {
+          document.getElementById(config.modalId).classList.add('hidden');
+        }
         if (miniChart) {
           try {
             miniChart.destroy();

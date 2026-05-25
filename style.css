@@ -118,6 +118,11 @@ header {
   color: var(--color-muted);
 }
 
+.header-updated[data-stale='true']::before {
+  content: '⚠ Stale · ';
+  color: var(--accent-pressure);
+}
+
 #theme-toggle {
   padding: 0.35rem 0.5rem;
   font-size: 0.8rem;
@@ -359,7 +364,7 @@ footer {
 #wind-direction-navigator {
   display: block;
   width: 100%;
-  height: 16px;
+  height: 28px;
   margin-top: 0.25rem;
   border-radius: 4px;
   cursor: grab;
@@ -544,6 +549,46 @@ footer {
 
   .wd-minichart-wrap {
     height: 140px;
+  }
+}
+
+@media (max-width: 639px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal {
+    max-width: 100%;
+    border-radius: 0.75rem 0.75rem 0 0;
+    max-height: 85vh;
+    transition: transform 300ms ease-out;
+    transform: translateY(0);
+  }
+
+  .modal-overlay.sheet-closing .modal {
+    transform: translateY(100%);
+  }
+
+  @starting-style {
+    .modal-overlay:not(.hidden) .modal {
+      transform: translateY(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal {
+      transition: none;
+    }
+  }
+
+  #pressure-navigator,
+  #temp-navigator,
+  #humidity-navigator,
+  #wind-navigator,
+  #precipitation-navigator,
+  #wind-direction-navigator {
+    height: 32px;
   }
 }
 
