@@ -19,15 +19,15 @@ function formatTimestamp(isoString) {
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
   updateThemeButton();
 }
 
 function updateThemeButton() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = isDark ? 'Light mode' : 'Dark mode';
+  if (btn) btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
 }
 
 function toggleTheme() {
