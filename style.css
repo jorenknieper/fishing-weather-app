@@ -33,6 +33,8 @@
   --color-error-bg:     #fff5f5;
   --color-error-border: #feb2b2;
   --color-error-text:   #c53030;
+
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html[data-theme='dark'] {
@@ -181,6 +183,8 @@ main {
   font-weight: 700;
   color: var(--color-card-value);
   line-height: 1;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 .card .unit {
@@ -457,6 +461,7 @@ footer {
   font-size: 0.65rem;
   color: var(--color-muted);
   font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
 }
 
 .wd-arrow--empty {
@@ -481,6 +486,7 @@ footer {
   font-size: 0.9rem;
   color: var(--color-card-value);
   font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
 }
 
 .wd-cell--active {
