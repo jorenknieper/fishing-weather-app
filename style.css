@@ -141,6 +141,15 @@ footer {
   color: var(--color-muted);
 }
 
+.build-info {
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
+}
+
+.build-info a {
+  color: inherit;
+}
+
 .card--clickable {
   cursor: pointer;
 }
