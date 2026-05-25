@@ -1,8 +1,8 @@
 {
-  "issueNumber": 71,
-  "issueTitle": "[P0-1] Dark mode as default with sun/moon SVG toggle in header",
-  "prNumber": 106,
-  "commitShaShort": "b99963c",
-  "commitShaFull": "b99963cbafc6318f34e0d0f5490e52e2150a36be",
-  "builtAt": "2026-05-25T11:52:51.852Z"
+  "issueNumber": 72,
+  "issueTitle": "[P0-2] Compact header: flex bar with location, last-updated, theme toggle",
+  "prNumber": 107,
+  "commitShaShort": "c7de0d7",
+  "commitShaFull": "c7de0d7c602b9dc006c66ffed1d5b32c151e35b3",
+  "builtAt": "2026-05-25T11:56:34.408Z"
 }
