@@ -251,6 +251,10 @@ footer {
   border-color: var(--border-subtle);
 }
 
+.card--hero.card--clickable:focus-visible {
+  outline-color: var(--accent-pressure);
+}
+
 .card--hero {
   grid-column: 1 / -1;
   border-top: 3px solid var(--accent-pressure);
@@ -519,6 +523,47 @@ footer {
 #wind-direction-minichart {
   width: 100% !important;
   height: 100% !important;
+}
+
+#chart-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 200;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  min-width: 100px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.ct-title {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.ct-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  line-height: 1.4;
+}
+
+.ct-label {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.ct-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 @media (width <= 375px) {
