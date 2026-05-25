@@ -1,29 +1,69 @@
 :root {
-  --color-bg: #f0f4f8;
-  --color-text: #1a202c;
-  --color-header-bg: #2b6cb0;
-  --color-header-text: #fff;
-  --color-card-bg: #fff;
-  --color-card-value: #2b6cb0;
-  --color-muted: #718096;
-  --color-error-bg: #fff5f5;
+  /* Maritime instrument palette — light */
+  --bg-base:         #f3f6f9;
+  --bg-surface:      #ffffff;
+  --border-subtle:   #d0d7de;
+  --text-primary:    #1f2328;
+  --text-muted:      #57606a;
+  --accent-pressure: #9a6700;
+  --accent-wind:     #1f7a6a;
+  --accent-temp:     #1a5490;
+  --accent-pressure-soft: #c9a256;
+  --accent-wind-soft:     #5fb3a1;
+  --accent-temp-soft:     #6aa6ce;
+  --overlay-scrim:        rgba(15, 23, 42, 0.55);
+  --button-ghost-border:  rgba(31, 35, 40, 0.15);
+  --button-ghost-hover:   rgba(31, 35, 40, 0.06);
+  --nav-track:            rgba(31, 35, 40, 0.12);
+
+  /* Semantic aliases */
+  --color-bg:           var(--bg-base);
+  --color-card-bg:      var(--bg-surface);
+  --color-text:         var(--text-primary);
+  --color-muted:        var(--text-muted);
+  --color-card-value:   var(--accent-temp);
+  --color-header-bg:    var(--bg-surface);
+  --color-header-text:  var(--text-primary);
+  --color-shadow:       rgb(0 0 0 / 8%);
+
+  /* Error colors — unchanged */
+  --color-error-bg:     #fff5f5;
   --color-error-border: #feb2b2;
-  --color-error-text: #c53030;
-  --color-shadow: rgb(0 0 0 / 8%);
+  --color-error-text:   #c53030;
 }
 
 html[data-theme='dark'] {
-  --color-bg: #1a202c;
-  --color-text: #e2e8f0;
-  --color-header-bg: #1e3a5f;
-  --color-header-text: #e2e8f0;
-  --color-card-bg: #2d3748;
-  --color-card-value: #63b3ed;
-  --color-muted: #a0aec0;
-  --color-error-bg: #2d1515;
+  /* Maritime instrument palette — dark */
+  --bg-base:         #0d1117;
+  --bg-surface:      #161b22;
+  --border-subtle:   #30363d;
+  --text-primary:    #e6edf3;
+  --text-muted:      #8b949e;
+  --accent-pressure: #f0c040;
+  --accent-wind:     #5fb3a1;
+  --accent-temp:     #6aa6ce;
+  --accent-pressure-soft: #8a6a20;
+  --accent-wind-soft:     #3c7a6e;
+  --accent-temp-soft:     #5588a8;
+  --overlay-scrim:        rgba(0, 0, 0, 0.65);
+  --button-ghost-border:  rgba(230, 237, 243, 0.25);
+  --button-ghost-hover:   rgba(230, 237, 243, 0.10);
+  --nav-track:            rgba(230, 237, 243, 0.10);
+
+  /* Semantic aliases */
+  --color-bg:           var(--bg-base);
+  --color-card-bg:      var(--bg-surface);
+  --color-text:         var(--text-primary);
+  --color-muted:        var(--text-muted);
+  --color-card-value:   var(--accent-temp);
+  --color-header-bg:    var(--bg-surface);
+  --color-header-text:  var(--text-primary);
+  --color-shadow:       rgb(0 0 0 / 30%);
+
+  /* Error colors — dark overrides */
+  --color-error-bg:     #2d1515;
   --color-error-border: #c53030;
-  --color-error-text: #feb2b2;
-  --color-shadow: rgb(0 0 0 / 30%);
+  --color-error-text:   #feb2b2;
 }
 
 *,
@@ -67,13 +107,13 @@ header .location {
   font-size: 0.8rem;
   background: transparent;
   color: var(--color-header-text);
-  border: 1px solid rgb(255 255 255 / 50%);
+  border: 1px solid var(--button-ghost-border);
   border-radius: 0.375rem;
   cursor: pointer;
 }
 
 #theme-toggle:hover {
-  background: rgb(255 255 255 / 15%);
+  background: var(--button-ghost-hover);
 }
 
 main {
@@ -166,7 +206,7 @@ footer {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgb(0 0 0 / 60%);
+  background: var(--overlay-scrim);
   display: flex;
   align-items: center;
   justify-content: center;

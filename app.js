@@ -1,3 +1,7 @@
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
 function degreesToCompass(degrees) {
   const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   const index = Math.round(degrees / 45) % 8;
@@ -127,12 +131,11 @@ function createChartModal(config) {
 
     const ctx = nav.getContext('2d');
     const n = navValues.length;
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     // Accent color re-read on every call so dark-mode toggle takes effect immediately
-    const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
+    const accentColor = cssVar(config.colors.accentToken);
 
     // Background track
-    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+    ctx.fillStyle = cssVar('--nav-track');
     ctx.fillRect(0, 0, w, h);
 
     // Viewport window
@@ -142,7 +145,7 @@ function createChartModal(config) {
     const rx2 = Math.min(w, (scale.max / denominator) * w);
     const rw = Math.max(2, rx2 - rx);
 
-    ctx.fillStyle = isDark ? 'rgba(99,179,237,0.4)' : 'rgba(43,108,176,0.25)';
+    ctx.fillStyle = cssVar(config.colors.accentSoftToken);
     ctx.fillRect(rx, 0, rw, h);
     ctx.strokeStyle = accentColor;
     ctx.lineWidth = 1.5;
@@ -237,10 +240,9 @@ function createChartModal(config) {
     const times = hourly.time.slice(startIndex, endIndex);
     const labels = times.map((t) => t.slice(11, 16));
 
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const textColor = isDark ? '#a0aec0' : '#718096';
-    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
-    const accentColor = isDark ? config.colors.accentDark : config.colors.accentLight;
+    const textColor = cssVar('--text-muted');
+    const gridColor = cssVar('--color-shadow');
+    const accentColor = cssVar(config.colors.accentToken);
 
     const { stepSize, snapTo, paddingBelow, paddingAbove, fallbackMin, fallbackMax, unit } =
       config.yAxis;
@@ -276,15 +278,18 @@ function createChartModal(config) {
       for (const s of config.series) {
         const vals = hourly[s.key].slice(startIndex, endIndex);
         allValid = allValid.concat(vals.filter((v) => v != null));
+        // Resolve color at render time (supports function or string)
+        const histColor = typeof s.historicalColor === 'function' ? s.historicalColor() : s.historicalColor;
+        const fcastColor = typeof s.forecastColor === 'function' ? s.forecastColor() : s.forecastColor;
         if (chartType === 'bar') {
           datasets.push(
-            buildBarDataset(s.historicalLabel, vals, splitAt, s.historicalColor, s.forecastColor),
+            buildBarDataset(s.historicalLabel, vals, splitAt, histColor, fcastColor),
           );
         } else {
           const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
           const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
-          datasets.push(buildDataset(s.historicalLabel, pastData, s.historicalColor, false));
-          datasets.push(buildDataset(s.forecastLabel, forecastData, s.forecastColor, true));
+          datasets.push(buildDataset(s.historicalLabel, pastData, histColor, false));
+          datasets.push(buildDataset(s.forecastLabel, forecastData, fcastColor, true));
         }
       }
       // Navigator uses first series for length reference
@@ -296,9 +301,11 @@ function createChartModal(config) {
       allValid = values.filter((v) => v != null);
       const pastData = values.map((v, i) => (i <= splitAt ? v : null));
       const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
+      const histColor = typeof config.colors.historical === 'function' ? config.colors.historical() : config.colors.historical;
+      const fcastColor = typeof config.colors.forecast === 'function' ? config.colors.forecast() : config.colors.forecast;
       datasets = [
-        buildDataset(config.historicalLabel, pastData, config.colors.historical, false),
-        buildDataset(config.forecastLabel, forecastData, config.colors.forecast, true),
+        buildDataset(config.historicalLabel, pastData, histColor, false),
+        buildDataset(config.forecastLabel, forecastData, fcastColor, true),
       ];
     }
 
@@ -453,20 +460,20 @@ const pressureModal = createChartModal({
       key: 'pressure_msl',
       historicalLabel: 'MSL',
       forecastLabel: 'MSL (forecast)',
-      historicalColor: '#2b6cb0',
-      forecastColor: '#63b3ed',
+      historicalColor: () => cssVar('--accent-pressure'),
+      forecastColor: () => cssVar('--accent-pressure-soft'),
     },
     {
       key: 'surface_pressure',
       historicalLabel: 'Surface',
       forecastLabel: 'Surface (forecast)',
-      historicalColor: '#276749',
-      forecastColor: '#68d391',
+      historicalColor: () => cssVar('--accent-wind'),
+      forecastColor: () => cssVar('--accent-wind-soft'),
     },
   ],
   colors: {
-    accentLight: '#2b6cb0',
-    accentDark: '#63b3ed',
+    accentToken: '--accent-pressure',
+    accentSoftToken: '--accent-pressure-soft',
   },
   yAxis: {
     unit: 'hPa',
@@ -505,18 +512,18 @@ const temperatureModal = createChartModal({
       key: 'temperature_2m',
       historicalLabel: 'Temperature',
       forecastLabel: 'Temperature (forecast)',
-      historicalColor: '#c53030',
-      forecastColor: '#fc8181',
+      historicalColor: () => cssVar('--accent-temp'),
+      forecastColor: () => cssVar('--accent-temp-soft'),
     },
     {
       key: 'apparent_temperature',
       historicalLabel: 'Feels Like',
       forecastLabel: 'Feels Like (forecast)',
-      historicalColor: '#dd6b20',
-      forecastColor: '#f6ad55',
+      historicalColor: () => cssVar('--accent-pressure'),
+      forecastColor: () => cssVar('--accent-pressure-soft'),
     },
   ],
-  colors: { accentLight: '#c53030', accentDark: '#fc8181' },
+  colors: { accentToken: '--accent-temp', accentSoftToken: '--accent-temp-soft' },
   yAxis: {
     unit: '°C',
     stepSize: 5,
@@ -553,11 +560,11 @@ const humidityModal = createChartModal({
       key: 'relative_humidity_2m',
       historicalLabel: 'Humidity',
       forecastLabel: 'Humidity (forecast)',
-      historicalColor: '#0987a0',
-      forecastColor: '#76e4f7',
+      historicalColor: () => cssVar('--accent-wind'),
+      forecastColor: () => cssVar('--accent-wind-soft'),
     },
   ],
-  colors: { accentLight: '#0987a0', accentDark: '#76e4f7' },
+  colors: { accentToken: '--accent-wind', accentSoftToken: '--accent-wind-soft' },
   yAxis: {
     unit: '%',
     stepSize: 10,
@@ -594,11 +601,11 @@ const windSpeedModal = createChartModal({
       key: 'wind_speed_10m',
       historicalLabel: 'Wind Speed',
       forecastLabel: 'Wind Speed (forecast)',
-      historicalColor: '#6b46c1',
-      forecastColor: '#b794f4',
+      historicalColor: () => cssVar('--accent-wind'),
+      forecastColor: () => cssVar('--accent-wind-soft'),
     },
   ],
-  colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
+  colors: { accentToken: '--accent-wind', accentSoftToken: '--accent-wind-soft' },
   yAxis: {
     unit: 'km/h',
     stepSize: 10,
@@ -636,11 +643,11 @@ const precipitationModal = createChartModal({
       key: 'precipitation',
       historicalLabel: 'Precipitation',
       forecastLabel: 'Precipitation (forecast)',
-      historicalColor: '#2b6cb0',
-      forecastColor: 'rgba(99,179,237,0.6)',
+      historicalColor: () => cssVar('--accent-temp'),
+      forecastColor: () => cssVar('--accent-temp-soft'),
     },
   ],
-  colors: { accentLight: '#2b6cb0', accentDark: '#63b3ed' },
+  colors: { accentToken: '--accent-temp', accentSoftToken: '--accent-temp-soft' },
   yAxis: {
     unit: 'mm',
     stepSize: 1,
@@ -677,7 +684,7 @@ const windDirectionModal = window.WindDirection.createModal({
   forecastHours: 168,
   initialViewportHours: 4,
   zoomMinRange: 4,
-  colors: { accentLight: '#6b46c1', accentDark: '#b794f4' },
+  colors: { accentToken: '--accent-wind', accentSoftToken: '--accent-wind-soft' },
 });
 
 function openWindDirectionModal() {
