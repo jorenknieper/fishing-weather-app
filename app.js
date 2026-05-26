@@ -238,8 +238,17 @@ function toggleTheme() {
   for (const cb of _themeRerenderCallbacks) cb();
 }
 
+// Suppress CSS transitions on first paint (#99): add class before theme init,
+// remove it after two animation frames so the initial colour is set instantly.
+document.documentElement.classList.add('no-transitions');
 initTheme();
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    document.documentElement.classList.remove('no-transitions');
+  });
+});
 
+// hourlyData is also exposed as window.hourlyData for js/pressure-inline.js
 let hourlyData = null;
 
 function makeDayLabelsPlugin(times, textColor) {
@@ -678,59 +687,9 @@ function createChartModal(config) {
   return { open, close, reset };
 }
 
-const pressureModal = createChartModal({
-  modalId: 'pressure-modal',
-  chartId: 'pressure-chart',
-  navigatorId: 'pressure-navigator',
-  noDataId: 'pressure-no-data',
-  getData: () => hourlyData,
-  series: [
-    {
-      key: 'pressure_msl',
-      historicalLabel: 'MSL',
-      forecastLabel: 'MSL (forecast)',
-      historicalColor: () => cssVar('--accent-pressure'),
-      forecastColor: () => cssVar('--accent-pressure-soft'),
-      order: 1,
-    },
-    {
-      key: 'surface_pressure',
-      historicalLabel: 'Surface',
-      forecastLabel: 'Surface (forecast)',
-      historicalColor: () => cssVar('--accent-wind'),
-      forecastColor: () => cssVar('--accent-wind-soft'),
-      alwaysDash: true,
-      order: 2,
-    },
-  ],
-  colors: {
-    accentToken: '--accent-pressure',
-    accentSoftToken: '--accent-pressure-soft',
-  },
-  yAxis: {
-    unit: 'hPa',
-    stepSize: 5,
-    snapTo: 5,
-    paddingBelow: 5,
-    paddingAbove: 5,
-    fallbackMin: 990,
-    fallbackMax: 1040,
-  },
-  historyHours: 168,
-  forecastHours: 168,
-  initialViewportHours: 24,
-  zoomMinRange: 4,
-});
-
-// Thin wrappers so index.html inline onclick handlers continue to work
-function openPressureModal() {
-  pressureModal.open();
-}
-function closePressureModal() {
-  pressureModal.close();
-}
+// resetPressureChart is called from index.html onclick; delegates to js/pressure-inline.js
 function resetPressureChart() {
-  pressureModal.reset();
+  window.PressureInline?.reset();
 }
 
 const temperatureModal = createChartModal({
@@ -958,8 +917,6 @@ document.addEventListener('keydown', function (e) {
       closePrecipitationModal();
     else if (!document.getElementById('temp-modal').classList.contains('hidden'))
       closeTemperatureModal();
-    else if (!document.getElementById('pressure-modal').classList.contains('hidden'))
-      closePressureModal();
   }
 });
 
@@ -1153,7 +1110,9 @@ async function loadWeather() {
     if (!data.current) throw new Error('Missing current block');
 
     hourlyData = data.hourly || null;
+    window.hourlyData = hourlyData; // consumed by js/pressure-inline.js
     renderWeather(data.current);
+    window.PressureInline?.render();
   } catch (err) {
     console.error('Failed to load weather data:', err);
     showError();

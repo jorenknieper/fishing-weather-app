@@ -100,6 +100,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 header {
@@ -111,6 +112,7 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .header-location {
@@ -187,7 +189,12 @@ main {
   flex-direction: column;
   gap: 0.25rem;
   box-shadow: 0 1px 3px var(--color-shadow);
-  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 
 .card .label {
@@ -236,6 +243,7 @@ footer {
   padding: 1rem;
   font-size: 0.8rem;
   color: var(--color-muted);
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
 .build-info {
@@ -638,6 +646,82 @@ footer {
   }
 }
 
+/* Keyboard shortcuts help (#98) */
+.keyboard-help {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+  text-align: left;
+  display: inline-block;
+}
+
+.keyboard-help summary {
+  cursor: pointer;
+  color: var(--color-muted);
+  list-style: none;
+  font-size: 0.75rem;
+}
+
+.keyboard-help summary::-webkit-details-marker {
+  display: none;
+}
+
+.keyboard-help summary::before {
+  content: '▸ ';
+}
+
+details[open].keyboard-help summary::before {
+  content: '▾ ';
+}
+
+.keyboard-help ul {
+  list-style: none;
+  padding: 0.4rem 0 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.keyboard-help li {
+  padding: 0.1rem 0;
+}
+
+.keyboard-help kbd {
+  display: inline-block;
+  padding: 0.1em 0.35em;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  background: var(--bg-base);
+  color: var(--text-primary);
+}
+
+/* Inline pressure chart (#100) */
+.pressure-inline {
+  margin-top: 1rem;
+  background: var(--color-card-bg);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px var(--color-shadow);
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.pressure-inline__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.pressure-inline__title {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
 /* Drag handle for mobile bottom sheet (#97) */
 .modal-drag-handle {
   display: none;
@@ -694,9 +778,19 @@ footer {
   }
 }
 
+/* Suppress all transitions on first paint (#99) */
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  body,
+  header,
+  footer,
   .card {
-    transition: border-color 120ms ease, box-shadow 120ms ease;
+    transition: none !important;
   }
   .card--clickable:hover,
   .card--clickable:focus-visible {
