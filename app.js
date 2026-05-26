@@ -953,10 +953,11 @@ function renderWeather(current) {
 
   document.getElementById('weather-grid').classList.remove('hidden');
   renderPressureSparkline(hourlyData);
-  renderWindRose(hourlyData);
   renderHourlyRibbon(hourlyData);
   renderConditionSummary(current, hourlyData);
-  renderWindCompassDial();
+  renderWindCompassDial(current);
+  renderWindVerdict(hourlyData);
+  renderWindMicroStrip(hourlyData);
 }
 
 async function loadWeather() {
