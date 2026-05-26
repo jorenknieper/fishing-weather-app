@@ -438,6 +438,56 @@ footer {
 #wind-speed[data-wind-bucket='strong']   { color: var(--wind-strong); }
 #wind-speed[data-wind-bucket='stormy']   { color: var(--wind-stormy); }
 
+/* Wind verdict word (#125) */
+.wind-verdict {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+
+.wind-verdict[data-verdict='veering']  { color: var(--accent-wind); }
+.wind-verdict[data-verdict='backing']  { color: var(--accent-pressure); }
+.wind-verdict[data-verdict='shifting'] { color: var(--accent-temp); }
+.wind-verdict[data-verdict='steady']   { color: var(--text-muted); }
+
+/* 12h micro-barb strip (#126) */
+.wind-micro-strip {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  margin-top: 0.6rem;
+  scrollbar-width: none;
+  pointer-events: none;
+}
+
+.wind-micro-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.wind-micro-barb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  width: calc(100% / 12);
+  min-width: 28px;
+  color: var(--text-muted);
+}
+
+.wind-micro-barb--now .wind-micro-label {
+  color: var(--accent-wind);
+  font-weight: 700;
+}
+
+.wind-micro-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 /* Condition summary line (#93) */
 .condition-summary {
   font-size: 0.8rem;
@@ -450,18 +500,6 @@ footer {
 /* History narrative line (#104) */
 .condition-history {
   opacity: 0.75;
-}
-
-/* Wind rose (#103) */
-.wind-rose {
-  display: block;
-  margin-top: 0.4rem;
-  line-height: 0;
-  color: var(--accent-wind);
-}
-
-.wind-rose-svg {
-  display: block;
 }
 
 .modal-overlay {

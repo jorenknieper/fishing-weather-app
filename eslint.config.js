@@ -20,9 +20,10 @@ module.exports = [
         toggleDetails: 'readonly',
         initDetails: 'readonly',
         synthesizePressureHistory: 'readonly',
-        renderWindRose: 'readonly',
         renderHourlyRibbon: 'readonly',
         renderWindCompassDial: 'readonly',
+        renderWindVerdict: 'readonly',
+        renderWindMicroStrip: 'readonly',
         // js/chart-plugins.js globals consumed by app.js
         getOrCreateTooltipEl: 'readonly',
         makeExternalTooltipHandler: 'readonly',
@@ -68,6 +69,7 @@ module.exports = [
         cssVar: 'readonly',
         setupDoubleTap: 'readonly',
         _themeRerenderCallbacks: 'readonly',
+        degreesToCompass: 'readonly',
         // js/chart-plugins.js globals
         makeDayLabelsPlugin: 'readonly',
         makeNowLinePlugin: 'readonly',
