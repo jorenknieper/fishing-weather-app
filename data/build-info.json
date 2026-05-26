@@ -1,8 +1,8 @@
 {
-  "issueNumber": 132,
-  "issueTitle": "Dual-series wind chart (sustained + gusts) in modal",
-  "prNumber": 140,
-  "commitShaShort": "84f0b0d",
-  "commitShaFull": "84f0b0dfc75c931251a25c543f4b3ee761e5c438",
-  "builtAt": "2026-05-26T14:14:26.214Z"
+  "issueNumber": 141,
+  "issueTitle": "`renderWindArrow` clean SVG arrow primitive",
+  "prNumber": 148,
+  "commitShaShort": "0f9d2da",
+  "commitShaFull": "0f9d2da7b004e4e0791505c3cee3c532c8a153dd",
+  "builtAt": "2026-05-26T16:54:25.606Z"
 }
