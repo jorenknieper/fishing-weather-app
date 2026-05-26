@@ -1,8 +1,8 @@
 {
-  "issueNumber": 95,
-  "issueTitle": "[P2-6] Respect prefers-color-scheme on first load before localStorage is set",
-  "prNumber": 117,
-  "commitShaShort": "07ab1ed",
-  "commitShaFull": "07ab1ed49223a41fb5c8973f7ae4b433dd7e05ed",
-  "builtAt": "2026-05-25T13:43:41.756Z"
+  "issueNumber": 98,
+  "issueTitle": "[P2-9] Expanded keyboard navigation: tab through cards, Enter/Space opens, Escape closes",
+  "prNumber": 118,
+  "commitShaShort": "9295751",
+  "commitShaFull": "9295751ad0965b6937821651257a3ea72cecaa57",
+  "builtAt": "2026-05-26T09:32:06.385Z"
 }
