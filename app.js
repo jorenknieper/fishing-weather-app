@@ -891,6 +891,14 @@ function renderWeather(current) {
   // Apply wind bucket colour (#92)
   const windBucket = getWindBucket(current.wind_speed_10m);
   windSpeedEl.dataset.windBucket = windBucket ?? '';
+  const gustsEl = document.getElementById('wind-gusts');
+  if (gustsEl) {
+    const gustKmh = current.wind_gusts_10m;
+    gustsEl.textContent = gustKmh != null ? Math.round(gustKmh) : '–';
+    const gustRatio = (current.wind_speed_10m != null && current.wind_speed_10m > 0 && gustKmh != null)
+      ? gustKmh / current.wind_speed_10m : 0;
+    gustsEl.style.color = gustRatio > 1.5 ? 'var(--wind-stormy)' : '';
+  }
   const windDir = current.wind_direction_10m;
   document.getElementById('wind-direction').textContent =
     windDir != null ? degreesToCompass(windDir) : '–';
@@ -924,6 +932,7 @@ function renderWeather(current) {
   renderConditionSummary(current, hourlyData);
   renderWindCompassDial(current);
   renderWindVerdict(hourlyData);
+  renderWindStability(current, hourlyData);
   renderWindMicroStrip(hourlyData);
 }
 

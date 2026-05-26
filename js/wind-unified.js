@@ -14,6 +14,7 @@
   let windSpeeds = null;
   let windGusts = null;
   let startIndex = 0;
+  let nowSplitAt = 0;
   let initialMin = 0;
   let initialMax = 0;
   let dragging = false;
@@ -90,7 +91,7 @@
     window.addEventListener('touchend', onEnd);
   }
 
-  // -- Barb strip (#134) + Rotation tape (#135) --
+  // -- Arrow strip (#146) + Rotation tape (#135) --
 
   function drawBarbsAndTape() {
     if (!chart || !windTimes) return;
@@ -104,7 +105,6 @@
     const scale = chart.scales.x;
     if (!scale) return;
     const visibleRange = Math.round(scale.max - scale.min);
-    // Thin factor: show every nth barb to prevent overlap
     let step;
     if (visibleRange <= 48) step = 1;
     else if (visibleRange <= 168) step = 3;
@@ -122,27 +122,25 @@
       const dir = windDirs ? windDirs[startIndex + i] : null;
       const speedKmh = windSpeeds ? windSpeeds[startIndex + i] : null;
       const gustKmh = windGusts ? windGusts[startIndex + i] : null;
-      const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
-      // px is pixels from chart canvas left; strip div shares the same width as the canvas
       const px = scale.getPixelForValue(i);
       const timeStr = windTimes[startIndex + i] || '';
       const hour = timeStr.slice(11, 16);
       const cardinal = dir != null ? degreesToCompass(dir) : '–';
       const speedDisplay = speedKmh != null ? Math.round(speedKmh) : '–';
       const gustDisplay = gustKmh != null ? Math.round(gustKmh) : '–';
-      const barbSvg = (dir != null && speedKt != null)
-        ? renderWindBarb(dir, speedKt, { size: BARB_SIZE })
+      const arrowSvg = dir != null
+        ? renderWindArrow(dir, { size: BARB_SIZE, speedKmh })
         : `<svg width="${BARB_SIZE}" height="${BARB_SIZE}" aria-hidden="true"></svg>`;
       const dataAttrs = `data-idx="${i}" data-dir="${dir != null ? dir : ''}" data-speed="${speedKmh != null ? speedKmh : ''}" data-gust="${gustKmh != null ? gustKmh : ''}" data-time="${hour}" data-cardinal="${cardinal}"`;
       html +=
         `<span class="wind-barb-cell" tabindex="0" role="button" aria-label="${hour} ${cardinal} ${speedDisplay} km/h gusts ${gustDisplay} km/h" ` +
         `style="left:${px.toFixed(1)}px;width:${BARB_SIZE}px;" ${dataAttrs}>` +
-        barbSvg +
+        arrowSvg +
+        `<span class="wind-barb-cell__hour">${hour.slice(0, 2)}</span>` +
         `</span>`;
     }
     el.innerHTML = html;
 
-    // Attach tap/click handlers for stats panel (#136)
     el.querySelectorAll('.wind-barb-cell').forEach((cell) => {
       cell.addEventListener('click', onBarbActivate);
       cell.addEventListener('keydown', (e) => {
@@ -179,7 +177,7 @@
     el.innerHTML = html;
   }
 
-  // -- Stats panel (#136) --
+  // -- Stats panel (#147) — persistent pipe-separated bar --
 
   function onBarbActivate(e) {
     const cell = e.currentTarget || e.target.closest('.wind-barb-cell') || this;
@@ -192,53 +190,57 @@
     const panel = document.getElementById('wind-barb-stats');
     if (!panel) return;
 
-    const timeStr = windTimes ? windTimes[startIndex + idx] : '';
+    const globalIdx = startIndex + idx;
+    const timeStr = windTimes ? windTimes[globalIdx] : '';
     const localTime = timeStr ? new Date(timeStr.replace('T', ' ') + ':00')
       .toLocaleString('en-BE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Brussels' }) : '–';
-    const dir = windDirs ? windDirs[startIndex + idx] : null;
-    const speedKmh = windSpeeds ? windSpeeds[startIndex + idx] : null;
-    const gustKmh = windGusts ? windGusts[startIndex + idx] : null;
+    const dir = windDirs ? windDirs[globalIdx] : null;
+    const speedKmh = windSpeeds ? windSpeeds[globalIdx] : null;
+    const gustKmh = windGusts ? windGusts[globalIdx] : null;
     const cardinal = dir != null ? degreesToCompass(dir) : '–';
-    const dirDisplay = dir != null ? `${cardinal} ${Math.round(dir)}°` : '–';
+    const dirDisplay = dir != null ? `${cardinal} (${Math.round(dir)}°)` : '–';
     const speedDisplay = speedKmh != null ? Math.round(speedKmh) + ' km/h' : '–';
     const gustDisplay = gustKmh != null ? Math.round(gustKmh) + ' km/h' : '–';
 
-    let rotationText = '–';
-    if (idx > 0 && windDirs) {
-      const { verdict, netDegrees } = computeWindRotation(windDirs, startIndex + idx - 1, 1);
-      if (verdict !== 'steady') {
-        const sign = netDegrees >= 0 ? '+' : '';
-        rotationText = `${sign}${Math.round(netDegrees)}° ${verdict}`;
+    // TREND via 6h window from selected index
+    let trendText = 'steady';
+    if (windDirs) {
+      const { verdict } = computeWindRotation(windDirs, globalIdx, 6);
+      if (verdict === 'veering' || verdict === 'backing') {
+        const futureIdx = Math.min(windDirs.length - 1, globalIdx + 6);
+        const futureDir = windDirs[futureIdx];
+        const hint = futureDir != null ? ' ' + degreesToCompass(futureDir) : '';
+        trendText = verdict + hint;
       } else {
-        rotationText = `${Math.round(netDegrees)}° steady`;
+        trendText = verdict;
       }
     }
 
-    panel.innerHTML =
-      `<span class="wind-barb-stats__time">${localTime}</span>` +
-      `<span class="wind-barb-stats__dir">${dirDisplay}</span>` +
-      `<span class="wind-barb-stats__speed">Sustained: ${speedDisplay}</span>` +
-      `<span class="wind-barb-stats__gusts">Gusts: ${gustDisplay}</span>` +
-      `<span class="wind-barb-stats__rotation">${rotationText}</span>`;
-    panel.classList.remove('hidden');
+    // STABILITY via gust ratio + 3h variance
+    let stability = 'steady';
+    if (windDirs) {
+      const gustRatio = (speedKmh != null && speedKmh > 0 && gustKmh != null) ? gustKmh / speedKmh : 0;
+      const { variance } = computeWindRotation(windDirs, globalIdx, 3);
+      if (gustRatio > 1.5) stability = 'gusty';
+      else if (variance > 100) stability = 'variable';
+    }
 
-    // Mark active barb
+    panel.innerHTML =
+      `<span class="wind-stats-seg wind-stats-seg--time">${localTime}</span>` +
+      `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
+      `<span class="wind-stats-seg">FROM: ${dirDisplay}</span>` +
+      `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
+      `<span class="wind-stats-seg">SUSTAINED: ${speedDisplay}</span>` +
+      `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
+      `<span class="wind-stats-seg">GUSTS: ${gustDisplay}</span>` +
+      `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
+      `<span class="wind-stats-seg">TREND: ${trendText}</span>` +
+      `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
+      `<span class="wind-stats-seg">STABILITY: ${stability}</span>`;
+
     document.querySelectorAll('.wind-barb-cell--active').forEach((c) => c.classList.remove('wind-barb-cell--active'));
     if (sourceCell) sourceCell.classList.add('wind-barb-cell--active');
   }
-
-  function hideBarbStats() {
-    const panel = document.getElementById('wind-barb-stats');
-    if (panel) panel.classList.add('hidden');
-    document.querySelectorAll('.wind-barb-cell--active').forEach((c) => c.classList.remove('wind-barb-cell--active'));
-  }
-
-  // Clicking outside the barb strip hides stats panel
-  overlayEl.addEventListener('click', (e) => {
-    if (!e.target.closest('#wind-unified-barb-strip') && !e.target.closest('#wind-barb-stats')) {
-      hideBarbStats();
-    }
-  });
 
   // -- Chart (#132) --
 
@@ -274,6 +276,7 @@
     startIndex = Math.max(0, boundaryIndex - HIST_HOURS);
     const endIndex = Math.min(hourly.time.length, boundaryIndex + FORECAST_HOURS);
     const splitAt = boundaryIndex - startIndex;
+    nowSplitAt = splitAt;
 
     windTimes = hourly.time;
     windDirs = hourly.wind_direction_10m;
@@ -418,7 +421,12 @@
       chart.update('none');
     }
 
-    requestAnimationFrame(() => { drawNavigator(); drawBarbsAndTape(); });
+    requestAnimationFrame(() => {
+      drawNavigator();
+      drawBarbsAndTape();
+      // Default stats bar to now-cell (#147)
+      showBarbStats(nowSplitAt, null);
+    });
   }
 
   // -- Compass dial (#131) --
@@ -437,7 +445,6 @@
     overlayEl.classList.remove('hidden');
     overlayEl.querySelector('.modal-close').focus();
     focusTrap.activate();
-    hideBarbStats();
     renderDial();
     renderChart();
   }

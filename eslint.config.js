@@ -25,6 +25,7 @@ module.exports = [
         renderWindCompassDialInto: 'readonly',
         renderWindVerdict: 'readonly',
         renderWindMicroStrip: 'readonly',
+        renderWindStability: 'readonly',
         // js/chart-plugins.js globals consumed by app.js
         getOrCreateTooltipEl: 'readonly',
         makeExternalTooltipHandler: 'readonly',
@@ -80,6 +81,7 @@ module.exports = [
         makeNowLinePlugin: 'readonly',
         // js/dashboard-features.js globals
         computeWindRotation: 'readonly',
+        renderWindArrow: 'readonly',
         renderWindBarb: 'readonly',
         renderWindCompassDialInto: 'readonly',
       },

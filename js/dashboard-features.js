@@ -131,7 +131,60 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
   );
 }
 
-// #123/#124 — compass bezel with optional barb + speed/gust overlay
+// #141 — clean filled-arrow SVG; arrow points WHERE wind blows TO (rotation = dirFrom + 180)
+function renderWindArrow(dirFromDeg, { size = 48, speedKmh = null } = {}) {
+  const cx = size / 2;
+  const cy = size / 2;
+
+  if (speedKmh !== null && speedKmh < 5) {
+    const r = size * 0.12;
+    return (
+      `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" ` +
+      `focusable="false" aria-hidden="true">` +
+      `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(2)}" ` +
+      `fill="none" stroke="currentColor" stroke-width="1.5"/>` +
+      `</svg>`
+    );
+  }
+
+  const rotation = ((dirFromDeg + 180) % 360 + 360) % 360;
+  const arrowLen = size * 0.5;
+  const headH = arrowLen * 0.26;
+  const headW = size * 0.36;
+  const shaftW = Math.max(1.5, size * 0.1);
+  const tipY = cy - arrowLen;
+  const headBaseY = tipY + headH;
+
+  return (
+    `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" ` +
+    `style="transform:rotate(${rotation}deg);" focusable="false" aria-hidden="true">` +
+    `<polygon points="${cx},${tipY.toFixed(2)} ${(cx - headW / 2).toFixed(2)},${headBaseY.toFixed(2)} ${(cx + headW / 2).toFixed(2)},${headBaseY.toFixed(2)}" ` +
+    `fill="currentColor"/>` +
+    `<rect x="${(cx - shaftW / 2).toFixed(2)}" y="${headBaseY.toFixed(2)}" ` +
+    `width="${shaftW.toFixed(2)}" height="${(cy - headBaseY).toFixed(2)}" ` +
+    `fill="currentColor" rx="1"/>` +
+    `</svg>`
+  );
+}
+
+// Internal helper: arrow polygon + rect SVG content (no wrapper, no rotation) for embedding
+// inside a parent SVG <g> element. Caller applies translate and rotate transforms.
+function _windArrowPathContent(size) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const arrowLen = size * 0.5;
+  const headH = arrowLen * 0.26;
+  const headW = size * 0.36;
+  const shaftW = Math.max(1.5, size * 0.1);
+  const tipY = cy - arrowLen;
+  const headBaseY = tipY + headH;
+  return (
+    `<polygon points="${cx},${tipY.toFixed(2)} ${(cx - headW / 2).toFixed(2)},${headBaseY.toFixed(2)} ${(cx + headW / 2).toFixed(2)},${headBaseY.toFixed(2)}" fill="currentColor"/>` +
+    `<rect x="${(cx - shaftW / 2).toFixed(2)}" y="${headBaseY.toFixed(2)}" width="${shaftW.toFixed(2)}" height="${(cy - headBaseY).toFixed(2)}" fill="currentColor" rx="1"/>`
+  );
+}
+
+// #142 — compass bezel with clean arrow + fix orientation (arrow points TO direction)
 // #131 — size parameter added so the modal can render at a larger size
 function _buildCompassDialSvg(current, SIZE) {
   const cx = SIZE / 2;
@@ -142,8 +195,6 @@ function _buildCompassDialSvg(current, SIZE) {
   const tickInnerMinor = R - 6;  // minor tick (intercardinal) length
   const labelR = R - 16;         // radius for N/E/S/W label centres
   const fontSize = Math.round(SIZE * (10 / 120));
-  const speedFontSize = Math.round(SIZE * (11 / 120));
-  const gustFontSize = Math.round(SIZE * (8 / 120));
 
   const cardinals = [
     { label: 'N', angle: 0 },
@@ -184,37 +235,26 @@ function _buildCompassDialSvg(current, SIZE) {
       `stroke="var(--border-subtle)" stroke-width="1" stroke-linecap="round"/>`;
   }
 
-  svg += `<circle cx="${cx}" cy="${cy}" r="${SIZE * 0.22}" ` +
-    `fill="var(--bg-base)" stroke="var(--border-subtle)" stroke-width="0.75" opacity="0.6"/>`;
-
   if (current) {
     const speedKmh = current.wind_speed_10m;
-    const gustKmh = current.wind_gusts_10m;
     const dirDeg = current.wind_direction_10m;
-    const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
 
-    if (dirDeg != null && speedKt != null) {
-      const barbSize = SIZE * 0.55;
-      const rotation = ((dirDeg % 360) + 360) % 360;
-      const offset = (SIZE - barbSize) / 2;
-      svg += `<g transform="translate(${offset.toFixed(1)},${offset.toFixed(1)}) rotate(${rotation},${(barbSize/2).toFixed(1)},${(barbSize/2).toFixed(1)})" ` +
+    if (dirDeg != null && speedKmh != null) {
+      const arrowSize = SIZE * 0.6;
+      // Arrow points TO direction: rotation = (dirFrom + 180) % 360
+      const rotation = ((dirDeg + 180) % 360 + 360) % 360;
+      const offset = (SIZE - arrowSize) / 2;
+      svg += `<g transform="translate(${offset.toFixed(1)},${offset.toFixed(1)}) rotate(${rotation},${(arrowSize / 2).toFixed(1)},${(arrowSize / 2).toFixed(1)})" ` +
         `color="var(--accent-wind)">`;
-      svg += _windBarbPaths(speedKt, barbSize);
+      if (speedKmh < 5) {
+        const r = arrowSize * 0.12;
+        const ac = arrowSize / 2;
+        svg += `<circle cx="${ac.toFixed(1)}" cy="${ac.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="currentColor" stroke-width="1.5"/>`;
+      } else {
+        svg += _windArrowPathContent(arrowSize);
+      }
       svg += `</g>`;
     }
-
-    const speedLabel = speedKmh != null ? Math.round(speedKmh) : '–';
-    svg += `<text x="${cx.toFixed(1)}" y="${(cy - 3).toFixed(1)}" ` +
-      `text-anchor="middle" dominant-baseline="auto" ` +
-      `font-size="${speedFontSize}" font-weight="700" fill="var(--accent-wind)">${speedLabel}</text>`;
-
-    const gustLabel = gustKmh != null ? Math.round(gustKmh) : '–';
-    const gustFactor = (speedKmh != null && gustKmh != null && speedKmh > 0)
-      ? gustKmh / speedKmh : 0;
-    const gustColor = gustFactor > 1.5 ? 'var(--wind-stormy)' : 'var(--text-muted)';
-    svg += `<text x="${cx.toFixed(1)}" y="${(cy + 8).toFixed(1)}" ` +
-      `text-anchor="middle" dominant-baseline="auto" ` +
-      `font-size="${gustFontSize}" fill="${gustColor}">G ${gustLabel}</text>`;
   }
 
   svg += `</svg>`;
@@ -231,59 +271,6 @@ function renderWindCompassDial(current) {
 function renderWindCompassDialInto(el, current, size) {
   if (!el) return;
   el.innerHTML = _buildCompassDialSvg(current, size);
-}
-
-// Internal helper: barb shaft + feather path elements for embedding inside a parent SVG group.
-// The barb is drawn un-rotated (pointing up), sized to `size`. Caller applies rotation.
-function _windBarbPaths(speedKt, size) {
-  const cx = size / 2;
-  const cy = size / 2;
-
-  if (speedKt < 3) {
-    const r = size * 0.12;
-    return `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" ` +
-      `fill="none" stroke="currentColor" stroke-width="1.5"/>`;
-  }
-
-  const shaftLen = size * 0.42;
-  const barbW = size * 0.22;
-  const barbStep = size * 0.07;
-  const pennantH = size * 0.13;
-  const shaftTop = cy - shaftLen;
-  const shaftBot = cy;
-
-  let remaining = Math.round(speedKt);
-  const pennants = Math.floor(remaining / 50);
-  remaining -= pennants * 50;
-  const fulls = Math.floor(remaining / 10);
-  remaining -= fulls * 10;
-  const halves = Math.floor(remaining / 5);
-
-  let paths = `<line x1="${cx.toFixed(1)}" y1="${shaftBot.toFixed(1)}" ` +
-    `x2="${cx.toFixed(1)}" y2="${shaftTop.toFixed(1)}" ` +
-    `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
-
-  let yOff = shaftTop;
-  for (let p = 0; p < pennants; p++) {
-    const yBase = yOff + pennantH;
-    paths += `<polygon points="${cx.toFixed(1)},${yOff.toFixed(1)} ` +
-      `${(cx + barbW).toFixed(1)},${((yOff + yBase) / 2).toFixed(1)} ` +
-      `${cx.toFixed(1)},${yBase.toFixed(1)}" fill="currentColor"/>`;
-    yOff = yBase + barbStep * 0.3;
-  }
-  for (let f = 0; f < fulls; f++) {
-    paths += `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
-      `x2="${(cx + barbW).toFixed(1)}" y2="${(yOff + barbStep * 0.8).toFixed(1)}" ` +
-      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
-    yOff += barbStep;
-  }
-  for (let h = 0; h < halves; h++) {
-    paths += `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
-      `x2="${(cx + barbW * 0.5).toFixed(1)}" y2="${(yOff + barbStep * 0.4).toFixed(1)}" ` +
-      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
-    yOff += barbStep;
-  }
-  return paths;
 }
 
 // #125 — wind verdict word rendered below the dial
@@ -315,11 +302,17 @@ function renderWindVerdict(hourly) {
   }
 
   const { verdict } = computeWindRotation(hourly.wind_direction_10m, nowIdx, 24);
-  el.textContent = verdict;
+  let verdictText = verdict;
+  if (verdict === 'veering' || verdict === 'backing') {
+    const futureIdx = Math.min(hourly.wind_direction_10m.length - 1, nowIdx + 24);
+    const futureDir = hourly.wind_direction_10m[futureIdx];
+    if (futureDir != null) verdictText = `${verdict} ${degreesToCompass(futureDir)}`;
+  }
+  el.textContent = verdictText;
   el.dataset.verdict = verdict;
 }
 
-// #126 — 12h micro-barb strip below the wind dial
+// #144 — 11h micro-arrow strip: 4-row CSS grid (arrow / km/h / GUSTS / HH), no scroll
 function renderWindMicroStrip(hourly) {
   const el = document.getElementById('wind-micro-strip');
   if (!el) return;
@@ -335,29 +328,49 @@ function renderWindMicroStrip(hourly) {
   let nowIdx = hourly.time.findIndex((t) => t >= nowISO);
   if (nowIdx === -1) nowIdx = hourly.time.length;
 
-  const HOURS = 12;
-  const BARB_SIZE = 24;
-  let html = '';
-  for (let i = 0; i < HOURS; i++) {
+  const COLS = 11;
+  const ARROW_SIZE = 22;
+  const hasGusts = Array.isArray(hourly.wind_gusts_10m);
+
+  // Collect column data first
+  const cols = [];
+  for (let i = 0; i < COLS; i++) {
     const idx = nowIdx + i;
     if (idx >= hourly.time.length) break;
     const dir = hourly.wind_direction_10m[idx];
     const speedKmh = hourly.wind_speed_10m[idx];
-    const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
-    const hour = hourly.time[idx].slice(11, 16);
+    const gustKmh = hasGusts ? hourly.wind_gusts_10m[idx] : null;
+    const hour = hourly.time[idx].slice(11, 13);
     const cardinal = dir != null ? degreesToCompass(dir) : '–';
     const speedDisplay = speedKmh != null ? Math.round(speedKmh) : '–';
-    const titleText = `${hour} — ${cardinal} ${speedDisplay} km/h`;
-    const isNow = i === 0;
-    const barbSvg = dir != null && speedKt != null
-      ? renderWindBarb(dir, speedKt, { size: BARB_SIZE })
-      : `<svg width="${BARB_SIZE}" height="${BARB_SIZE}" aria-hidden="true"></svg>`;
-    html +=
-      `<span class="wind-micro-barb${isNow ? ' wind-micro-barb--now' : ''}" title="${titleText}">` +
-      barbSvg +
-      `<span class="wind-micro-label">${isNow ? 'now' : hour}</span>` +
-      `</span>`;
+    const gustDisplay = gustKmh != null ? Math.round(gustKmh) : '–';
+    const isGusty = speedKmh != null && speedKmh > 0 && gustKmh != null && gustKmh / speedKmh > 1.5;
+    const titleText = `${hour}:00 — ${cardinal} ${speedDisplay} km/h`;
+    cols.push({ dir, speedKmh, gustDisplay, hour, isGusty, titleText, isNow: i === 0, speedDisplay });
   }
+
+  // CSS grid: column-flow; row 1=arrows, row 2=speeds, row 3=gusts, row 4=hours
+  // First column is the row-label column
+  let html = '';
+  // Label column (4 cells)
+  html += `<span class="wind-micro-lbl"></span>`;
+  html += `<span class="wind-micro-lbl wind-micro-lbl--row">km/h</span>`;
+  html += `<span class="wind-micro-lbl wind-micro-lbl--row">GUSTS</span>`;
+  html += `<span class="wind-micro-lbl"></span>`;
+
+  // Data columns: emit 4 cells per column (arrow, speed, gust, hour)
+  for (const col of cols) {
+    const arrowSvg = col.dir != null
+      ? renderWindArrow(col.dir, { size: ARROW_SIZE, speedKmh: col.speedKmh })
+      : `<svg width="${ARROW_SIZE}" height="${ARROW_SIZE}" aria-hidden="true"></svg>`;
+    html +=
+      `<span class="wind-micro-cell__arrow${col.isNow ? ' wind-micro-cell--now' : ''}" title="${col.titleText}" aria-hidden="true">` +
+      arrowSvg + `</span>`;
+    html += `<span class="wind-micro-cell__speed">${col.speedDisplay}</span>`;
+    html += `<span class="wind-micro-cell__gust${col.isGusty ? ' wind-micro-cell__gust--stormy' : ''}">${col.gustDisplay}</span>`;
+    html += `<span class="wind-micro-cell__hour${col.isNow ? ' wind-micro-cell--now' : ''}">${col.isNow ? 'now' : col.hour}</span>`;
+  }
+
   el.innerHTML = html;
 }
 
@@ -509,4 +522,35 @@ function renderHourlyRibbon(hourly) {
 
   el.innerHTML = html;
   el.classList.remove('hidden');
+}
+
+// #143 — wind stability indicator: gusty / variable / steady
+function renderWindStability(current, hourly) {
+  const el = document.getElementById('wind-stability');
+  if (!el) return;
+
+  if (!hourly?.wind_direction_10m || !hourly?.time) { el.textContent = '–'; return; }
+
+  const nowISO = new Date()
+    .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
+    .slice(0, 16)
+    .replace(' ', 'T');
+  let nowIdx = -1;
+  for (let i = 0; i < hourly.time.length; i++) {
+    if (hourly.time[i] <= nowISO) nowIdx = i;
+    else break;
+  }
+  if (nowIdx < 0 || hourly.wind_direction_10m.length - nowIdx < 6) { el.textContent = '–'; return; }
+
+  const speedKmh = current?.wind_speed_10m;
+  const gustKmh = current?.wind_gusts_10m;
+  const gustRatio = (speedKmh != null && speedKmh > 0 && gustKmh != null) ? gustKmh / speedKmh : 0;
+  const { variance } = computeWindRotation(hourly.wind_direction_10m, nowIdx, 3);
+
+  let stability;
+  if (gustRatio > 1.5) stability = 'gusty';
+  else if (variance > 100) stability = 'variable';
+  else stability = 'steady';
+
+  el.textContent = stability;
 }
