@@ -1,3 +1,201 @@
+// #120 — pure helper: summarise directional change over a window of forecast hours
+function computeWindRotation(hourlyDir, fromIdx, windowHours) {
+  const fallback = { verdict: 'steady', netDegrees: 0, variance: 0 };
+  if (!Array.isArray(hourlyDir) || hourlyDir.length === 0) return fallback;
+  if (fromIdx == null || fromIdx < 0 || fromIdx >= hourlyDir.length) return fallback;
+  const endIdx = Math.min(hourlyDir.length, fromIdx + windowHours);
+  if (endIdx <= fromIdx) return fallback;
+
+  // Collect valid samples and compute shortest-arc deltas from first reading
+  const first = hourlyDir[fromIdx];
+  if (first == null) return fallback;
+
+  const deltas = [];
+  for (let i = fromIdx + 1; i < endIdx; i++) {
+    const d = hourlyDir[i];
+    if (d == null) continue;
+    let diff = d - hourlyDir[i - 1];
+    // Wrap to [-180, 180]
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    deltas.push(diff);
+  }
+
+  if (deltas.length === 0) return fallback;
+
+  const netDegrees = deltas.reduce((sum, v) => sum + v, 0);
+  const mean = netDegrees / deltas.length;
+  const variance = deltas.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / deltas.length;
+
+  let verdict;
+  if (variance < 5) {
+    verdict = 'steady';
+  } else if (Math.abs(netDegrees) < 5) {
+    verdict = 'shifting';
+  } else if (netDegrees > 0) {
+    verdict = 'veering';
+  } else {
+    verdict = 'backing';
+  }
+
+  return { verdict, netDegrees, variance };
+}
+
+// #121 — meteorological barb SVG primitive; shaft encodes wind-FROM direction
+function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
+  const cx = size / 2;
+  const cy = size / 2;
+
+  // Calm: <3 kt renders as a small open circle per WMO convention
+  if (speedKt == null || speedKt < 3) {
+    const r = size * 0.12;
+    return (
+      `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" ` +
+      `focusable="false" aria-hidden="true">` +
+      `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" ` +
+      `fill="none" stroke="currentColor" stroke-width="1.5"/>` +
+      `</svg>`
+    );
+  }
+
+  // Shaft runs from centre to top of viewBox; feathers hang from the upwind (top) end.
+  // Rotation maps wind-FROM direction: 0°=N shaft points up, 90°=E shaft points right, etc.
+  const rotation = ((dirFromDeg % 360) + 360) % 360;
+
+  // Geometry constants (relative to size)
+  const shaftLen = size * 0.42;
+  const barbW = size * 0.22;   // horizontal reach of a full feather
+  const barbStep = size * 0.07; // vertical spacing between feathers
+  const pennantH = size * 0.13; // pennant triangle height along shaft
+
+  const shaftTop = cy - shaftLen; // y of upwind tip in un-rotated coords
+  const shaftBot = cy;            // y of downwind tip (centre)
+
+  // Decompose speed into pennants / full feathers / half feathers
+  let remaining = Math.round(speedKt);
+  const pennants = Math.floor(remaining / 50);
+  remaining -= pennants * 50;
+  const fulls = Math.floor(remaining / 10);
+  remaining -= fulls * 10;
+  const halves = Math.floor(remaining / 5);
+
+  const paths = [];
+
+  // Draw shaft
+  paths.push(
+    `<line x1="${cx.toFixed(1)}" y1="${shaftBot.toFixed(1)}" ` +
+    `x2="${cx.toFixed(1)}" y2="${shaftTop.toFixed(1)}" ` +
+    `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+  );
+
+  // Feathers stack from upwind tip downward
+  let yOff = shaftTop;
+
+  // Pennants (filled triangles)
+  for (let p = 0; p < pennants; p++) {
+    const yBase = yOff + pennantH;
+    paths.push(
+      `<polygon points="${cx.toFixed(1)},${yOff.toFixed(1)} ` +
+      `${(cx + barbW).toFixed(1)},${((yOff + yBase) / 2).toFixed(1)} ` +
+      `${cx.toFixed(1)},${yBase.toFixed(1)}" ` +
+      `fill="currentColor"/>`
+    );
+    yOff = yBase + barbStep * 0.3;
+  }
+
+  // Full feathers
+  for (let f = 0; f < fulls; f++) {
+    paths.push(
+      `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
+      `x2="${(cx + barbW).toFixed(1)}" y2="${(yOff + barbStep * 0.8).toFixed(1)}" ` +
+      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+    );
+    yOff += barbStep;
+  }
+
+  // Half feather
+  for (let h = 0; h < halves; h++) {
+    paths.push(
+      `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
+      `x2="${(cx + barbW * 0.5).toFixed(1)}" y2="${(yOff + barbStep * 0.4).toFixed(1)}" ` +
+      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+    );
+    yOff += barbStep;
+  }
+
+  return (
+    `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" ` +
+    `style="transform: rotate(${rotation}deg);" focusable="false" aria-hidden="true">` +
+    paths.join('') +
+    `</svg>`
+  );
+}
+
+// #123 — static compass bezel: circle, N/E/S/W labels, 45° minor ticks
+function renderWindCompassDial() {
+  const el = document.getElementById('wind-compass-dial');
+  if (!el) return;
+
+  const SIZE = 120;
+  const cx = SIZE / 2;
+  const cy = SIZE / 2;
+  const R = SIZE / 2 - 6;      // bezel radius
+  const tickOuter = R;
+  const tickInnerMajor = R - 10; // major tick (cardinal) length
+  const tickInnerMinor = R - 6;  // minor tick (intercardinal) length
+  const labelR = R - 16;         // radius for N/E/S/W label centres
+
+  // Cardinals: angle in degrees from 12-o'clock, clockwise
+  const cardinals = [
+    { label: 'N', angle: 0 },
+    { label: 'E', angle: 90 },
+    { label: 'S', angle: 180 },
+    { label: 'W', angle: 270 },
+  ];
+  const intercardinalAngles = [45, 135, 225, 315];
+
+  function toXY(angleDeg, r) {
+    const rad = ((angleDeg - 90) * Math.PI) / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+
+  let svg = `<svg class="wind-compass-svg" viewBox="0 0 ${SIZE} ${SIZE}" ` +
+    `focusable="false" aria-hidden="true">`;
+
+  // Bezel circle
+  svg += `<circle cx="${cx}" cy="${cy}" r="${R}" ` +
+    `fill="none" stroke="var(--border-subtle)" stroke-width="1.5"/>`;
+
+  // Cardinal major ticks + labels
+  for (const { label, angle } of cardinals) {
+    const outer = toXY(angle, tickOuter);
+    const inner = toXY(angle, tickInnerMajor);
+    svg += `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
+      `x2="${inner.x.toFixed(1)}" y2="${inner.y.toFixed(1)}" ` +
+      `stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round"/>`;
+    const lp = toXY(angle, labelR);
+    svg += `<text x="${lp.x.toFixed(1)}" y="${lp.y.toFixed(1)}" ` +
+      `text-anchor="middle" dominant-baseline="central" ` +
+      `font-size="10" font-weight="600" fill="var(--text-muted)">${label}</text>`;
+  }
+
+  // Intercardinal minor ticks
+  for (const angle of intercardinalAngles) {
+    const outer = toXY(angle, tickOuter);
+    const inner = toXY(angle, tickInnerMinor);
+    svg += `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
+      `x2="${inner.x.toFixed(1)}" y2="${inner.y.toFixed(1)}" ` +
+      `stroke="var(--border-subtle)" stroke-width="1" stroke-linecap="round"/>`;
+  }
+
+  // Centre reserve: subtle circle for speed number area
+  svg += `<circle cx="${cx}" cy="${cy}" r="${SIZE * 0.22}" ` +
+    `fill="var(--bg-base)" stroke="var(--border-subtle)" stroke-width="0.75" opacity="0.6"/>`;
+
+  svg += `</svg>`;
+  el.innerHTML = svg;
+}
+
 // #102 — details tier toggle with localStorage persistence
 function toggleDetails() {
   const panel = document.getElementById('details-panel');

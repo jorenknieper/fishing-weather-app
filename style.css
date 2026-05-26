@@ -356,6 +356,50 @@ footer {
   color: var(--accent-pressure);
 }
 
+/* #122 — wind hero: full content width, matching pressure hero layout */
+.card--wind-hero {
+  width: 100%;
+  border-top: 3px solid var(--accent-wind);
+}
+
+.card--wind-hero .value {
+  font-size: 3rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-wind);
+}
+
+/* #123 — compass dial layout inside wind hero card */
+.wind-hero__layout {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.wind-hero__dial {
+  flex: 0 0 auto;
+  width: 120px;
+  height: 120px;
+}
+
+.wind-compass-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wind-hero__values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+@media (width >= 480px) {
+  .wind-hero__dial {
+    width: 150px;
+    height: 150px;
+  }
+}
+
 .pressure-trend {
   font-size: 0.75rem;
   font-weight: 600;
