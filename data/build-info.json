@@ -1,8 +1,8 @@
 {
-  "issueNumber": 124,
-  "issueTitle": "Meteorological barb arrow + speed/gust readout inside wind dial",
-  "prNumber": 138,
-  "commitShaShort": "05d83dd",
-  "commitShaFull": "05d83ddbe92e8fda998b124fb7c0fb9359231af4",
-  "builtAt": "2026-05-26T13:59:05.115Z"
+  "issueNumber": 128,
+  "issueTitle": "Add wind row to the 12h hourly ribbon",
+  "prNumber": 139,
+  "commitShaShort": "48539b2",
+  "commitShaFull": "48539b2969a64a20704592f57e20f2526383d68a",
+  "builtAt": "2026-05-26T14:06:03.219Z"
 }
