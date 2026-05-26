@@ -35,53 +35,83 @@
         <p>Could not load weather data. Please try again later.</p>
       </div>
 
-      <div id="weather-grid" class="grid hidden">
-        <div class="card card--hero">
-          <span class="label">Pressure (MSL)</span>
-          <span class="value" id="pressure-msl">–</span>
-          <span class="unit">hPa</span>
-          <span id="pressure-trend" class="pressure-trend"></span>
-          <span id="pressure-sparkline" class="hero-sparkline"></span>
-        </div>
-        <p id="condition-summary" class="condition-summary hidden"></p>
-        <div
-          class="card card--clickable"
-          role="button"
-          tabindex="0"
-          aria-label="Open temperature chart"
-          onclick="openTemperatureModal()"
-        >
-          <span class="label">Temperature</span>
-          <span class="value" id="temperature">–</span>
-          <span class="unit">°C</span>
-          <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
-        </div>
-        <div class="card card--clickable" role="button" tabindex="0" aria-label="Open humidity chart" onclick="openHumidityModal()">
-          <span class="label">Humidity</span>
-          <span class="value" id="humidity">–</span>
-          <span class="unit">%</span>
-        </div>
-        <div
-          class="card card--clickable"
-          role="button"
-          tabindex="0"
-          aria-label="Open precipitation chart"
-          onclick="openPrecipitationModal()"
-        >
-          <span class="label">Precipitation</span>
-          <span class="value" id="precipitation">–</span>
-          <span class="unit">mm</span>
-        </div>
-        <div class="card card--clickable" role="button" tabindex="0" aria-label="Open wind speed chart" onclick="openWindSpeedModal()">
-          <span class="label">Wind</span>
-          <span class="value" id="wind-speed">–</span>
-          <span class="unit">km/h</span>
-          <span class="wd-card-value card-sub">
-            <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
-            <span id="wind-direction">–</span>
-          </span>
-        </div>
+      <div id="weather-grid" class="ia-dashboard hidden">
+        <!-- Tier 1: Hero -->
+        <section class="ia-tier ia-tier--hero" aria-label="Pressure overview">
+          <div class="card card--hero">
+            <span class="label">Pressure (MSL)</span>
+            <span class="value" id="pressure-msl">–</span>
+            <span class="unit">hPa</span>
+            <span id="pressure-trend" class="pressure-trend"></span>
+            <span id="pressure-sparkline" class="hero-sparkline"></span>
+          </div>
+          <p id="condition-summary" class="condition-summary hidden"></p>
+        </section>
+
+        <!-- Tier 2: Primary metrics -->
+        <section class="ia-tier ia-tier--primary" aria-label="Primary conditions">
+          <div class="grid grid--primary">
+            <div
+              class="card card--clickable"
+              role="button"
+              tabindex="0"
+              aria-label="Open temperature chart"
+              onclick="openTemperatureModal()"
+            >
+              <span class="label">Temperature</span>
+              <span class="value" id="temperature">–</span>
+              <span class="unit">°C</span>
+              <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
+            </div>
+            <div
+              class="card card--clickable"
+              role="button"
+              tabindex="0"
+              aria-label="Open precipitation chart"
+              onclick="openPrecipitationModal()"
+            >
+              <span class="label">Precipitation</span>
+              <span class="value" id="precipitation">–</span>
+              <span class="unit">mm</span>
+            </div>
+            <div class="card card--clickable" role="button" tabindex="0" aria-label="Open wind speed chart" onclick="openWindSpeedModal()">
+              <span class="label">Wind</span>
+              <span class="value" id="wind-speed">–</span>
+              <span class="unit">km/h</span>
+              <span class="wd-card-value card-sub">
+                <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
+                <span id="wind-direction">–</span>
+              </span>
+              <span id="wind-rose" class="wind-rose" aria-hidden="true"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tier 3: Collapsed details -->
+        <section class="ia-tier ia-tier--details" aria-label="Additional conditions">
+          <button
+            id="details-toggle"
+            class="details-toggle"
+            aria-expanded="false"
+            aria-controls="details-panel"
+            onclick="toggleDetails()"
+          >
+            <span class="details-toggle__label">Show more</span>
+            <span class="details-toggle__icon" aria-hidden="true">▸</span>
+          </button>
+          <div id="details-panel" class="details-panel hidden">
+            <div class="grid grid--details">
+              <div class="card card--clickable" role="button" tabindex="0" aria-label="Open humidity chart" onclick="openHumidityModal()">
+                <span class="label">Humidity</span>
+                <span class="value" id="humidity">–</span>
+                <span class="unit">%</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
+
+      <div id="hourly-ribbon" class="hourly-ribbon hidden" aria-label="Next 12 hours forecast"></div>
 
       <div id="pressure-inline" class="pressure-inline hidden">
         <div class="pressure-inline__header">
@@ -215,7 +245,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="js/chart-plugins.js"></script>
     <script src="js/wind-direction.js"></script>
+    <script src="js/dashboard-features.js"></script>
     <script src="app.js"></script>
     <script src="js/pressure-inline.js"></script>
     <script src="js/build-info.js"></script>
