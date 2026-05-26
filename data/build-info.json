@@ -1,8 +1,8 @@
 {
-  "issueNumber": 128,
-  "issueTitle": "Add wind row to the 12h hourly ribbon",
-  "prNumber": 139,
-  "commitShaShort": "48539b2",
-  "commitShaFull": "48539b2969a64a20704592f57e20f2526383d68a",
-  "builtAt": "2026-05-26T14:06:03.219Z"
+  "issueNumber": 132,
+  "issueTitle": "Dual-series wind chart (sustained + gusts) in modal",
+  "prNumber": 140,
+  "commitShaShort": "84f0b0d",
+  "commitShaFull": "84f0b0dfc75c931251a25c543f4b3ee761e5c438",
+  "builtAt": "2026-05-26T14:14:26.214Z"
 }
