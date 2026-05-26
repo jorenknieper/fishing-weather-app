@@ -1,8 +1,8 @@
 {
-  "issueNumber": 101,
-  "issueTitle": "[P3-2] Hourly forecast ribbon: next 12h horizontal-scroll strip",
-  "prNumber": 119,
-  "commitShaShort": "c2d4cbe",
-  "commitShaFull": "c2d4cbed87a08f4d9c4a250f09f0ee4c19acccc8",
-  "builtAt": "2026-05-26T13:03:24.392Z"
+  "issueNumber": 120,
+  "issueTitle": "computeWindRotation helper",
+  "prNumber": 137,
+  "commitShaShort": "c7ae024",
+  "commitShaFull": "c7ae024ed807e4ed129e338461b09e7e0265cd53",
+  "builtAt": "2026-05-26T13:45:32.695Z"
 }
