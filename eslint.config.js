@@ -22,6 +22,11 @@ module.exports = [
         synthesizePressureHistory: 'readonly',
         renderWindRose: 'readonly',
         renderHourlyRibbon: 'readonly',
+        // js/chart-plugins.js globals consumed by app.js
+        getOrCreateTooltipEl: 'readonly',
+        makeExternalTooltipHandler: 'readonly',
+        makeNowLinePlugin: 'readonly',
+        makeDayLabelsPlugin: 'readonly',
       },
     },
     rules: {
@@ -33,22 +38,40 @@ module.exports = [
     },
   },
   {
-    // js/*.js modules are loaded after app.js and may reference its global functions
-    files: ['js/**/*.js'],
+    // js/chart-plugins.js defines the plugin factories — no cross-file globals needed
+    files: ['js/chart-plugins.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: { ...globals.browser, Chart: 'readonly', cssVar: 'readonly' },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
+    // Other js/*.js modules reference globals from app.js and js/chart-plugins.js
+    files: ['js/wind-direction.js', 'js/pressure-inline.js', 'js/build-info.js', 'js/dashboard-features.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
       globals: {
         ...globals.browser,
         Chart: 'readonly',
-        // app.js globals consumed by modules loaded after it
+        // app.js globals
         animatedClose: 'readonly',
         cssVar: 'readonly',
+        setupDoubleTap: 'readonly',
+        _themeRerenderCallbacks: 'readonly',
+        // js/chart-plugins.js globals
         makeDayLabelsPlugin: 'readonly',
         makeNowLinePlugin: 'readonly',
         makeExternalTooltipHandler: 'readonly',
-        setupDoubleTap: 'readonly',
-        _themeRerenderCallbacks: 'readonly',
+        getOrCreateTooltipEl: 'readonly',
       },
     },
     rules: {
