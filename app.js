@@ -956,6 +956,7 @@ function renderWeather(current) {
   renderWindRose(hourlyData);
   renderHourlyRibbon(hourlyData);
   renderConditionSummary(current, hourlyData);
+  renderWindCompassDial();
 }
 
 async function loadWeather() {

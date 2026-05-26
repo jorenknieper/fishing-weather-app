@@ -48,7 +48,28 @@
           <p id="condition-summary" class="condition-summary hidden"></p>
         </section>
 
-        <!-- Tier 2: Primary metrics -->
+        <!-- Tier 2: Wind hero -->
+        <section class="ia-tier ia-tier--wind-hero" aria-label="Wind conditions">
+          <div class="card card--wind-hero card--clickable" role="button" tabindex="0" aria-label="Open wind speed chart" onclick="openWindSpeedModal()">
+            <div class="wind-hero__layout">
+              <div class="wind-hero__dial" aria-hidden="true" id="wind-compass-dial">
+                <!-- #123: static compass bezel scaffold; barb arrow added in #124 -->
+              </div>
+              <div class="wind-hero__values">
+                <span class="label">Wind</span>
+                <span class="value" id="wind-speed">–</span>
+                <span class="unit">km/h</span>
+                <span class="wd-card-value card-sub">
+                  <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
+                  <span id="wind-direction">–</span>
+                </span>
+                <span id="wind-rose" class="wind-rose" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tier 3: Primary metrics -->
         <section class="ia-tier ia-tier--primary" aria-label="Primary conditions">
           <div class="grid grid--primary">
             <div
@@ -73,16 +94,6 @@
               <span class="label">Precipitation</span>
               <span class="value" id="precipitation">–</span>
               <span class="unit">mm</span>
-            </div>
-            <div class="card card--clickable" role="button" tabindex="0" aria-label="Open wind speed chart" onclick="openWindSpeedModal()">
-              <span class="label">Wind</span>
-              <span class="value" id="wind-speed">–</span>
-              <span class="unit">km/h</span>
-              <span class="wd-card-value card-sub">
-                <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
-                <span id="wind-direction">–</span>
-              </span>
-              <span id="wind-rose" class="wind-rose" aria-hidden="true"></span>
             </div>
           </div>
         </section>

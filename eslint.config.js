@@ -22,6 +22,7 @@ module.exports = [
         synthesizePressureHistory: 'readonly',
         renderWindRose: 'readonly',
         renderHourlyRibbon: 'readonly',
+        renderWindCompassDial: 'readonly',
         // js/chart-plugins.js globals consumed by app.js
         getOrCreateTooltipEl: 'readonly',
         makeExternalTooltipHandler: 'readonly',
