@@ -1,8 +1,8 @@
 {
-  "issueNumber": 120,
-  "issueTitle": "computeWindRotation helper",
-  "prNumber": 137,
-  "commitShaShort": "c7ae024",
-  "commitShaFull": "c7ae024ed807e4ed129e338461b09e7e0265cd53",
-  "builtAt": "2026-05-26T13:45:32.695Z"
+  "issueNumber": 124,
+  "issueTitle": "Meteorological barb arrow + speed/gust readout inside wind dial",
+  "prNumber": 138,
+  "commitShaShort": "05d83dd",
+  "commitShaFull": "05d83ddbe92e8fda998b124fb7c0fb9359231af4",
+  "builtAt": "2026-05-26T13:59:05.115Z"
 }
