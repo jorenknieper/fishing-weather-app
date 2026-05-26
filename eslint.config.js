@@ -16,6 +16,12 @@ module.exports = [
       globals: {
         ...globals.browser,
         Chart: 'readonly',
+        // js/dashboard-features.js globals consumed by app.js
+        toggleDetails: 'readonly',
+        initDetails: 'readonly',
+        synthesizePressureHistory: 'readonly',
+        renderWindRose: 'readonly',
+        renderHourlyRibbon: 'readonly',
       },
     },
     rules: {

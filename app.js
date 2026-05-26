@@ -1007,11 +1007,24 @@ function renderConditionSummary(current, hourly) {
   const el = document.getElementById('condition-summary');
   if (!el) return;
   const text = synthesizeConditionSummary(current, hourly);
-  if (text) {
-    el.textContent = text;
+  const historyText = synthesizePressureHistory(hourly);
+  if (text || historyText) {
+    el.innerHTML = '';
+    if (text) {
+      const line1 = document.createElement('span');
+      line1.textContent = text;
+      el.appendChild(line1);
+    }
+    if (historyText) {
+      if (text) el.appendChild(document.createElement('br'));
+      const line2 = document.createElement('span');
+      line2.className = 'condition-history';
+      line2.textContent = historyText;
+      el.appendChild(line2);
+    }
     el.classList.remove('hidden');
   } else {
-    el.textContent = '';
+    el.innerHTML = '';
     el.classList.add('hidden');
   }
 }
@@ -1098,6 +1111,8 @@ function renderWeather(current) {
 
   document.getElementById('weather-grid').classList.remove('hidden');
   renderPressureSparkline(hourlyData);
+  renderWindRose(hourlyData);
+  renderHourlyRibbon(hourlyData);
   renderConditionSummary(current, hourlyData);
 }
 
@@ -1112,6 +1127,7 @@ async function loadWeather() {
     hourlyData = data.hourly || null;
     window.hourlyData = hourlyData; // consumed by js/pressure-inline.js
     renderWeather(data.current);
+    initDetails();
     window.PressureInline?.render();
   } catch (err) {
     console.error('Failed to load weather data:', err);
