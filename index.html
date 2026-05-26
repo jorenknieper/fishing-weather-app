@@ -181,10 +181,17 @@
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="wind-unified-modal-heading">Wind</span>
+          <button id="chart-reset-wind-unified" class="modal-reset" onclick="resetWindUnifiedChart()">Reset</button>
           <button class="modal-close" onclick="closeWindUnifiedModal()">✕</button>
         </div>
         <div class="modal-body">
           <div id="wind-modal-dial" class="wind-modal-dial" aria-hidden="true"></div>
+          <canvas id="wind-unified-chart"></canvas>
+          <canvas id="wind-unified-navigator"></canvas>
+          <div id="wind-unified-barb-strip" class="wind-barb-strip" aria-hidden="true"></div>
+          <div id="wind-unified-rotation-tape" class="wind-rotation-tape" aria-hidden="true"></div>
+          <div id="wind-barb-stats" class="wind-barb-stats hidden" aria-live="polite"></div>
+          <p id="wind-unified-no-data" class="hidden">No wind data available.</p>
         </div>
       </div>
     </div>
@@ -257,6 +264,7 @@
     <script src="js/dashboard-features.js"></script>
     <script src="app.js"></script>
     <script src="js/pressure-inline.js"></script>
+    <script src="js/wind-unified.js"></script>
     <script src="js/build-info.js"></script>
   </body>
 </html>

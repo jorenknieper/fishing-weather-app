@@ -57,6 +57,42 @@ module.exports = [
     },
   },
   {
+    // js/wind-unified.js references globals from app.js, dashboard-features.js, and chart-plugins.js
+    files: ['js/wind-unified.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.browser,
+        Chart: 'readonly',
+        // app.js globals
+        animatedClose: 'readonly',
+        attachSwipeGesture: 'readonly',
+        cssVar: 'readonly',
+        degreesToCompass: 'readonly',
+        makeFocusTrap: 'readonly',
+        setupDoubleTap: 'readonly',
+        _themeRerenderCallbacks: 'readonly',
+        // js/chart-plugins.js globals
+        getOrCreateTooltipEl: 'readonly',
+        makeExternalTooltipHandler: 'readonly',
+        makeDayLabelsPlugin: 'readonly',
+        makeNowLinePlugin: 'readonly',
+        // js/dashboard-features.js globals
+        computeWindRotation: 'readonly',
+        renderWindBarb: 'readonly',
+        renderWindCompassDialInto: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
     // Other js/*.js modules reference globals from app.js and js/chart-plugins.js
     files: ['js/wind-direction.js', 'js/pressure-inline.js', 'js/build-info.js', 'js/dashboard-features.js'],
     languageOptions: {

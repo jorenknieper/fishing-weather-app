@@ -634,33 +634,10 @@ function resetHumidityChart() {
   humidityModal.reset();
 }
 
-// #130 — unified wind modal shell
-const _windUnifiedOverlay = document.getElementById('wind-unified-modal');
-const _windUnifiedFocusTrap = makeFocusTrap(_windUnifiedOverlay.querySelector('.modal'));
-let _windUnifiedOriginator = null;
-attachSwipeGesture(_windUnifiedOverlay);
-
-// #131 — renders enlarged compass dial into the unified wind modal
-function renderWindUnifiedModalDial() {
-  const el = document.getElementById('wind-modal-dial');
-  if (!el) return;
-  renderWindCompassDialInto(el, _currentData, 200);
-}
-
-function openWindUnifiedModal() {
-  _windUnifiedOriginator = document.activeElement;
-  _windUnifiedOverlay.classList.remove('hidden');
-  _windUnifiedOverlay.querySelector('.modal-close').focus();
-  _windUnifiedFocusTrap.activate();
-  renderWindUnifiedModalDial();
-}
-
-function closeWindUnifiedModal() {
-  _windUnifiedFocusTrap.deactivate();
-  animatedClose(_windUnifiedOverlay);
-  _windUnifiedOriginator?.focus();
-  _windUnifiedOriginator = null;
-}
+// #130 — unified wind modal: delegates to js/wind-unified.js (loaded after app.js)
+function openWindUnifiedModal() { window.WindUnified?.open(); }
+function closeWindUnifiedModal() { window.WindUnified?.close(); }
+function resetWindUnifiedChart() { window.WindUnified?.reset(); }
 
 const precipitationModal = createChartModal({
   modalId: 'precipitation-modal',
@@ -892,6 +869,7 @@ function renderPressureSparkline(hourly) {
 
 function renderWeather(current) {
   _currentData = current; // #131 — cache for unified wind modal re-render
+  window._windUnifiedCurrentData = current; // exposed to js/wind-unified.js
   document.getElementById('temperature').textContent = current.temperature_2m ?? '–';
   document.getElementById('apparent-temperature').textContent = current.apparent_temperature ?? '–';
   document.getElementById('humidity').textContent = current.relative_humidity_2m ?? '–';
