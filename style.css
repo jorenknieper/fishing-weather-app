@@ -567,7 +567,6 @@ footer {
 #pressure-navigator,
 #temp-navigator,
 #humidity-navigator,
-#wind-navigator,
 #precipitation-navigator,
 #wind-direction-navigator {
   display: block;
@@ -581,7 +580,6 @@ footer {
 #pressure-no-data,
 #temp-no-data,
 #humidity-no-data,
-#wind-no-data,
 #precipitation-no-data,
 #wind-direction-no-data {
   text-align: center;
@@ -959,6 +957,29 @@ details[open].keyboard-help summary::before {
   min-height: 0.9rem;
 }
 
+/* #130 — unified wind modal body */
+.wind-modal-dial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0 0.5rem;
+}
+
+/* #128 — wind barb + speed row in hourly ribbon */
+.ribbon-wind-barb {
+  display: block;
+  line-height: 0;
+  color: var(--accent-wind);
+}
+
+.ribbon-wind-speed {
+  font-size: 0.6rem;
+  color: var(--accent-wind);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
 /* Inline pressure chart (#100) */
 .pressure-inline {
   margin-top: 1rem;
@@ -1034,7 +1055,6 @@ details[open].keyboard-help summary::before {
   #pressure-navigator,
   #temp-navigator,
   #humidity-navigator,
-  #wind-navigator,
   #precipitation-navigator,
   #wind-direction-navigator {
     height: 32px;

@@ -132,11 +132,8 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
 }
 
 // #123/#124 — compass bezel with optional barb + speed/gust overlay
-function renderWindCompassDial(current) {
-  const el = document.getElementById('wind-compass-dial');
-  if (!el) return;
-
-  const SIZE = 120;
+// #131 — size parameter added so the modal can render at a larger size
+function _buildCompassDialSvg(current, SIZE) {
   const cx = SIZE / 2;
   const cy = SIZE / 2;
   const R = SIZE / 2 - 6;      // bezel radius
@@ -144,8 +141,10 @@ function renderWindCompassDial(current) {
   const tickInnerMajor = R - 10; // major tick (cardinal) length
   const tickInnerMinor = R - 6;  // minor tick (intercardinal) length
   const labelR = R - 16;         // radius for N/E/S/W label centres
+  const fontSize = Math.round(SIZE * (10 / 120));
+  const speedFontSize = Math.round(SIZE * (11 / 120));
+  const gustFontSize = Math.round(SIZE * (8 / 120));
 
-  // Cardinals: angle in degrees from 12-o'clock, clockwise
   const cardinals = [
     { label: 'N', angle: 0 },
     { label: 'E', angle: 90 },
@@ -162,11 +161,9 @@ function renderWindCompassDial(current) {
   let svg = `<svg class="wind-compass-svg" viewBox="0 0 ${SIZE} ${SIZE}" ` +
     `focusable="false" aria-hidden="true">`;
 
-  // Bezel circle
   svg += `<circle cx="${cx}" cy="${cy}" r="${R}" ` +
     `fill="none" stroke="var(--border-subtle)" stroke-width="1.5"/>`;
 
-  // Cardinal major ticks + labels
   for (const { label, angle } of cardinals) {
     const outer = toXY(angle, tickOuter);
     const inner = toXY(angle, tickInnerMajor);
@@ -176,10 +173,9 @@ function renderWindCompassDial(current) {
     const lp = toXY(angle, labelR);
     svg += `<text x="${lp.x.toFixed(1)}" y="${lp.y.toFixed(1)}" ` +
       `text-anchor="middle" dominant-baseline="central" ` +
-      `font-size="10" font-weight="600" fill="var(--text-muted)">${label}</text>`;
+      `font-size="${fontSize}" font-weight="600" fill="var(--text-muted)">${label}</text>`;
   }
 
-  // Intercardinal minor ticks
   for (const angle of intercardinalAngles) {
     const outer = toXY(angle, tickOuter);
     const inner = toXY(angle, tickInnerMinor);
@@ -188,49 +184,53 @@ function renderWindCompassDial(current) {
       `stroke="var(--border-subtle)" stroke-width="1" stroke-linecap="round"/>`;
   }
 
-  // Centre reserve: subtle circle for speed number area
   svg += `<circle cx="${cx}" cy="${cy}" r="${SIZE * 0.22}" ` +
     `fill="var(--bg-base)" stroke="var(--border-subtle)" stroke-width="0.75" opacity="0.6"/>`;
 
-  // #124 — barb arrow + speed/gust text overlaid in the dial centre
   if (current) {
     const speedKmh = current.wind_speed_10m;
     const gustKmh = current.wind_gusts_10m;
     const dirDeg = current.wind_direction_10m;
     const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
 
-    // Barb: rendered as a rotated group centred on the SVG
     if (dirDeg != null && speedKt != null) {
-      const barbSize = SIZE * 0.55; // barb fits within the inner bezel area
+      const barbSize = SIZE * 0.55;
       const rotation = ((dirDeg % 360) + 360) % 360;
       const offset = (SIZE - barbSize) / 2;
-      // Build barb path elements at origin, then translate+rotate into centre
       svg += `<g transform="translate(${offset.toFixed(1)},${offset.toFixed(1)}) rotate(${rotation},${(barbSize/2).toFixed(1)},${(barbSize/2).toFixed(1)})" ` +
         `color="var(--accent-wind)">`;
       svg += _windBarbPaths(speedKt, barbSize);
       svg += `</g>`;
     }
 
-    // Speed label (large) — positioned slightly above centre
     const speedLabel = speedKmh != null ? Math.round(speedKmh) : '–';
     svg += `<text x="${cx.toFixed(1)}" y="${(cy - 3).toFixed(1)}" ` +
       `text-anchor="middle" dominant-baseline="auto" ` +
-      `font-size="11" font-weight="700" fill="var(--accent-wind)">${speedLabel}</text>`;
+      `font-size="${speedFontSize}" font-weight="700" fill="var(--accent-wind)">${speedLabel}</text>`;
 
-    // Gust label — positioned below centre
     const gustLabel = gustKmh != null ? Math.round(gustKmh) : '–';
     const gustFactor = (speedKmh != null && gustKmh != null && speedKmh > 0)
       ? gustKmh / speedKmh : 0;
     const gustColor = gustFactor > 1.5 ? 'var(--wind-stormy)' : 'var(--text-muted)';
     svg += `<text x="${cx.toFixed(1)}" y="${(cy + 8).toFixed(1)}" ` +
       `text-anchor="middle" dominant-baseline="auto" ` +
-      `font-size="8" fill="${gustColor}">G ${gustLabel}</text>`;
-  } else {
-    // No data — centre reserve still shown, no overlay
+      `font-size="${gustFontSize}" fill="${gustColor}">G ${gustLabel}</text>`;
   }
 
   svg += `</svg>`;
-  el.innerHTML = svg;
+  return svg;
+}
+
+function renderWindCompassDial(current) {
+  const el = document.getElementById('wind-compass-dial');
+  if (!el) return;
+  el.innerHTML = _buildCompassDialSvg(current, 120);
+}
+
+// #131 — renders enlarged compass dial into a target element at the given size
+function renderWindCompassDialInto(el, current, size) {
+  if (!el) return;
+  el.innerHTML = _buildCompassDialSvg(current, size);
 }
 
 // Internal helper: barb shaft + feather path elements for embedding inside a parent SVG group.
@@ -430,7 +430,7 @@ function synthesizePressureHistory(hourly) {
   return 'Pressure dropped overnight.';
 }
 
-// #101 — next 12 forecast hours: hour, temp, precip dot, pressure direction icon
+// #101 — next 12 forecast hours: hour, temp, precip dot, pressure direction icon, wind barb + speed
 function renderHourlyRibbon(hourly) {
   const el = document.getElementById('hourly-ribbon');
   if (!el) return;
@@ -464,19 +464,46 @@ function renderHourlyRibbon(hourly) {
     return '<span class="ribbon-precip ribbon-precip--heavy" aria-label="Heavy rain"></span>';
   }
 
+  const hasWind = Array.isArray(hourly.wind_speed_10m) && Array.isArray(hourly.wind_direction_10m);
+
+  // #129 — border colour by rotation direction: veering=green, backing=warm-red, steady=grey
+  function getRotationBorderStyle(idx) {
+    if (!hasWind || idx <= boundaryIndex) return '';
+    const { verdict } = computeWindRotation(hourly.wind_direction_10m, idx - 1, 1);
+    if (verdict === 'veering') return ' style="border-bottom: 2px solid var(--accent-wind);"';
+    if (verdict === 'backing') return ' style="border-bottom: 2px solid var(--wind-stormy);"';
+    return ' style="border-bottom: 2px solid var(--border-subtle);"';
+  }
+
   let html = '';
   for (let i = boundaryIndex; i < endIndex; i++) {
     const hour = hourly.time[i].slice(11, 13) + ':00';
     const temp = hourly.temperature_2m[i] != null ? Math.round(hourly.temperature_2m[i]) : '–';
     const precip = hourly.precipitation[i];
     const pressureIcon = getPressureIcon(i);
+    const borderStyle = getRotationBorderStyle(i);
+
+    let windHtml = '';
+    if (hasWind) {
+      const dir = hourly.wind_direction_10m[i];
+      const speedKmh = hourly.wind_speed_10m[i];
+      const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
+      const speedLabel = speedKmh != null ? Math.round(speedKmh) : '–';
+      const barbSvg = (dir != null && speedKt != null)
+        ? renderWindBarb(dir, speedKt, { size: 20 })
+        : `<svg width="20" height="20" aria-hidden="true"></svg>`;
+      windHtml =
+        `<span class="ribbon-wind-barb" aria-hidden="true">${barbSvg}</span>` +
+        `<span class="ribbon-wind-speed">${speedLabel}</span>`;
+    }
 
     html +=
-      `<div class="ribbon-col">` +
+      `<div class="ribbon-col"${borderStyle}>` +
       `<span class="ribbon-hour">${hour}</span>` +
       `<span class="ribbon-temp">${temp}°</span>` +
       getPrecipDot(precip) +
       `<span class="ribbon-pressure-dir" aria-hidden="true">${pressureIcon}</span>` +
+      windHtml +
       `</div>`;
   }
 

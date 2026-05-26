@@ -169,6 +169,7 @@ requestAnimationFrame(() => {
 
 // hourlyData is also exposed as window.hourlyData for js/pressure-inline.js
 let hourlyData = null;
+let _currentData = null; // #131 — stored for re-render when unified modal opens
 
 function createChartModal(config) {
   // Private closure state
@@ -633,45 +634,32 @@ function resetHumidityChart() {
   humidityModal.reset();
 }
 
-const windSpeedModal = createChartModal({
-  modalId: 'wind-modal',
-  chartId: 'wind-chart',
-  navigatorId: 'wind-navigator',
-  noDataId: 'wind-no-data',
-  getData: () => hourlyData,
-  series: [
-    {
-      key: 'wind_speed_10m',
-      historicalLabel: 'Wind Speed',
-      forecastLabel: 'Wind Speed (forecast)',
-      historicalColor: () => cssVar('--accent-wind'),
-      forecastColor: () => cssVar('--accent-wind-soft'),
-    },
-  ],
-  colors: { accentToken: '--accent-wind', accentSoftToken: '--accent-wind-soft' },
-  yAxis: {
-    unit: 'km/h',
-    stepSize: 10,
-    snapTo: 5,
-    paddingBelow: 2,
-    paddingAbove: 5,
-    fallbackMin: 0,
-    fallbackMax: 60,
-  },
-  historyHours: 168,
-  forecastHours: 168,
-  initialViewportHours: 24,
-  zoomMinRange: 4,
-});
+// #130 — unified wind modal shell
+const _windUnifiedOverlay = document.getElementById('wind-unified-modal');
+const _windUnifiedFocusTrap = makeFocusTrap(_windUnifiedOverlay.querySelector('.modal'));
+let _windUnifiedOriginator = null;
+attachSwipeGesture(_windUnifiedOverlay);
 
-function openWindSpeedModal() {
-  windSpeedModal.open();
+// #131 — renders enlarged compass dial into the unified wind modal
+function renderWindUnifiedModalDial() {
+  const el = document.getElementById('wind-modal-dial');
+  if (!el) return;
+  renderWindCompassDialInto(el, _currentData, 200);
 }
-function closeWindSpeedModal() {
-  windSpeedModal.close();
+
+function openWindUnifiedModal() {
+  _windUnifiedOriginator = document.activeElement;
+  _windUnifiedOverlay.classList.remove('hidden');
+  _windUnifiedOverlay.querySelector('.modal-close').focus();
+  _windUnifiedFocusTrap.activate();
+  renderWindUnifiedModalDial();
 }
-function resetWindSpeedChart() {
-  windSpeedModal.reset();
+
+function closeWindUnifiedModal() {
+  _windUnifiedFocusTrap.deactivate();
+  animatedClose(_windUnifiedOverlay);
+  _windUnifiedOriginator?.focus();
+  _windUnifiedOriginator = null;
 }
 
 const precipitationModal = createChartModal({
@@ -763,8 +751,8 @@ document.addEventListener('keydown', function (e) {
       closeWindDirectionModal();
     else if (!document.getElementById('humidity-modal').classList.contains('hidden'))
       closeHumidityModal();
-    else if (!document.getElementById('wind-modal').classList.contains('hidden'))
-      closeWindSpeedModal();
+    else if (!document.getElementById('wind-unified-modal').classList.contains('hidden'))
+      closeWindUnifiedModal();
     else if (!document.getElementById('precipitation-modal').classList.contains('hidden'))
       closePrecipitationModal();
     else if (!document.getElementById('temp-modal').classList.contains('hidden'))
@@ -903,6 +891,7 @@ function renderPressureSparkline(hourly) {
 }
 
 function renderWeather(current) {
+  _currentData = current; // #131 — cache for unified wind modal re-render
   document.getElementById('temperature').textContent = current.temperature_2m ?? '–';
   document.getElementById('apparent-temperature').textContent = current.apparent_temperature ?? '–';
   document.getElementById('humidity').textContent = current.relative_humidity_2m ?? '–';

@@ -22,6 +22,7 @@ module.exports = [
         synthesizePressureHistory: 'readonly',
         renderHourlyRibbon: 'readonly',
         renderWindCompassDial: 'readonly',
+        renderWindCompassDialInto: 'readonly',
         renderWindVerdict: 'readonly',
         renderWindMicroStrip: 'readonly',
         // js/chart-plugins.js globals consumed by app.js
