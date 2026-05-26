@@ -1,8 +1,8 @@
 {
-  "issueNumber": 98,
-  "issueTitle": "[P2-9] Expanded keyboard navigation: tab through cards, Enter/Space opens, Escape closes",
-  "prNumber": 118,
-  "commitShaShort": "9295751",
-  "commitShaFull": "9295751ad0965b6937821651257a3ea72cecaa57",
-  "builtAt": "2026-05-26T09:32:06.385Z"
+  "issueNumber": 101,
+  "issueTitle": "[P3-2] Hourly forecast ribbon: next 12h horizontal-scroll strip",
+  "prNumber": 119,
+  "commitShaShort": "c2d4cbe",
+  "commitShaFull": "c2d4cbed87a08f4d9c4a250f09f0ee4c19acccc8",
+  "builtAt": "2026-05-26T13:03:24.392Z"
 }
