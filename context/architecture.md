@@ -19,7 +19,7 @@ GitHub Actions (cron: hourly)
 - Location: lat 51.0748, lon 3.4486 (Aalter, Belgium)
 - `current` fields: temperature_2m, apparent_temperature, relative_humidity_2m, surface_pressure, pressure_msl, precipitation, wind_speed_10m, wind_direction_10m, is_day
 - `hourly` fields: pressure_msl, temperature_2m, apparent_temperature, relative_humidity_2m, surface_pressure, precipitation, wind_speed_10m, wind_direction_10m
-- Range: `past_days=7`, `forecast_days=7` (up to ~336 hourly data points)
+- Range: `past_days=2`, `forecast_days=14` (up to ~384 hourly data points)
 - Timezone: Europe/Brussels
 
 ## GitHub Actions flow
