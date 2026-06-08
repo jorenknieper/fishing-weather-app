@@ -1,9 +1,9 @@
 (function () {
-  var ROUTES = ['dashboard', 'forecast', 'moon', 'catches', 'analytics', 'alerts', 'settings'];
-  var DEFAULT_ROUTE = 'dashboard';
+  const ROUTES = ['dashboard', 'forecast', 'moon', 'catches', 'analytics', 'alerts', 'settings'];
+  const DEFAULT_ROUTE = 'dashboard';
 
   function currentRoute() {
-    var hash = location.hash.replace(/^#/, '').trim();
+    const hash = location.hash.replace(/^#/, '').trim();
     return ROUTES.indexOf(hash) !== -1 ? hash : DEFAULT_ROUTE;
   }
 
@@ -19,7 +19,7 @@
 
   function setActiveNav(route) {
     document.querySelectorAll('[data-route]').forEach(function (item) {
-      var isActive = item.dataset.route === route;
+      const isActive = item.dataset.route === route;
       item.classList.toggle('is-active', isActive);
       if (isActive) {
         item.setAttribute('aria-current', 'page');
@@ -30,7 +30,7 @@
   }
 
   function handleRoute() {
-    var route = currentRoute();
+    const route = currentRoute();
     showPage(route);
     setActiveNav(route);
     if (!location.hash || ROUTES.indexOf(location.hash.replace(/^#/, '')) === -1) {
