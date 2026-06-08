@@ -6,8 +6,8 @@ URL="https://api.open-meteo.com/v1/forecast\
 &longitude=3.4486\
 &current=temperature_2m,apparent_temperature,relative_humidity_2m,surface_pressure,pressure_msl,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day\
 &hourly=pressure_msl,temperature_2m,apparent_temperature,relative_humidity_2m,surface_pressure,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m\
-&past_days=7\
-&forecast_days=7\
+&past_days=2\
+&forecast_days=14\
 &timezone=Europe%2FBrussels"
 
 DEST="$(dirname "$0")/../data/weather.json"

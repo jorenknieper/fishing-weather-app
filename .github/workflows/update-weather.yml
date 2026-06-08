@@ -14,17 +14,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Fetch weather
         run: bash scripts/update-weather.sh
+
+      - name: Generate moon data
+        run: node scripts/generate-moon.js
+
+      - name: Generate forecast scores
+        run: node scripts/generate-forecast.js
+
+      - name: Fetch KMI warnings
+        run: node scripts/fetch-kmi.js || echo "KMI fetch failed — continuing"
+
+      - name: Generate daily report
+        run: node scripts/generate-report.js
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/weather.json
+          git add data/weather.json data/moon.json data/forecast.json data/kmi-warnings.json data/report.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: update weather data"
+            git commit -m "chore: update weather and forecast data"
             git push
           fi
