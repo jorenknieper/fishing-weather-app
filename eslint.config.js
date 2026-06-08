@@ -96,7 +96,7 @@ module.exports = [
   },
   {
     // Other js/*.js modules reference globals from app.js and js/chart-plugins.js
-    files: ['js/wind-direction.js', 'js/pressure-inline.js', 'js/build-info.js', 'js/dashboard-features.js'],
+    files: ['js/router.js', 'js/wind-direction.js', 'js/pressure-inline.js', 'js/build-info.js', 'js/dashboard-features.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
