@@ -1,8 +1,8 @@
 {
-  "issueNumber": 141,
-  "issueTitle": "`renderWindArrow` clean SVG arrow primitive",
-  "prNumber": 148,
-  "commitShaShort": "0f9d2da",
-  "commitShaFull": "0f9d2da7b004e4e0791505c3cee3c532c8a153dd",
-  "builtAt": "2026-05-26T16:54:25.606Z"
+  "issueNumber": 145,
+  "issueTitle": "Wind card — compact height for mobile (no scroll required)",
+  "prNumber": 149,
+  "commitShaShort": "a80bb7f",
+  "commitShaFull": "a80bb7f7cfbf93bd85e42f76d40d616c055a2c75",
+  "builtAt": "2026-06-08T21:23:32.700Z"
 }
