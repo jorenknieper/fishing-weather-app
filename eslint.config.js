@@ -141,4 +141,19 @@ module.exports = [
       'prefer-const': 'warn',
     },
   },
+  {
+    files: ['js/moon.js', 'js/fishing-score.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: { ...globals.browser, SunCalc: 'readonly' },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
 ];
