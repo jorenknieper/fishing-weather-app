@@ -1480,3 +1480,56 @@ header {
     padding-bottom: var(--bottom-bar-height);
   }
 }
+
+/* ===== Score Badge (#195) ===== */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2em 0.55em;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.score-badge--excellent {
+  background: #1a7f37;
+  color: #ffffff;
+}
+
+.score-badge--good {
+  background: #9a6700;
+  color: #ffffff;
+}
+
+.score-badge--fair {
+  background: #bc4c00;
+  color: #ffffff;
+}
+
+.score-badge--poor {
+  background: #cf222e;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .score-badge--excellent {
+  background: #238636;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .score-badge--good {
+  background: #9e6a03;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .score-badge--fair {
+  background: #bd561d;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .score-badge--poor {
+  background: #da3633;
+  color: #ffffff;
+}
