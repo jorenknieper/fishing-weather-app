@@ -1,8 +1,8 @@
 {
-  "issueNumber": 158,
-  "issueTitle": "Score: pressure scoring component",
-  "prNumber": 239,
-  "commitShaShort": "341d166",
-  "commitShaFull": "341d16692ecf7c1ef4d33a457000fe3e03fa4865",
-  "builtAt": "2026-06-08T22:38:04.320Z"
+  "issueNumber": 185,
+  "issueTitle": "Forecast: extend Open-Meteo fetch to 14 days",
+  "prNumber": 240,
+  "commitShaShort": "ef0004b",
+  "commitShaFull": "ef0004bc64048067ffc5f7e054dea3d17eefad8d",
+  "builtAt": "2026-06-08T22:48:16.172Z"
 }
