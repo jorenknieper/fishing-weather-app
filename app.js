@@ -27,7 +27,7 @@ const STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
 const SWIPE_THRESHOLD = 80;
 
 function isMobileViewport() {
-  return window.matchMedia('(max-width: 639px)').matches;
+  return window.matchMedia('(max-width: 640px)').matches;
 }
 
 function animatedClose(overlayEl) {
@@ -963,5 +963,16 @@ document.querySelectorAll('.card--clickable').forEach((card) => {
     }
   });
 });
+
+function refreshWeather() {
+  const btn = document.getElementById('refresh-btn');
+  if (btn) btn.classList.add('spinning');
+  Promise.resolve(loadWeather()).finally(function () {
+    setTimeout(function () {
+      const b = document.getElementById('refresh-btn');
+      if (b) b.classList.remove('spinning');
+    }, 600);
+  });
+}
 
 loadWeather();
