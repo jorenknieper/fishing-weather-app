@@ -1,8 +1,8 @@
 {
-  "issueNumber": 145,
-  "issueTitle": "Wind card — compact height for mobile (no scroll required)",
-  "prNumber": 149,
-  "commitShaShort": "a80bb7f",
-  "commitShaFull": "a80bb7f7cfbf93bd85e42f76d40d616c055a2c75",
-  "builtAt": "2026-06-08T21:23:32.700Z"
+  "issueNumber": 150,
+  "issueTitle": "Shell: client-side hash router for multi-page navigation",
+  "prNumber": 238,
+  "commitShaShort": "06e5613",
+  "commitShaFull": "06e56131e8519838d70777a9ad0a05985c194f4d",
+  "builtAt": "2026-06-08T22:19:45.734Z"
 }
