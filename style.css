@@ -404,6 +404,10 @@ footer {
     gap: 0.05rem;
   }
 
+  .wind-verdict {
+    line-height: 1.1;
+  }
+
   .wind-micro-cell__arrow svg {
     width: 18px !important;
     height: 18px !important;
