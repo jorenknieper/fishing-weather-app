@@ -1,8 +1,8 @@
 {
-  "issueNumber": 150,
-  "issueTitle": "Shell: client-side hash router for multi-page navigation",
-  "prNumber": 238,
-  "commitShaShort": "06e5613",
-  "commitShaFull": "06e56131e8519838d70777a9ad0a05985c194f4d",
-  "builtAt": "2026-06-08T22:19:45.734Z"
+  "issueNumber": 158,
+  "issueTitle": "Score: pressure scoring component",
+  "prNumber": 239,
+  "commitShaShort": "341d166",
+  "commitShaFull": "341d16692ecf7c1ef4d33a457000fe3e03fa4865",
+  "builtAt": "2026-06-08T22:38:04.320Z"
 }
