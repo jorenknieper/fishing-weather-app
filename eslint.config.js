@@ -26,6 +26,15 @@ module.exports = [
         renderWindVerdict: 'readonly',
         renderWindMicroStrip: 'readonly',
         renderWindStability: 'readonly',
+        // js/dashboard.js globals consumed by app.js
+        renderForecastMiniStrip: 'readonly',
+        renderMoonCard: 'readonly',
+        renderKmiCard: 'readonly',
+        renderScoreWidget: 'readonly',
+        renderPressureDelta: 'readonly',
+        renderMetricSparklines: 'readonly',
+        openPressureInline: 'readonly',
+        renderConditionSummary: 'readonly',
         // js/chart-plugins.js globals consumed by app.js
         getOrCreateTooltipEl: 'readonly',
         makeExternalTooltipHandler: 'readonly',
@@ -96,7 +105,13 @@ module.exports = [
   },
   {
     // Other js/*.js modules reference globals from app.js and js/chart-plugins.js
-    files: ['js/router.js', 'js/wind-direction.js', 'js/pressure-inline.js', 'js/build-info.js', 'js/dashboard-features.js'],
+    files: [
+      'js/router.js',
+      'js/wind-direction.js',
+      'js/pressure-inline.js',
+      'js/build-info.js',
+      'js/dashboard-features.js',
+    ],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
@@ -142,11 +157,57 @@ module.exports = [
     },
   },
   {
-    files: ['js/moon.js', 'js/fishing-score.js'],
+    files: ['js/moon.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
       globals: { ...globals.browser, SunCalc: 'readonly' },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
+    files: ['js/fishing-score.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: { ...globals.browser, SunCalc: 'readonly', Chart: 'readonly' },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
+    // js/dashboard.js — widget render functions moved from app.js
+    files: ['js/dashboard.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.browser,
+        Chart: 'readonly',
+        FishingScore: 'readonly',
+        Moon: 'readonly',
+        // app.js globals consumed by moved functions
+        formatTimestamp: 'readonly',
+        computePressureTrend: 'readonly',
+        getWindBucket: 'readonly',
+        degreesToCompass: 'readonly',
+        _currentData: 'readonly',
+        hourlyData: 'readonly',
+        _themeRerenderCallbacks: 'readonly',
+        // js/dashboard-features.js globals consumed by moved functions
+        synthesizePressureHistory: 'readonly',
+      },
     },
     rules: {
       'no-console': 'off',

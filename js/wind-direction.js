@@ -11,8 +11,25 @@
   }
 
   function degreesToCompass16(degrees) {
-    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-    return dirs[Math.round(((degrees % 360) + 360) % 360 / 22.5) % 16];
+    const dirs = [
+      'N',
+      'NNE',
+      'NE',
+      'ENE',
+      'E',
+      'ESE',
+      'SE',
+      'SSE',
+      'S',
+      'SSW',
+      'SW',
+      'WSW',
+      'W',
+      'WNW',
+      'NW',
+      'NNW',
+    ];
+    return dirs[Math.round((((degrees % 360) + 360) % 360) / 22.5) % 16];
   }
 
   // wind_direction_10m is degrees the wind comes FROM; the arrow visually points
@@ -319,8 +336,20 @@
       }
 
       const datasets = [
-        ...makeDatasets(windSpeedVals, cssVar('--accent-wind'), cssVar('--accent-wind-soft'), 'Wind speed', 'Wind speed (forecast)'),
-        ...makeDatasets(windGustVals, cssVar('--accent-pressure'), cssVar('--accent-pressure-soft'), 'Gusts', 'Gusts (forecast)'),
+        ...makeDatasets(
+          windSpeedVals,
+          cssVar('--accent-wind'),
+          cssVar('--accent-wind-soft'),
+          'Wind speed',
+          'Wind speed (forecast)',
+        ),
+        ...makeDatasets(
+          windGustVals,
+          cssVar('--accent-pressure'),
+          cssVar('--accent-pressure-soft'),
+          'Gusts',
+          'Gusts (forecast)',
+        ),
       ];
 
       const allValid = [...windSpeedVals, ...windGustVals].filter((v) => v != null);

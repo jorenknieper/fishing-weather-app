@@ -46,18 +46,19 @@ Each `<entry>` in the ATOM feed contains an embedded CAP `<alert>` block:
 ## Severity to Colour Mapping
 
 | CAP `<cap:severity>` | Meteoalarm Colour | Dashboard Colour |
-|---|---|---|
-| `Minor`    | Yellow  | YELLOW  |
-| `Moderate` | Orange  | ORANGE  |
-| `Severe`   | Red     | RED     |
-| `Extreme`  | Red     | RED     |
-| (no alert) | Green   | GREEN   |
+| -------------------- | ----------------- | ---------------- |
+| `Minor`              | Yellow            | YELLOW           |
+| `Moderate`           | Orange            | ORANGE           |
+| `Severe`             | Red               | RED              |
+| `Extreme`            | Red               | RED              |
+| (no alert)           | Green             | GREEN            |
 
 ## Area Filtering for Aalter / Flanders
 
 Aalter is in the province of East Flanders, which falls under the NUTS3 code `BE233` (Gent district) and the broader Flanders region `BE2`.
 
 Filtering strategy for the fetch script:
+
 1. Check `<cap:areaDesc>` for "Flanders", "Oost-Vlaanderen", "Vlaanderen", or "Belgium"
 2. Check `<cap:geocode>` for NUTS3 values starting with `BE2` (Flemish Region)
 3. Accept Belgium-wide alerts (no region filter, or `BE` prefix) as they apply to Aalter
@@ -69,5 +70,6 @@ When no warnings are active, the feed returns a valid ATOM document with no `<en
 ## Error Handling
 
 If the feed URL is unreachable or returns non-200:
+
 - Write `{"updatedAt": "...", "warnings": [], "error": "unavailable"}` to `data/kmi-warnings.json`
 - Do **not** fail the GitHub Actions workflow (use `|| true` or try/catch)

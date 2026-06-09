@@ -7,17 +7,23 @@ const SunCalc = require('suncalc');
 // Load browser IIFE via window mock
 const window = {};
 eval(fs.readFileSync(path.join(__dirname, '..', 'js', 'fishing-score.js'), 'utf8'));
-const { scorePressure, scoreWind, scorePrecipitation, computeFishingScore, findBestWindow, scoreLabelFromValue } =
-  window.FishingScore;
+const {
+  scorePressure,
+  scoreWind,
+  scorePrecipitation,
+  computeFishingScore,
+  findBestWindow,
+  scoreLabelFromValue,
+} = window.FishingScore;
 
 const DAY_NAMES = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 function getPhaseName(phase) {
-  if (phase < 0.025 || phase >= 0.975) return 'new-moon';
+  if (phase < 0.025 || phase >= 0.975) return 'new';
   if (phase < 0.225) return 'waxing-crescent';
   if (phase < 0.275) return 'first-quarter';
   if (phase < 0.475) return 'waxing-gibbous';
-  if (phase < 0.525) return 'full-moon';
+  if (phase < 0.525) return 'full';
   if (phase < 0.725) return 'waning-gibbous';
   if (phase < 0.775) return 'last-quarter';
   return 'waning-crescent';
@@ -63,11 +69,20 @@ function run() {
 
     // Compute hourly scores for this day
     const hourlyScores = indices.map((i) => {
-      const trend = i >= 3 ? (hourly.pressure_msl[i] - hourly.pressure_msl[i - 3]) : 0;
+      const trend = i >= 3 ? hourly.pressure_msl[i] - hourly.pressure_msl[i - 3] : 0;
       const ps = scorePressure(hourly.pressure_msl[i], trend);
-      const ws = scoreWind(hourly.wind_speed_10m[i], hourly.wind_gusts_10m[i], hourly.wind_direction_10m[i]);
+      const ws = scoreWind(
+        hourly.wind_speed_10m[i],
+        hourly.wind_gusts_10m[i],
+        hourly.wind_direction_10m[i],
+      );
       const rs = scorePrecipitation(hourly.precipitation[i], null);
-      const score = computeFishingScore({ pressureScore: ps, windScore: ws, moonScore: 50, precipScore: rs });
+      const score = computeFishingScore({
+        pressureScore: ps,
+        windScore: ws,
+        moonScore: 50,
+        precipScore: rs,
+      });
       return { time: hourly.time[i], score };
     });
 

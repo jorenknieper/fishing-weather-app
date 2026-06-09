@@ -1,88 +1,91 @@
 :root {
   /* Maritime instrument palette — light */
-  --bg-base:         #f3f6f9;
-  --bg-surface:      #ffffff;
-  --border-subtle:   #d0d7de;
-  --text-primary:    #1f2328;
-  --text-muted:      #57606a;
+  --bg-base: #f3f6f9;
+  --bg-surface: #fff;
+  --border-subtle: #d0d7de;
+  --text-primary: #1f2328;
+  --text-muted: #57606a;
   --accent-pressure: #9a6700;
-  --accent-wind:     #1f7a6a;
-  --accent-temp:     #1a5490;
+  --accent-wind: #1f7a6a;
+  --accent-temp: #1a5490;
   --accent-pressure-soft: #c9a256;
-  --accent-wind-soft:     #5fb3a1;
-  --accent-temp-soft:     #6aa6ce;
-  --overlay-scrim:        rgba(15, 23, 42, 0.55);
-  --button-ghost-border:  rgba(31, 35, 40, 0.15);
-  --button-ghost-hover:   rgba(31, 35, 40, 0.06);
-  --nav-track:            rgba(31, 35, 40, 0.12);
+  --accent-wind-soft: #5fb3a1;
+  --accent-temp-soft: #6aa6ce;
+  --overlay-scrim: rgb(15 23 42 / 55%);
+  --button-ghost-border: rgb(31 35 40 / 15%);
+  --button-ghost-hover: rgb(31 35 40 / 6%);
+  --nav-track: rgb(31 35 40 / 12%);
 
   /* Semantic aliases */
-  --color-bg:           var(--bg-base);
-  --color-card-bg:      var(--bg-surface);
-  --color-text:         var(--text-primary);
-  --color-muted:        var(--text-muted);
-  --color-card-value:   var(--accent-temp);
-  --color-header-bg:    var(--bg-surface);
-  --color-header-text:  var(--text-primary);
-  --color-shadow:       rgb(0 0 0 / 8%);
-
-  --trend-rising:       #1a7f37;
+  --color-bg: var(--bg-base);
+  --color-card-bg: var(--bg-surface);
+  --color-text: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-card-value: var(--accent-temp);
+  --color-header-bg: var(--bg-surface);
+  --color-header-text: var(--text-primary);
+  --color-shadow: rgb(0 0 0 / 8%);
+  --trend-rising: #1a7f37;
   --trend-falling-fast: #cf222e;
 
   /* Wind speed bucket colours */
-  --wind-calm:     var(--text-muted);
+  --wind-calm: var(--text-muted);
   --wind-moderate: #1f7a6a;
-  --wind-strong:   #9a6700;
-  --wind-stormy:   #cf222e;
+  --wind-strong: #9a6700;
+  --wind-stormy: #cf222e;
 
   /* Error colors — unchanged */
-  --color-error-bg:     #fff5f5;
+  --color-error-bg: #fff5f5;
   --color-error-border: #feb2b2;
-  --color-error-text:   #c53030;
+  --color-error-text: #c53030;
+  --font-mono: 'JetBrains Mono', ui-monospace, sfmono-regular, menlo, monospace;
 
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* App shell layout vars (#150–#155) */
+  --sidebar-width: 220px;
+  --header-height: 56px;
+  --bottom-bar-height: 56px;
 }
 
 html[data-theme='dark'] {
   /* Maritime instrument palette — dark */
-  --bg-base:         #0d1117;
-  --bg-surface:      #161b22;
-  --border-subtle:   #30363d;
-  --text-primary:    #e6edf3;
-  --text-muted:      #8b949e;
+  --bg-base: #0d1117;
+  --bg-surface: #161b22;
+  --border-subtle: #30363d;
+  --text-primary: #e6edf3;
+  --text-muted: #8b949e;
   --accent-pressure: #f0c040;
-  --accent-wind:     #5fb3a1;
-  --accent-temp:     #6aa6ce;
+  --accent-wind: #5fb3a1;
+  --accent-temp: #6aa6ce;
   --accent-pressure-soft: #8a6a20;
-  --accent-wind-soft:     #3c7a6e;
-  --accent-temp-soft:     #5588a8;
-  --overlay-scrim:        rgba(0, 0, 0, 0.65);
-  --button-ghost-border:  rgba(230, 237, 243, 0.25);
-  --button-ghost-hover:   rgba(230, 237, 243, 0.10);
-  --nav-track:            rgba(230, 237, 243, 0.10);
+  --accent-wind-soft: #3c7a6e;
+  --accent-temp-soft: #5588a8;
+  --overlay-scrim: rgb(0 0 0 / 65%);
+  --button-ghost-border: rgb(230 237 243 / 25%);
+  --button-ghost-hover: rgb(230 237 243 / 10%);
+  --nav-track: rgb(230 237 243 / 10%);
 
   /* Semantic aliases */
-  --color-bg:           var(--bg-base);
-  --color-card-bg:      var(--bg-surface);
-  --color-text:         var(--text-primary);
-  --color-muted:        var(--text-muted);
-  --color-card-value:   var(--accent-temp);
-  --color-header-bg:    var(--bg-surface);
-  --color-header-text:  var(--text-primary);
-  --color-shadow:       rgb(0 0 0 / 30%);
-  --trend-rising:       #3fb950;
+  --color-bg: var(--bg-base);
+  --color-card-bg: var(--bg-surface);
+  --color-text: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-card-value: var(--accent-temp);
+  --color-header-bg: var(--bg-surface);
+  --color-header-text: var(--text-primary);
+  --color-shadow: rgb(0 0 0 / 30%);
+  --trend-rising: #3fb950;
   --trend-falling-fast: #f85149;
 
   /* Wind speed bucket colours */
-  --wind-calm:     var(--text-muted);
+  --wind-calm: var(--text-muted);
   --wind-moderate: #5fb3a1;
-  --wind-strong:   #f0c040;
-  --wind-stormy:   #f85149;
+  --wind-strong: #f0c040;
+  --wind-stormy: #f85149;
 
   /* Error colors — dark overrides */
-  --color-error-bg:     #2d1515;
+  --color-error-bg: #2d1515;
   --color-error-border: #c53030;
-  --color-error-text:   #feb2b2;
+  --color-error-text: #feb2b2;
 }
 
 *,
@@ -100,7 +103,9 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
 header {
@@ -110,9 +115,15 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.5rem;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header-height);
 }
 
 .header-location {
@@ -313,7 +324,10 @@ footer {
   padding: 1rem;
   font-size: 0.8rem;
   color: var(--color-muted);
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
 }
 
 .build-info {
@@ -434,23 +448,54 @@ footer {
   flex-shrink: 0;
 }
 
-.pressure-trend[data-state='rising'] { color: var(--trend-rising, #2da44e); }
-.pressure-trend[data-state='rising']::before { background: var(--trend-rising, #2da44e); }
+.pressure-trend[data-state='rising'] {
+  color: var(--trend-rising, #2da44e);
+}
 
-.pressure-trend[data-state='stable'] { color: var(--color-muted); }
-.pressure-trend[data-state='stable']::before { background: var(--color-muted); }
+.pressure-trend[data-state='rising']::before {
+  background: var(--trend-rising, #2da44e);
+}
 
-.pressure-trend[data-state='falling'] { color: var(--accent-pressure); }
-.pressure-trend[data-state='falling']::before { background: var(--accent-pressure); }
+.pressure-trend[data-state='stable'] {
+  color: var(--color-muted);
+}
 
-.pressure-trend[data-state='falling-fast'] { color: var(--trend-falling-fast, #cf222e); }
-.pressure-trend[data-state='falling-fast']::before { background: var(--trend-falling-fast, #cf222e); }
+.pressure-trend[data-state='stable']::before {
+  background: var(--color-muted);
+}
+
+.pressure-trend[data-state='falling'] {
+  color: var(--accent-pressure);
+}
+
+.pressure-trend[data-state='falling']::before {
+  background: var(--accent-pressure);
+}
+
+.pressure-trend[data-state='falling-fast'] {
+  color: var(--trend-falling-fast, #cf222e);
+}
+
+.pressure-trend[data-state='falling-fast']::before {
+  background: var(--trend-falling-fast, #cf222e);
+}
 
 /* Wind speed bucket colouring (#92) */
-#wind-speed[data-wind-bucket='calm']     { color: var(--wind-calm); }
-#wind-speed[data-wind-bucket='moderate'] { color: var(--wind-moderate); }
-#wind-speed[data-wind-bucket='strong']   { color: var(--wind-strong); }
-#wind-speed[data-wind-bucket='stormy']   { color: var(--wind-stormy); }
+#wind-speed[data-wind-bucket='calm'] {
+  color: var(--wind-calm);
+}
+
+#wind-speed[data-wind-bucket='moderate'] {
+  color: var(--wind-moderate);
+}
+
+#wind-speed[data-wind-bucket='strong'] {
+  color: var(--wind-strong);
+}
+
+#wind-speed[data-wind-bucket='stormy'] {
+  color: var(--wind-stormy);
+}
 
 /* Wind verdict word (#125, #143) */
 .wind-verdict {
@@ -461,10 +506,21 @@ footer {
   text-transform: lowercase;
 }
 
-.wind-verdict[data-verdict='veering']  { color: var(--accent-wind); }
-.wind-verdict[data-verdict='backing']  { color: var(--accent-pressure); }
-.wind-verdict[data-verdict='shifting'] { color: var(--accent-temp); }
-.wind-verdict[data-verdict='steady']   { color: var(--text-muted); }
+.wind-verdict[data-verdict='veering'] {
+  color: var(--accent-wind);
+}
+
+.wind-verdict[data-verdict='backing'] {
+  color: var(--accent-pressure);
+}
+
+.wind-verdict[data-verdict='shifting'] {
+  color: var(--accent-temp);
+}
+
+.wind-verdict[data-verdict='steady'] {
+  color: var(--text-muted);
+}
 
 /* #143 — gusts row and stability label in wind card */
 .wind-gusts-row {
@@ -1036,7 +1092,10 @@ details[open].keyboard-help summary::before {
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 1px 3px var(--color-shadow);
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
 }
 
 .pressure-inline__header {
@@ -1059,7 +1118,7 @@ details[open].keyboard-help summary::before {
   display: none;
 }
 
-@media (max-width: 639px) {
+@media (width <= 639px) {
   .modal-drag-handle {
     display: block;
     width: 40px;
@@ -1234,6 +1293,7 @@ html.no-transitions *::after {
   .card {
     transition: none !important;
   }
+
   .card--clickable:hover,
   .card--clickable:focus-visible {
     transform: none;
@@ -1241,23 +1301,6 @@ html.no-transitions *::after {
 }
 
 /* === App Shell (#150–#155) === */
-
-/* Layout vars */
-:root {
-  --sidebar-width: 220px;
-  --header-height: 56px;
-  --bottom-bar-height: 56px;
-}
-
-/* Fix header to exact height */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  height: var(--header-height);
-  flex-wrap: nowrap;
-  align-items: center;
-}
 
 /* App grid: sidebar + content */
 #app {
@@ -1319,7 +1362,9 @@ header {
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: background 150ms ease, color 150ms ease;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
   border-left: 3px solid transparent;
 }
 
@@ -1387,7 +1432,9 @@ header {
   color: var(--text-muted);
   font-size: 1rem;
   line-height: 1;
-  transition: color 150ms ease, background 150ms ease;
+  transition:
+    color 150ms ease,
+    background 150ms ease;
 }
 
 #refresh-btn:hover {
@@ -1400,7 +1447,9 @@ header {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .header-avatar {
@@ -1455,7 +1504,7 @@ header {
 }
 
 /* Mobile overrides — note: existing breakpoints use 639px; this shell uses 640px */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   #app {
     grid-template-columns: 1fr;
   }
@@ -1496,40 +1545,350 @@ header {
 
 .score-badge--excellent {
   background: #1a7f37;
-  color: #ffffff;
+  color: #fff;
 }
 
 .score-badge--good {
   background: #9a6700;
-  color: #ffffff;
+  color: #fff;
 }
 
 .score-badge--fair {
   background: #bc4c00;
-  color: #ffffff;
+  color: #fff;
 }
 
 .score-badge--poor {
   background: #cf222e;
-  color: #ffffff;
+  color: #fff;
 }
 
 html[data-theme='dark'] .score-badge--excellent {
   background: #238636;
-  color: #ffffff;
+  color: #fff;
 }
 
 html[data-theme='dark'] .score-badge--good {
   background: #9e6a03;
-  color: #ffffff;
+  color: #fff;
 }
 
 html[data-theme='dark'] .score-badge--fair {
   background: #bd561d;
-  color: #ffffff;
+  color: #fff;
 }
 
 html[data-theme='dark'] .score-badge--poor {
   background: #da3633;
-  color: #ffffff;
+  color: #fff;
+}
+
+/* ===== Dashboard layout (#176) ===== */
+.dash-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0 1rem;
+}
+
+.dash-row {
+  display: grid;
+  gap: 16px;
+}
+
+.dash-row--top {
+  grid-template-columns: 3fr 2fr;
+}
+
+.dash-row--half {
+  grid-template-columns: 1fr 1fr;
+}
+
+.dash-row--metrics {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (width <= 900px) {
+  .dash-row--metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 640px) {
+  .dash-row--top,
+  .dash-row--half {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-row--metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .forecast-strip {
+    overflow-x: auto;
+  }
+}
+
+/* ===== Score widget (#179) ===== */
+.card--score {
+  min-height: 160px;
+}
+
+.score-widget__body {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.score-widget__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.score-widget__num {
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent-wind);
+}
+
+.score-widget__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.score-widget__label--excellent {
+  color: #1a7f37;
+}
+
+.score-widget__label--good {
+  color: #9a6700;
+}
+
+.score-widget__label--fair {
+  color: #bc4c00;
+}
+
+.score-widget__label--poor {
+  color: #cf222e;
+}
+
+html[data-theme='dark'] .score-widget__label--excellent {
+  color: #3fb950;
+}
+
+html[data-theme='dark'] .score-widget__label--good {
+  color: #d29922;
+}
+
+html[data-theme='dark'] .score-widget__label--fair {
+  color: #f0883e;
+}
+
+html[data-theme='dark'] .score-widget__label--poor {
+  color: #ff7b72;
+}
+
+.score-widget__window {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+}
+
+.score-widget__radar {
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+}
+
+@media (width <= 480px) {
+  .score-widget__body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .score-widget__radar {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* ===== KMI warnings card (#180) ===== */
+.card--kmi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.kmi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.kmi-badge--green {
+  background: #1a7f37;
+  color: #fff;
+}
+
+.kmi-badge--yellow {
+  background: #9a6700;
+  color: #fff;
+}
+
+.kmi-badge--orange {
+  background: #bc4c00;
+  color: #fff;
+}
+
+.kmi-badge--red {
+  background: #cf222e;
+  color: #fff;
+}
+
+html[data-theme='dark'] .kmi-badge--green {
+  background: #238636;
+}
+
+html[data-theme='dark'] .kmi-badge--yellow {
+  background: #9e6a03;
+}
+
+html[data-theme='dark'] .kmi-badge--orange {
+  background: #bd561d;
+}
+
+html[data-theme='dark'] .kmi-badge--red {
+  background: #da3633;
+}
+
+.kmi-card__status {
+  font-size: 0.8rem;
+  color: var(--color-card-value);
+}
+
+.kmi-card__ts {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-top: auto;
+}
+
+/* ===== Moon card (#175) ===== */
+.card--moon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.moon-card__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-card-value);
+}
+
+.moon-card__illum {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+/* ===== Card header with link (#176 / #178) ===== */
+.card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.card__link {
+  font-size: 0.75rem;
+  color: var(--accent-wind);
+  text-decoration: none;
+}
+
+.card__link:hover {
+  text-decoration: underline;
+}
+
+/* ===== 7-day forecast mini-strip (#178) ===== */
+.card--forecast-strip {
+  overflow: hidden;
+}
+
+.forecast-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  min-width: 0;
+}
+
+@media (width <= 640px) {
+  .forecast-strip {
+    grid-template-columns: repeat(7, minmax(72px, 1fr));
+    overflow-x: auto;
+  }
+}
+
+.fc-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0.4rem 0.25rem;
+  border-radius: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  background: var(--bg-surface, transparent);
+  min-width: 0;
+}
+
+.fc-col:first-child {
+  background: color-mix(in srgb, var(--accent-wind) 10%, transparent);
+}
+
+.fc-day {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  color: var(--color-card-value);
+}
+
+.fc-date {
+  font-size: 0.65rem;
+}
+
+.fc-col .score-badge {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+}
+
+.fc-wind {
+  font-size: 0.65rem;
+  color: var(--color-card-value);
+}
+
+.fc-precip {
+  font-size: 0.65rem;
+}
+
+/* ===== Metric cards (#181) ===== */
+.card--metric {
+  min-width: 0;
 }

@@ -3,7 +3,8 @@ function cssVar(name) {
 }
 
 function makeFocusTrap(modalEl) {
-  const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const FOCUSABLE =
+    'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])';
   function handler(e) {
     if (e.key !== 'Tab') return;
     const focusable = Array.from(modalEl.querySelectorAll(FOCUSABLE));
@@ -11,14 +12,24 @@ function makeFocusTrap(modalEl) {
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (e.shiftKey) {
-      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
     } else {
-      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   }
   return {
-    activate() { modalEl.addEventListener('keydown', handler); },
-    deactivate() { modalEl.removeEventListener('keydown', handler); },
+    activate() {
+      modalEl.addEventListener('keydown', handler);
+    },
+    deactivate() {
+      modalEl.removeEventListener('keydown', handler);
+    },
   };
 }
 
@@ -100,9 +111,9 @@ function degreesToCompass(degrees) {
 // Wind speed buckets (#92)
 // Thresholds in km/h — tune by adjusting these constants.
 const WIND_BUCKETS = [
-  { max: 5,   bucket: 'calm' },
-  { max: 15,  bucket: 'moderate' },
-  { max: 30,  bucket: 'strong' },
+  { max: 5, bucket: 'calm' },
+  { max: 15, bucket: 'moderate' },
+  { max: 30, bucket: 'strong' },
   { max: Infinity, bucket: 'stormy' },
 ];
 
@@ -141,7 +152,8 @@ function initTheme() {
 function updateThemeButton() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const btn = document.getElementById('theme-toggle');
-  if (btn) btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+  if (btn)
+    btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
 }
 
 // Registry of open-chart re-render callbacks, populated by createChartModal.
@@ -342,18 +354,33 @@ function createChartModal(config) {
         const vals = hourly[s.key].slice(startIndex, endIndex);
         allValid = allValid.concat(vals.filter((v) => v != null));
         // Resolve color at render time (supports function or string)
-        const histColor = typeof s.historicalColor === 'function' ? s.historicalColor() : s.historicalColor;
-        const fcastColor = typeof s.forecastColor === 'function' ? s.forecastColor() : s.forecastColor;
+        const histColor =
+          typeof s.historicalColor === 'function' ? s.historicalColor() : s.historicalColor;
+        const fcastColor =
+          typeof s.forecastColor === 'function' ? s.forecastColor() : s.forecastColor;
         if (chartType === 'bar') {
-          datasets.push(
-            buildBarDataset(s.historicalLabel, vals, splitAt, histColor, fcastColor),
-          );
+          datasets.push(buildBarDataset(s.historicalLabel, vals, splitAt, histColor, fcastColor));
         } else {
           const pastData = vals.map((v, i) => (i <= splitAt ? v : null));
           const forecastData = vals.map((v, i) => (i >= splitAt ? v : null));
-          const histDs = buildDataset(s.historicalLabel, pastData, histColor, false, !!s.alwaysDash);
-          const fcastDs = buildDataset(s.forecastLabel, forecastData, fcastColor, true, !!s.alwaysDash);
-          if (s.order != null) { histDs.order = s.order; fcastDs.order = s.order; }
+          const histDs = buildDataset(
+            s.historicalLabel,
+            pastData,
+            histColor,
+            false,
+            !!s.alwaysDash,
+          );
+          const fcastDs = buildDataset(
+            s.forecastLabel,
+            forecastData,
+            fcastColor,
+            true,
+            !!s.alwaysDash,
+          );
+          if (s.order != null) {
+            histDs.order = s.order;
+            fcastDs.order = s.order;
+          }
           datasets.push(histDs, fcastDs);
         }
       }
@@ -366,8 +393,14 @@ function createChartModal(config) {
       allValid = values.filter((v) => v != null);
       const pastData = values.map((v, i) => (i <= splitAt ? v : null));
       const forecastData = values.map((v, i) => (i >= splitAt ? v : null));
-      const histColor = typeof config.colors.historical === 'function' ? config.colors.historical() : config.colors.historical;
-      const fcastColor = typeof config.colors.forecast === 'function' ? config.colors.forecast() : config.colors.forecast;
+      const histColor =
+        typeof config.colors.historical === 'function'
+          ? config.colors.historical()
+          : config.colors.historical;
+      const fcastColor =
+        typeof config.colors.forecast === 'function'
+          ? config.colors.forecast()
+          : config.colors.forecast;
       datasets = [
         buildDataset(config.historicalLabel, pastData, histColor, false),
         buildDataset(config.forecastLabel, forecastData, fcastColor, true),
@@ -635,9 +668,15 @@ function resetHumidityChart() {
 }
 
 // #130 — unified wind modal: delegates to js/wind-unified.js (loaded after app.js)
-function openWindUnifiedModal() { window.WindUnified?.open(); }
-function closeWindUnifiedModal() { window.WindUnified?.close(); }
-function resetWindUnifiedChart() { window.WindUnified?.reset(); }
+function openWindUnifiedModal() {
+  window.WindUnified?.open();
+}
+function closeWindUnifiedModal() {
+  window.WindUnified?.close();
+}
+function resetWindUnifiedChart() {
+  window.WindUnified?.reset();
+}
 
 const precipitationModal = createChartModal({
   modalId: 'precipitation-modal',
@@ -745,7 +784,8 @@ function computePressureTrend(hourly) {
   if (!hourly?.time || !hourly?.pressure_msl) return null;
   const nowISO = new Date()
     .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
-    .slice(0, 16).replace(' ', 'T');
+    .slice(0, 16)
+    .replace(' ', 'T');
   // Find the last index whose time <= nowISO
   let idx = -1;
   for (let i = 0; i < hourly.time.length; i++) {
@@ -756,90 +796,17 @@ function computePressureTrend(hourly) {
   const delta = hourly.pressure_msl[idx] - hourly.pressure_msl[idx - 3];
   if (delta < -2.0) return { label: 'Falling Fast', state: 'falling-fast' };
   if (delta < -1.0) return { label: 'Falling', state: 'falling' };
-  if (delta > 1.0)  return { label: 'Rising', state: 'rising' };
+  if (delta > 1.0) return { label: 'Rising', state: 'rising' };
   return { label: 'Stable', state: 'stable' };
-}
-
-function synthesizeConditionSummary(current, hourly) {
-  if (!current) return null;
-
-  // Pressure direction — reuse computePressureTrend logic
-  const trend = computePressureTrend(hourly);
-  const pressureLabel = trend ? trend.label : null; // e.g. "Rising", "Stable", …
-
-  // Recent precipitation
-  const precip = current.precipitation;
-  let precipLabel;
-  if (precip == null) {
-    precipLabel = null;
-  } else if (precip === 0) {
-    precipLabel = 'dry';
-  } else if (precip < 1) {
-    precipLabel = 'light showers';
-  } else {
-    precipLabel = 'rain';
-  }
-
-  // Wind speed bucket — reuse #92 logic
-  const windSpeed = current.wind_speed_10m;
-  const bucket = getWindBucket(windSpeed);
-  const windDir = current.wind_direction_10m;
-  const cardinal = windDir != null ? degreesToCompass(windDir) : null;
-
-  let windLabel;
-  if (bucket === 'calm') windLabel = 'calm';
-  else if (bucket === 'moderate') windLabel = cardinal ? `light ${cardinal} wind` : 'light wind';
-  else if (bucket === 'strong') windLabel = cardinal ? `moderate ${cardinal} wind` : 'moderate wind';
-  else if (bucket === 'stormy') windLabel = cardinal ? `strong ${cardinal} wind` : 'strong wind';
-  else windLabel = null;
-
-  // Overall verdict
-  let verdict;
-  if (bucket === 'stormy' || trend?.state === 'falling-fast') {
-    verdict = 'poor conditions';
-  } else if (trend?.state === 'rising' && precip === 0 && (bucket === 'calm' || bucket === 'moderate')) {
-    verdict = 'favourable conditions';
-  } else {
-    verdict = 'mixed conditions';
-  }
-
-  // Build sentence — omit any segment that has no data
-  const parts = [pressureLabel, precipLabel, windLabel].filter(Boolean);
-  if (!parts.length) return null;
-
-  return `${parts.join(', ')} — ${verdict}.`;
-}
-
-function renderConditionSummary(current, hourly) {
-  const el = document.getElementById('condition-summary');
-  if (!el) return;
-  const text = synthesizeConditionSummary(current, hourly);
-  const historyText = synthesizePressureHistory(hourly);
-  if (text || historyText) {
-    el.innerHTML = '';
-    if (text) {
-      const line1 = document.createElement('span');
-      line1.textContent = text;
-      el.appendChild(line1);
-    }
-    if (historyText) {
-      if (text) el.appendChild(document.createElement('br'));
-      const line2 = document.createElement('span');
-      line2.className = 'condition-history';
-      line2.textContent = historyText;
-      el.appendChild(line2);
-    }
-    el.classList.remove('hidden');
-  } else {
-    el.innerHTML = '';
-    el.classList.add('hidden');
-  }
 }
 
 function renderPressureSparkline(hourly) {
   const el = document.getElementById('pressure-sparkline');
   if (!el) return;
-  if (!hourly?.pressure_msl || !hourly?.time) { el.innerHTML = ''; return; }
+  if (!hourly?.pressure_msl || !hourly?.time) {
+    el.innerHTML = '';
+    return;
+  }
 
   const nowISO = new Date()
     .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
@@ -851,7 +818,10 @@ function renderPressureSparkline(hourly) {
   const values = hourly.pressure_msl
     .slice(Math.max(0, boundaryIndex - 48), boundaryIndex)
     .filter((v) => v != null);
-  if (values.length < 2) { el.innerHTML = ''; return; }
+  if (values.length < 2) {
+    el.innerHTML = '';
+    return;
+  }
 
   const W = 72;
   const H = 24;
@@ -859,7 +829,10 @@ function renderPressureSparkline(hourly) {
   const max = Math.max(...values);
   const range = max - min || 1;
   const points = values
-    .map((v, i) => `${((i / (values.length - 1)) * W).toFixed(1)},${(H - ((v - min) / range) * H).toFixed(1)}`)
+    .map(
+      (v, i) =>
+        `${((i / (values.length - 1)) * W).toFixed(1)},${(H - ((v - min) / range) * H).toFixed(1)}`,
+    )
     .join(' ');
   el.innerHTML =
     `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">` +
@@ -895,8 +868,10 @@ function renderWeather(current) {
   if (gustsEl) {
     const gustKmh = current.wind_gusts_10m;
     gustsEl.textContent = gustKmh != null ? Math.round(gustKmh) : '–';
-    const gustRatio = (current.wind_speed_10m != null && current.wind_speed_10m > 0 && gustKmh != null)
-      ? gustKmh / current.wind_speed_10m : 0;
+    const gustRatio =
+      current.wind_speed_10m != null && current.wind_speed_10m > 0 && gustKmh != null
+        ? gustKmh / current.wind_speed_10m
+        : 0;
     gustsEl.style.color = gustRatio > 1.5 ? 'var(--wind-stormy)' : '';
   }
   const windDir = current.wind_direction_10m;
@@ -928,6 +903,8 @@ function renderWeather(current) {
 
   document.getElementById('weather-grid').classList.remove('hidden');
   renderPressureSparkline(hourlyData);
+  renderPressureDelta(hourlyData);
+  renderMetricSparklines(hourlyData);
   renderHourlyRibbon(hourlyData);
   renderConditionSummary(current, hourlyData);
   renderWindCompassDial(current);
@@ -947,21 +924,27 @@ async function loadWeather() {
     hourlyData = data.hourly || null;
     window.hourlyData = hourlyData; // consumed by js/pressure-inline.js
     renderWeather(data.current);
-    initDetails();
     window.PressureInline?.render();
+    renderMoonCard();
+    renderKmiCard().catch(() => {});
+    renderScoreWidget(data.current, hourlyData).catch(() => {});
+    fetch('./data/forecast.json')
+      .then((r) => r.json())
+      .then((days) => {
+        if (typeof renderForecastMiniStrip === 'function') renderForecastMiniStrip(days);
+      })
+      .catch(() => {});
   } catch (err) {
     console.error('Failed to load weather data:', err);
     showError();
   }
 }
 
-document.querySelectorAll('.card--clickable').forEach((card) => {
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      card.click();
-    }
-  });
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card--clickable')) {
+    e.preventDefault();
+    e.target.click();
+  }
 });
 
 function refreshWeather() {
@@ -974,5 +957,13 @@ function refreshWeather() {
     }, 600);
   });
 }
+
+// Re-render radar chart on theme switch so canvas colours update (#177)
+_themeRerenderCallbacks.push(function () {
+  const scores = window._lastRadarScores;
+  if (scores && window.FishingScore?.renderScoreRadar) {
+    window.FishingScore.renderScoreRadar('score-radar', scores);
+  }
+});
 
 loadWeather();

@@ -9,7 +9,20 @@ function getOrCreateTooltipEl() {
 }
 
 function makeExternalTooltipHandler(times) {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   return function ({ chart, tooltip }) {
     const el = getOrCreateTooltipEl();
     if (tooltip.opacity === 0) {
@@ -85,8 +98,18 @@ function makeDayLabelsPlugin(times, textColor) {
       const visMin = scale.min;
       const visMax = scale.max;
       const months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ];
 
       const midnights = [];

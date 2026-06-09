@@ -48,8 +48,16 @@ function mapSeverityToColour(severity) {
 // Check if an area matches Flanders / Belgium (Aalter = East Flanders = BE2xx)
 function isRelevantArea(areaXml) {
   if (!areaXml) return false;
-  const desc = (extractTag(areaXml, 'cap:areaDesc') || extractTag(areaXml, 'areaDesc') || '').toLowerCase();
-  const geocodeVal = (extractTag(areaXml, 'cap:value') || extractTag(areaXml, 'value') || '').toUpperCase();
+  const desc = (
+    extractTag(areaXml, 'cap:areaDesc') ||
+    extractTag(areaXml, 'areaDesc') ||
+    ''
+  ).toLowerCase();
+  const geocodeVal = (
+    extractTag(areaXml, 'cap:value') ||
+    extractTag(areaXml, 'value') ||
+    ''
+  ).toUpperCase();
 
   // Belgium-wide or Flanders-specific
   if (
@@ -74,7 +82,11 @@ function parseEntries(xml) {
     const entry = match[1];
 
     // Skip non-actual messages (test, exercise, etc.)
-    const status = (extractTag(entry, 'cap:status') || extractTag(entry, 'status') || '').toLowerCase();
+    const status = (
+      extractTag(entry, 'cap:status') ||
+      extractTag(entry, 'status') ||
+      ''
+    ).toLowerCase();
     if (status && status !== 'actual') continue;
 
     const id = extractTag(entry, 'id') || extractTag(entry, 'cap:identifier');

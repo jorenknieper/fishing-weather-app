@@ -25,7 +25,9 @@
   const overlayEl = document.getElementById('wind-unified-modal');
   const focusTrap = makeFocusTrap(overlayEl.querySelector('.modal'));
   attachSwipeGesture(overlayEl);
-  setupDoubleTap(document.getElementById('wind-unified-chart'), () => { if (chart) reset(); });
+  setupDoubleTap(document.getElementById('wind-unified-chart'), () => {
+    if (chart) reset();
+  });
 
   // -- Navigator (#133) --
 
@@ -57,7 +59,9 @@
   function setupNavigatorDrag() {
     const nav = document.getElementById('wind-unified-navigator');
     if (!nav) return;
-    function getClientX(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
+    function getClientX(e) {
+      return e.touches ? e.touches[0].clientX : e.clientX;
+    }
     function onStart(e) {
       if (!chart || !navValues) return;
       if (e.cancelable) e.preventDefault();
@@ -82,7 +86,10 @@
       drawNavigator();
       drawBarbsAndTape();
     }
-    function onEnd() { dragging = false; nav.style.cursor = 'grab'; }
+    function onEnd() {
+      dragging = false;
+      nav.style.cursor = 'grab';
+    }
     nav.addEventListener('mousedown', onStart);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onEnd);
@@ -128,9 +135,10 @@
       const cardinal = dir != null ? degreesToCompass(dir) : '–';
       const speedDisplay = speedKmh != null ? Math.round(speedKmh) : '–';
       const gustDisplay = gustKmh != null ? Math.round(gustKmh) : '–';
-      const arrowSvg = dir != null
-        ? renderWindArrow(dir, { size: BARB_SIZE, speedKmh })
-        : `<svg width="${BARB_SIZE}" height="${BARB_SIZE}" aria-hidden="true"></svg>`;
+      const arrowSvg =
+        dir != null
+          ? renderWindArrow(dir, { size: BARB_SIZE, speedKmh })
+          : `<svg width="${BARB_SIZE}" height="${BARB_SIZE}" aria-hidden="true"></svg>`;
       const dataAttrs = `data-idx="${i}" data-dir="${dir != null ? dir : ''}" data-speed="${speedKmh != null ? speedKmh : ''}" data-gust="${gustKmh != null ? gustKmh : ''}" data-time="${hour}" data-cardinal="${cardinal}"`;
       html +=
         `<span class="wind-barb-cell" tabindex="0" role="button" aria-label="${hour} ${cardinal} ${speedDisplay} km/h gusts ${gustDisplay} km/h" ` +
@@ -144,7 +152,10 @@
     el.querySelectorAll('.wind-barb-cell').forEach((cell) => {
       cell.addEventListener('click', onBarbActivate);
       cell.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onBarbActivate.call(cell, e); }
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onBarbActivate.call(cell, e);
+        }
       });
     });
   }
@@ -192,8 +203,13 @@
 
     const globalIdx = startIndex + idx;
     const timeStr = windTimes ? windTimes[globalIdx] : '';
-    const localTime = timeStr ? new Date(timeStr.replace('T', ' ') + ':00')
-      .toLocaleString('en-BE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Brussels' }) : '–';
+    const localTime = timeStr
+      ? new Date(timeStr.replace('T', ' ') + ':00').toLocaleString('en-BE', {
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Europe/Brussels',
+        })
+      : '–';
     const dir = windDirs ? windDirs[globalIdx] : null;
     const speedKmh = windSpeeds ? windSpeeds[globalIdx] : null;
     const gustKmh = windGusts ? windGusts[globalIdx] : null;
@@ -219,7 +235,8 @@
     // STABILITY via gust ratio + 3h variance
     let stability = 'steady';
     if (windDirs) {
-      const gustRatio = (speedKmh != null && speedKmh > 0 && gustKmh != null) ? gustKmh / speedKmh : 0;
+      const gustRatio =
+        speedKmh != null && speedKmh > 0 && gustKmh != null ? gustKmh / speedKmh : 0;
       const { variance } = computeWindRotation(windDirs, globalIdx, 3);
       if (gustRatio > 1.5) stability = 'gusty';
       else if (variance > 100) stability = 'variable';
@@ -238,7 +255,9 @@
       `<span class="wind-stats-pipe" aria-hidden="true">│</span>` +
       `<span class="wind-stats-seg">STABILITY: ${stability}</span>`;
 
-    document.querySelectorAll('.wind-barb-cell--active').forEach((c) => c.classList.remove('wind-barb-cell--active'));
+    document
+      .querySelectorAll('.wind-barb-cell--active')
+      .forEach((c) => c.classList.remove('wind-barb-cell--active'));
     if (sourceCell) sourceCell.classList.add('wind-barb-cell--active');
   }
 
@@ -297,12 +316,8 @@
     const accentSoftColor = cssVar('--accent-wind-soft');
 
     const allValid = [...speeds, ...gusts].filter((v) => v != null);
-    const yMin = allValid.length
-      ? Math.floor((Math.min(...allValid) - 5) / 5) * 5
-      : 0;
-    const yMax = allValid.length
-      ? Math.ceil((Math.max(...allValid) + 10) / 10) * 10
-      : 80;
+    const yMin = allValid.length ? Math.floor((Math.min(...allValid) - 5) / 5) * 5 : 0;
+    const yMax = allValid.length ? Math.ceil((Math.max(...allValid) + 10) / 10) * 10 : 80;
 
     function buildDs(label, data, color, isForecast) {
       const ds = {
@@ -325,7 +340,11 @@
     const gustsFcast = gusts.map((v, i) => (i >= splitAt ? v : null));
 
     if (chart) {
-      try { chart.destroy(); } catch { /* ignore */ }
+      try {
+        chart.destroy();
+      } catch {
+        /* ignore */
+      }
       chart = null;
     }
 
@@ -362,8 +381,14 @@
               limits: { x: { min: 0, max: times.length - 1, minRange: ZOOM_MIN_RANGE } },
               zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
               pan: { enabled: true, mode: 'x' },
-              onZoomComplete: () => { drawNavigator(); drawBarbsAndTape(); },
-              onPanComplete: () => { drawNavigator(); drawBarbsAndTape(); },
+              onZoomComplete: () => {
+                drawNavigator();
+                drawBarbsAndTape();
+              },
+              onPanComplete: () => {
+                drawNavigator();
+                drawBarbsAndTape();
+              },
             },
           },
           scales: {
@@ -405,7 +430,14 @@
       });
     } catch (err) {
       console.error('Wind chart creation failed:', err);
-      if (chart) { try { chart.destroy(); } catch { /* ignore */ } chart = null; }
+      if (chart) {
+        try {
+          chart.destroy();
+        } catch {
+          /* ignore */
+        }
+        chart = null;
+      }
       canvas.classList.add('hidden');
       noData.classList.remove('hidden');
       return;

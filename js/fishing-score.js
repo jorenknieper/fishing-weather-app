@@ -77,7 +77,13 @@
   // #163 — Moon/solunar scoring (Solunar Theory, John Alden Knight 1936)
   // Major periods: moon overhead/underfoot = peak feeding activity windows
   function scoreMoon(illuminationPct, phaseName, isInMajorPeriod, isInMinorPeriod) {
-    if (illuminationPct == null && phaseName == null && isInMajorPeriod == null && isInMinorPeriod == null) return 50;
+    if (
+      illuminationPct == null &&
+      phaseName == null &&
+      isInMajorPeriod == null &&
+      isInMinorPeriod == null
+    )
+      return 50;
 
     const name = (phaseName ?? '').toLowerCase();
     let base;
@@ -99,7 +105,7 @@
     const w = windScore ?? 50;
     const m = moonScore ?? 50;
     const r = precipScore ?? 50;
-    return Math.round(p * 0.30 + w * 0.25 + m * 0.30 + r * 0.15);
+    return Math.round(p * 0.3 + w * 0.25 + m * 0.3 + r * 0.15);
   }
 
   function scoreLabelFromValue(score) {
@@ -150,10 +156,83 @@
     return `${h}:${m}`;
   }
 
+  // #179 — Temperature scoring (Belgian freshwater context)
+  // 12–20°C optimal; extreme cold/heat reduces fish activity
+  function scoreTemperature(degC) {
+    if (degC == null) return 50;
+    if (degC < 0) return 10;
+    if (degC < 5) return 25;
+    if (degC < 10) return 45;
+    if (degC < 12) return 60;
+    if (degC <= 20) return 90;
+    if (degC <= 25) return 70;
+    if (degC <= 28) return 50;
+    return 30;
+  }
+
   // #195 — Score badge HTML component
   function renderScoreBadge(score, label) {
-    const variant = score >= 80 ? 'excellent' : score >= 65 ? 'good' : score >= 45 ? 'fair' : 'poor';
+    const variant =
+      score >= 80 ? 'excellent' : score >= 65 ? 'good' : score >= 45 ? 'fair' : 'poor';
     return `<span class="score-badge score-badge--${variant}">${score} ${label}</span>`;
+  }
+
+  // #177 — Radar chart (pentagon) for 5 score axes
+  let _radarChart = null;
+  function renderScoreRadar(canvasId, scores) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return;
+    const style = getComputedStyle(document.documentElement);
+    const teal = style.getPropertyValue('--accent-wind').trim() || '#1f7a6a';
+    const grid = style.getPropertyValue('--border-subtle').trim() || '#ccc';
+    const labels = style.getPropertyValue('--text-muted').trim() || '#666';
+    const data = [
+      scores.pressure ?? 50,
+      scores.moon ?? 50,
+      scores.wind ?? 50,
+      scores.precipitation ?? 50,
+      scores.temperature ?? 50,
+    ];
+    if (_radarChart) {
+      _radarChart.data.datasets[0].data = data;
+      _radarChart.data.datasets[0].backgroundColor = teal + '4d';
+      _radarChart.data.datasets[0].borderColor = teal;
+      _radarChart.options.scales.r.grid.color = grid;
+      _radarChart.options.scales.r.pointLabels.color = labels;
+      _radarChart.update();
+      return;
+    }
+    _radarChart = new Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels: ['Pressure', 'Moon', 'Wind', 'Precipitation', 'Temperature'],
+        datasets: [
+          {
+            data,
+            fill: true,
+            backgroundColor: teal + '4d',
+            borderColor: teal,
+            borderWidth: 1.5,
+            pointRadius: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            ticks: { display: false, stepSize: 25 },
+            grid: { color: grid },
+            angleLines: { color: grid },
+            pointLabels: { font: { size: 9 }, color: labels },
+          },
+        },
+      },
+    });
   }
 
   window.FishingScore = {
@@ -161,9 +240,11 @@
     scoreWind,
     scorePrecipitation,
     scoreMoon,
+    scoreTemperature,
     computeFishingScore,
     scoreLabelFromValue,
     findBestWindow,
     renderScoreBadge,
+    renderScoreRadar,
   };
 })();

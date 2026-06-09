@@ -43,4 +43,4 @@
   window.Router = { currentRoute: currentRoute, setActiveNav: setActiveNav };
 
   handleRoute();
-}());
+})();
