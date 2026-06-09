@@ -64,12 +64,12 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
 
   // Geometry constants (relative to size)
   const shaftLen = size * 0.42;
-  const barbW = size * 0.22;   // horizontal reach of a full feather
+  const barbW = size * 0.22; // horizontal reach of a full feather
   const barbStep = size * 0.07; // vertical spacing between feathers
   const pennantH = size * 0.13; // pennant triangle height along shaft
 
   const shaftTop = cy - shaftLen; // y of upwind tip in un-rotated coords
-  const shaftBot = cy;            // y of downwind tip (centre)
+  const shaftBot = cy; // y of downwind tip (centre)
 
   // Decompose speed into pennants / full feathers / half feathers
   let remaining = Math.round(speedKt);
@@ -84,8 +84,8 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
   // Draw shaft
   paths.push(
     `<line x1="${cx.toFixed(1)}" y1="${shaftBot.toFixed(1)}" ` +
-    `x2="${cx.toFixed(1)}" y2="${shaftTop.toFixed(1)}" ` +
-    `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+      `x2="${cx.toFixed(1)}" y2="${shaftTop.toFixed(1)}" ` +
+      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
   );
 
   // Feathers stack from upwind tip downward
@@ -96,9 +96,9 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
     const yBase = yOff + pennantH;
     paths.push(
       `<polygon points="${cx.toFixed(1)},${yOff.toFixed(1)} ` +
-      `${(cx + barbW).toFixed(1)},${((yOff + yBase) / 2).toFixed(1)} ` +
-      `${cx.toFixed(1)},${yBase.toFixed(1)}" ` +
-      `fill="currentColor"/>`
+        `${(cx + barbW).toFixed(1)},${((yOff + yBase) / 2).toFixed(1)} ` +
+        `${cx.toFixed(1)},${yBase.toFixed(1)}" ` +
+        `fill="currentColor"/>`,
     );
     yOff = yBase + barbStep * 0.3;
   }
@@ -107,8 +107,8 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
   for (let f = 0; f < fulls; f++) {
     paths.push(
       `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
-      `x2="${(cx + barbW).toFixed(1)}" y2="${(yOff + barbStep * 0.8).toFixed(1)}" ` +
-      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+        `x2="${(cx + barbW).toFixed(1)}" y2="${(yOff + barbStep * 0.8).toFixed(1)}" ` +
+        `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
     );
     yOff += barbStep;
   }
@@ -117,8 +117,8 @@ function renderWindBarb(dirFromDeg, speedKt, { size = 48 } = {}) {
   for (let h = 0; h < halves; h++) {
     paths.push(
       `<line x1="${cx.toFixed(1)}" y1="${yOff.toFixed(1)}" ` +
-      `x2="${(cx + barbW * 0.5).toFixed(1)}" y2="${(yOff + barbStep * 0.4).toFixed(1)}" ` +
-      `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`
+        `x2="${(cx + barbW * 0.5).toFixed(1)}" y2="${(yOff + barbStep * 0.4).toFixed(1)}" ` +
+        `stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
     );
     yOff += barbStep;
   }
@@ -147,7 +147,7 @@ function renderWindArrow(dirFromDeg, { size = 48, speedKmh = null } = {}) {
     );
   }
 
-  const rotation = ((dirFromDeg + 180) % 360 + 360) % 360;
+  const rotation = (((dirFromDeg + 180) % 360) + 360) % 360;
   const arrowLen = size * 0.5;
   const headH = arrowLen * 0.26;
   const headW = size * 0.36;
@@ -189,11 +189,11 @@ function _windArrowPathContent(size) {
 function _buildCompassDialSvg(current, SIZE) {
   const cx = SIZE / 2;
   const cy = SIZE / 2;
-  const R = SIZE / 2 - 6;      // bezel radius
+  const R = SIZE / 2 - 6; // bezel radius
   const tickOuter = R;
   const tickInnerMajor = R - 10; // major tick (cardinal) length
-  const tickInnerMinor = R - 6;  // minor tick (intercardinal) length
-  const labelR = R - 16;         // radius for N/E/S/W label centres
+  const tickInnerMinor = R - 6; // minor tick (intercardinal) length
+  const labelR = R - 16; // radius for N/E/S/W label centres
   const fontSize = Math.round(SIZE * (10 / 120));
 
   const cardinals = [
@@ -209,20 +209,24 @@ function _buildCompassDialSvg(current, SIZE) {
     return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
   }
 
-  let svg = `<svg class="wind-compass-svg" viewBox="0 0 ${SIZE} ${SIZE}" ` +
+  let svg =
+    `<svg class="wind-compass-svg" viewBox="0 0 ${SIZE} ${SIZE}" ` +
     `focusable="false" aria-hidden="true">`;
 
-  svg += `<circle cx="${cx}" cy="${cy}" r="${R}" ` +
+  svg +=
+    `<circle cx="${cx}" cy="${cy}" r="${R}" ` +
     `fill="none" stroke="var(--border-subtle)" stroke-width="1.5"/>`;
 
   for (const { label, angle } of cardinals) {
     const outer = toXY(angle, tickOuter);
     const inner = toXY(angle, tickInnerMajor);
-    svg += `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
+    svg +=
+      `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
       `x2="${inner.x.toFixed(1)}" y2="${inner.y.toFixed(1)}" ` +
       `stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round"/>`;
     const lp = toXY(angle, labelR);
-    svg += `<text x="${lp.x.toFixed(1)}" y="${lp.y.toFixed(1)}" ` +
+    svg +=
+      `<text x="${lp.x.toFixed(1)}" y="${lp.y.toFixed(1)}" ` +
       `text-anchor="middle" dominant-baseline="central" ` +
       `font-size="${fontSize}" font-weight="600" fill="var(--text-muted)">${label}</text>`;
   }
@@ -230,7 +234,8 @@ function _buildCompassDialSvg(current, SIZE) {
   for (const angle of intercardinalAngles) {
     const outer = toXY(angle, tickOuter);
     const inner = toXY(angle, tickInnerMinor);
-    svg += `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
+    svg +=
+      `<line x1="${outer.x.toFixed(1)}" y1="${outer.y.toFixed(1)}" ` +
       `x2="${inner.x.toFixed(1)}" y2="${inner.y.toFixed(1)}" ` +
       `stroke="var(--border-subtle)" stroke-width="1" stroke-linecap="round"/>`;
   }
@@ -242,9 +247,10 @@ function _buildCompassDialSvg(current, SIZE) {
     if (dirDeg != null && speedKmh != null) {
       const arrowSize = SIZE * 0.6;
       // Arrow points TO direction: rotation = (dirFrom + 180) % 360
-      const rotation = ((dirDeg + 180) % 360 + 360) % 360;
+      const rotation = (((dirDeg + 180) % 360) + 360) % 360;
       const offset = (SIZE - arrowSize) / 2;
-      svg += `<g transform="translate(${offset.toFixed(1)},${offset.toFixed(1)}) rotate(${rotation},${(arrowSize / 2).toFixed(1)},${(arrowSize / 2).toFixed(1)})" ` +
+      svg +=
+        `<g transform="translate(${offset.toFixed(1)},${offset.toFixed(1)}) rotate(${rotation},${(arrowSize / 2).toFixed(1)},${(arrowSize / 2).toFixed(1)})" ` +
         `color="var(--accent-wind)">`;
       if (speedKmh < 5) {
         const r = arrowSize * 0.12;
@@ -292,7 +298,11 @@ function renderWindVerdict(hourly) {
     if (hourly.time[i] <= nowISO) nowIdx = i;
     else break;
   }
-  if (nowIdx < 0) { el.textContent = '–'; el.dataset.verdict = ''; return; }
+  if (nowIdx < 0) {
+    el.textContent = '–';
+    el.dataset.verdict = '';
+    return;
+  }
 
   const hoursLeft = hourly.wind_direction_10m.length - nowIdx;
   if (hoursLeft < 6) {
@@ -346,7 +356,16 @@ function renderWindMicroStrip(hourly) {
     const gustDisplay = gustKmh != null ? Math.round(gustKmh) : '–';
     const isGusty = speedKmh != null && speedKmh > 0 && gustKmh != null && gustKmh / speedKmh > 1.5;
     const titleText = `${hour}:00 — ${cardinal} ${speedDisplay} km/h`;
-    cols.push({ dir, speedKmh, gustDisplay, hour, isGusty, titleText, isNow: i === 0, speedDisplay });
+    cols.push({
+      dir,
+      speedKmh,
+      gustDisplay,
+      hour,
+      isGusty,
+      titleText,
+      isNow: i === 0,
+      speedDisplay,
+    });
   }
 
   // CSS grid: column-flow; row 1=arrows, row 2=speeds, row 3=gusts, row 4=hours
@@ -360,12 +379,14 @@ function renderWindMicroStrip(hourly) {
 
   // Data columns: emit 4 cells per column (arrow, speed, gust, hour)
   for (const col of cols) {
-    const arrowSvg = col.dir != null
-      ? renderWindArrow(col.dir, { size: ARROW_SIZE, speedKmh: col.speedKmh })
-      : `<svg width="${ARROW_SIZE}" height="${ARROW_SIZE}" aria-hidden="true"></svg>`;
+    const arrowSvg =
+      col.dir != null
+        ? renderWindArrow(col.dir, { size: ARROW_SIZE, speedKmh: col.speedKmh })
+        : `<svg width="${ARROW_SIZE}" height="${ARROW_SIZE}" aria-hidden="true"></svg>`;
     html +=
       `<span class="wind-micro-cell__arrow${col.isNow ? ' wind-micro-cell--now' : ''}" title="${col.titleText}" aria-hidden="true">` +
-      arrowSvg + `</span>`;
+      arrowSvg +
+      `</span>`;
     html += `<span class="wind-micro-cell__speed">${col.speedDisplay}</span>`;
     html += `<span class="wind-micro-cell__gust${col.isGusty ? ' wind-micro-cell__gust--stormy' : ''}">${col.gustDisplay}</span>`;
     html += `<span class="wind-micro-cell__hour${col.isNow ? ' wind-micro-cell--now' : ''}">${col.isNow ? 'now' : col.hour}</span>`;
@@ -439,7 +460,8 @@ function synthesizePressureHistory(hourly) {
   if (Math.abs(delta24) < THRESHOLD) return 'Stable since yesterday.';
   if (delta24 >= THRESHOLD && delta48 >= THRESHOLD) return 'Improving since two days ago.';
   if (delta24 >= THRESHOLD) return 'Improving since yesterday.';
-  if (delta48 <= -THRESHOLD && delta24 <= -THRESHOLD) return 'Pressure has been falling for two days.';
+  if (delta48 <= -THRESHOLD && delta24 <= -THRESHOLD)
+    return 'Pressure has been falling for two days.';
   return 'Pressure dropped overnight.';
 }
 
@@ -471,9 +493,12 @@ function renderHourlyRibbon(hourly) {
   }
 
   function getPrecipDot(precip) {
-    if (precip == null || precip === 0) return '<span class="ribbon-precip ribbon-precip--none" aria-label="No rain"></span>';
-    if (precip < 0.5) return '<span class="ribbon-precip ribbon-precip--light" aria-label="Light rain"></span>';
-    if (precip < 2) return '<span class="ribbon-precip ribbon-precip--moderate" aria-label="Moderate rain"></span>';
+    if (precip == null || precip === 0)
+      return '<span class="ribbon-precip ribbon-precip--none" aria-label="No rain"></span>';
+    if (precip < 0.5)
+      return '<span class="ribbon-precip ribbon-precip--light" aria-label="Light rain"></span>';
+    if (precip < 2)
+      return '<span class="ribbon-precip ribbon-precip--moderate" aria-label="Moderate rain"></span>';
     return '<span class="ribbon-precip ribbon-precip--heavy" aria-label="Heavy rain"></span>';
   }
 
@@ -502,9 +527,10 @@ function renderHourlyRibbon(hourly) {
       const speedKmh = hourly.wind_speed_10m[i];
       const speedKt = speedKmh != null ? speedKmh * 0.539957 : null;
       const speedLabel = speedKmh != null ? Math.round(speedKmh) : '–';
-      const barbSvg = (dir != null && speedKt != null)
-        ? renderWindBarb(dir, speedKt, { size: 20 })
-        : `<svg width="20" height="20" aria-hidden="true"></svg>`;
+      const barbSvg =
+        dir != null && speedKt != null
+          ? renderWindBarb(dir, speedKt, { size: 20 })
+          : `<svg width="20" height="20" aria-hidden="true"></svg>`;
       windHtml =
         `<span class="ribbon-wind-barb" aria-hidden="true">${barbSvg}</span>` +
         `<span class="ribbon-wind-speed">${speedLabel}</span>`;
@@ -529,7 +555,10 @@ function renderWindStability(current, hourly) {
   const el = document.getElementById('wind-stability');
   if (!el) return;
 
-  if (!hourly?.wind_direction_10m || !hourly?.time) { el.textContent = '–'; return; }
+  if (!hourly?.wind_direction_10m || !hourly?.time) {
+    el.textContent = '–';
+    return;
+  }
 
   const nowISO = new Date()
     .toLocaleString('sv', { timeZone: 'Europe/Brussels' })
@@ -540,11 +569,14 @@ function renderWindStability(current, hourly) {
     if (hourly.time[i] <= nowISO) nowIdx = i;
     else break;
   }
-  if (nowIdx < 0 || hourly.wind_direction_10m.length - nowIdx < 6) { el.textContent = '–'; return; }
+  if (nowIdx < 0 || hourly.wind_direction_10m.length - nowIdx < 6) {
+    el.textContent = '–';
+    return;
+  }
 
   const speedKmh = current?.wind_speed_10m;
   const gustKmh = current?.wind_gusts_10m;
-  const gustRatio = (speedKmh != null && speedKmh > 0 && gustKmh != null) ? gustKmh / speedKmh : 0;
+  const gustRatio = speedKmh != null && speedKmh > 0 && gustKmh != null ? gustKmh / speedKmh : 0;
   const { variance } = computeWindRotation(hourly.wind_direction_10m, nowIdx, 3);
 
   let stability;

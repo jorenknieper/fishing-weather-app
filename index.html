@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
     <!-- ===== APP HEADER (#152) ===== -->
     <header>
       <a class="header-brand" href="#dashboard" aria-label="VGK Patersveld – go to dashboard">
         <!-- Fish-hook logo SVG (teal, aria-hidden) -->
-        <svg class="brand-logo" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 2v10"/>
-          <path d="M12 12a4 4 0 1 1-4 4"/>
-          <path d="M12 12l-2-2"/>
+        <svg
+          class="brand-logo"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 2v10" />
+          <path d="M12 12a4 4 0 1 1-4 4" />
+          <path d="M12 12l-2-2" />
         </svg>
         <span class="brand-name">VGK Patersveld</span>
         <span class="header-subtitle">Aalter, Belgium</span>
@@ -23,21 +33,47 @@
 
       <div class="header-right">
         <span class="header-updated">Last updated: <span id="last-updated">–</span></span>
-        <button id="refresh-btn" onclick="refreshWeather()" aria-label="Refresh weather data">↺</button>
+        <button id="refresh-btn" onclick="refreshWeather()" aria-label="Refresh weather data">
+          ↺
+        </button>
         <button id="theme-toggle" onclick="toggleTheme()" aria-label="Switch to light theme">
-          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <line x1="12" y1="2" x2="12" y2="4"/>
-            <line x1="12" y1="20" x2="12" y2="22"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="2" y1="12" x2="4" y2="12"/>
-            <line x1="20" y1="12" x2="22" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          <svg
+            class="icon-sun"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <line x1="12" y1="2" x2="12" y2="4" />
+            <line x1="12" y1="20" x2="12" y2="22" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="2" y1="12" x2="4" y2="12" />
+            <line x1="20" y1="12" x2="22" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
-          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          <svg
+            class="icon-moon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         </button>
         <div class="header-avatar" aria-hidden="true">VK</div>
@@ -46,56 +82,120 @@
 
     <!-- ===== APP GRID (#153) ===== -->
     <div id="app">
-
       <!-- ===== SIDEBAR (#151) ===== -->
       <nav id="sidebar" aria-label="Main navigation">
         <a class="nav-item" href="#dashboard" data-route="dashboard">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
           </svg>
           <span class="nav-label">Dashboard</span>
         </a>
         <a class="nav-item" href="#forecast" data-route="forecast">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
           </svg>
           <span class="nav-label">Forecast</span>
         </a>
         <a class="nav-item" href="#moon" data-route="moon">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
           <span class="nav-label">Moon</span>
         </a>
         <a class="nav-item" href="#catches" data-route="catches">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M2 16s2-2 5-2 5 2 5 2 2-2 5-2 5 2 5 2"/>
-            <path d="M12 8c0-2.5 2-4 2-4s-4 0-4 4a4 4 0 0 0 8 0"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M2 16s2-2 5-2 5 2 5 2 2-2 5-2 5 2 5 2" />
+            <path d="M12 8c0-2.5 2-4 2-4s-4 0-4 4a4 4 0 0 0 8 0" />
           </svg>
           <span class="nav-label">Catches</span>
         </a>
         <a class="nav-item" href="#analytics" data-route="analytics">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="18" y1="20" x2="18" y2="10"/>
-            <line x1="12" y1="20" x2="12" y2="4"/>
-            <line x1="6" y1="20" x2="6" y2="14"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
           </svg>
           <span class="nav-label">Analytics</span>
         </a>
         <a class="nav-item" href="#alerts" data-route="alerts">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
           </svg>
           <span class="nav-label">Alerts</span>
         </a>
         <a class="nav-item" href="#settings" data-route="settings">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+            />
           </svg>
           <span class="nav-label">Settings</span>
         </a>
@@ -103,40 +203,56 @@
 
       <!-- ===== MAIN CONTENT (#150 router target) ===== -->
       <main id="content">
-
         <!-- Dashboard page (existing content moved here verbatim) -->
         <section id="page-dashboard">
           <div id="error-message" class="error hidden">
             <p>Could not load weather data. Please try again later.</p>
           </div>
 
-          <div id="weather-grid" class="ia-dashboard hidden">
-            <!-- Tier 1: Hero -->
-            <section class="ia-tier ia-tier--hero" aria-label="Pressure overview">
-              <div class="card card--hero">
-                <span class="label">Pressure (MSL)</span>
-                <span class="value" id="pressure-msl">–</span>
-                <span class="unit">hPa</span>
-                <span id="pressure-trend" class="pressure-trend"></span>
-                <span id="pressure-sparkline" class="hero-sparkline"></span>
-              </div>
-              <p id="condition-summary" class="condition-summary hidden"></p>
-            </section>
+          <p id="condition-summary" class="condition-summary hidden"></p>
 
-            <!-- Tier 2: Wind hero -->
-            <section class="ia-tier ia-tier--wind-hero" aria-label="Wind conditions">
-              <div class="card card--wind-hero card--clickable" role="button" tabindex="0" aria-label="Open wind details" onclick="openWindUnifiedModal()">
+          <div id="weather-grid" class="dash-grid hidden">
+            <!-- Row 1: Fishing Score (~60%) + KMI Warnings (~40%) -->
+            <div class="dash-row dash-row--top">
+              <div id="score-widget" class="card card--score"></div>
+              <div id="kmi-card" class="card card--kmi"></div>
+            </div>
+
+            <!-- Row 2: 7-day forecast strip (full width) -->
+            <div class="dash-row">
+              <div class="card card--forecast-strip">
+                <div class="card__head">
+                  <span class="label">7-Day Forecast</span>
+                  <a class="card__link" href="#forecast">View full forecast →</a>
+                </div>
+                <div id="forecast-mini-strip" class="forecast-strip"></div>
+              </div>
+            </div>
+
+            <!-- Row 3: Wind (50%) + Moon (50%) -->
+            <div class="dash-row dash-row--half">
+              <div
+                class="card card--wind-hero card--clickable"
+                role="button"
+                tabindex="0"
+                aria-label="Open wind details"
+                onclick="openWindUnifiedModal()"
+              >
                 <div class="wind-hero__layout">
-                  <div class="wind-hero__dial" aria-hidden="true" id="wind-compass-dial">
-                    <!-- #123: static compass bezel scaffold; barb arrow added in #124 -->
-                  </div>
+                  <div class="wind-hero__dial" aria-hidden="true" id="wind-compass-dial"></div>
                   <div class="wind-hero__values">
                     <span class="label">Wind</span>
                     <span class="value" id="wind-speed">–</span>
                     <span class="unit">km/h</span>
-                    <span class="wind-gusts-row">Gusts <span id="wind-gusts" class="wind-gusts-value">–</span> km/h</span>
+                    <span class="wind-gusts-row"
+                      >Gusts <span id="wind-gusts" class="wind-gusts-value">–</span> km/h</span
+                    >
                     <span class="wd-card-value card-sub">
-                      <span class="wd-arrow-preview" id="wind-direction-arrow" aria-hidden="true"></span>
+                      <span
+                        class="wd-arrow-preview"
+                        id="wind-direction-arrow"
+                        aria-hidden="true"
+                      ></span>
                       <span id="wind-direction">–</span>
                     </span>
                     <span id="wind-verdict" class="wind-verdict" aria-hidden="true"></span>
@@ -145,67 +261,77 @@
                 </div>
                 <div id="wind-micro-strip" class="wind-micro-strip" aria-hidden="true"></div>
               </div>
-            </section>
+              <div id="moon-card" class="card card--moon"></div>
+            </div>
 
-            <!-- Tier 3: Primary metrics -->
-            <section class="ia-tier ia-tier--primary" aria-label="Primary conditions">
-              <div class="grid grid--primary">
-                <div
-                  class="card card--clickable"
-                  role="button"
-                  tabindex="0"
-                  aria-label="Open temperature chart"
-                  onclick="openTemperatureModal()"
-                >
-                  <span class="label">Temperature</span>
-                  <span class="value" id="temperature">–</span>
-                  <span class="unit">°C</span>
-                  <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
-                </div>
-                <div
-                  class="card card--clickable"
-                  role="button"
-                  tabindex="0"
-                  aria-label="Open precipitation chart"
-                  onclick="openPrecipitationModal()"
-                >
-                  <span class="label">Precipitation</span>
-                  <span class="value" id="precipitation">–</span>
-                  <span class="unit">mm</span>
-                </div>
-              </div>
-            </section>
-
-            <!-- Tier 3: Collapsed details -->
-            <section class="ia-tier ia-tier--details" aria-label="Additional conditions">
-              <button
-                id="details-toggle"
-                class="details-toggle"
-                aria-expanded="false"
-                aria-controls="details-panel"
-                onclick="toggleDetails()"
+            <!-- Row 4: 4 metric cards -->
+            <div class="dash-row dash-row--metrics">
+              <div
+                class="card card--metric card--clickable"
+                role="button"
+                tabindex="0"
+                aria-label="Open pressure chart"
+                onclick="openPressureInline()"
               >
-                <span class="details-toggle__label">Show more</span>
-                <span class="details-toggle__icon" aria-hidden="true">▸</span>
-              </button>
-              <div id="details-panel" class="details-panel hidden">
-                <div class="grid grid--details">
-                  <div class="card card--clickable" role="button" tabindex="0" aria-label="Open humidity chart" onclick="openHumidityModal()">
-                    <span class="label">Humidity</span>
-                    <span class="value" id="humidity">–</span>
-                    <span class="unit">%</span>
-                  </div>
-                </div>
+                <span class="label">Pressure</span>
+                <span class="value" id="pressure-msl">–</span>
+                <span class="unit">hPa</span>
+                <span id="pressure-trend" class="pressure-trend"></span>
+                <span id="pressure-delta" class="card-sub"></span>
+                <span id="pressure-sparkline" class="hero-sparkline"></span>
               </div>
-            </section>
+              <div
+                class="card card--metric card--clickable"
+                role="button"
+                tabindex="0"
+                aria-label="Open temperature chart"
+                onclick="openTemperatureModal()"
+              >
+                <span class="label">Temperature</span>
+                <span class="value" id="temperature">–</span>
+                <span class="unit">°C</span>
+                <span class="card-sub">Feels like <span id="apparent-temperature">–</span>°</span>
+                <span id="temperature-sparkline" class="hero-sparkline"></span>
+              </div>
+              <div
+                class="card card--metric card--clickable"
+                role="button"
+                tabindex="0"
+                aria-label="Open precipitation chart"
+                onclick="openPrecipitationModal()"
+              >
+                <span class="label">Precipitation</span>
+                <span class="value" id="precipitation">–</span>
+                <span class="unit">mm</span>
+                <span id="precipitation-chance" class="card-sub"></span>
+              </div>
+              <div
+                class="card card--metric card--clickable"
+                role="button"
+                tabindex="0"
+                aria-label="Open humidity chart"
+                onclick="openHumidityModal()"
+              >
+                <span class="label">Humidity</span>
+                <span class="value" id="humidity">–</span>
+                <span class="unit">%</span>
+                <span id="humidity-sparkline" class="hero-sparkline"></span>
+              </div>
+            </div>
           </div>
 
-          <div id="hourly-ribbon" class="hourly-ribbon hidden" aria-label="Next 12 hours forecast"></div>
+          <div
+            id="hourly-ribbon"
+            class="hourly-ribbon hidden"
+            aria-label="Next 12 hours forecast"
+          ></div>
 
           <div id="pressure-inline" class="pressure-inline hidden">
             <div class="pressure-inline__header">
               <span class="pressure-inline__title">Pressure – last 7 days &amp; next 7 days</span>
-              <button id="chart-reset" class="modal-reset" onclick="resetPressureChart()">Reset</button>
+              <button id="chart-reset" class="modal-reset" onclick="resetPressureChart()">
+                Reset
+              </button>
             </div>
             <canvas id="pressure-chart"></canvas>
             <canvas id="pressure-navigator"></canvas>
@@ -243,44 +369,89 @@
           <h2>Settings</h2>
           <p>Settings coming soon.</p>
         </section>
-
       </main>
-    </div><!-- /#app -->
+    </div>
+    <!-- /#app -->
 
     <!-- ===== MOBILE BOTTOM TAB BAR (#155) ===== -->
     <nav id="bottom-tab-bar" aria-label="Mobile navigation">
       <a class="tab-item" href="#dashboard" data-route="dashboard">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="3" width="7" height="7" rx="1"/>
-          <rect x="14" y="3" width="7" height="7" rx="1"/>
-          <rect x="3" y="14" width="7" height="7" rx="1"/>
-          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <svg
+          class="tab-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
         </svg>
         <span>Dashboard</span>
       </a>
       <a class="tab-item" href="#forecast" data-route="forecast">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+        <svg
+          class="tab-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
         </svg>
         <span>Forecast</span>
       </a>
       <a class="tab-item" href="#moon" data-route="moon">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <svg
+          class="tab-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
         <span>Moon</span>
       </a>
       <a class="tab-item" href="#catches" data-route="catches">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M2 16s2-2 5-2 5 2 5 2 2-2 5-2 5 2 5 2"/>
-          <path d="M12 8c0-2.5 2-4 2-4s-4 0-4 4a4 4 0 0 0 8 0"/>
+        <svg
+          class="tab-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M2 16s2-2 5-2 5 2 5 2 2-2 5-2 5 2 5 2" />
+          <path d="M12 8c0-2.5 2-4 2-4s-4 0-4 4a4 4 0 0 0 8 0" />
         </svg>
         <span>Catches</span>
       </a>
       <a class="tab-item" href="#alerts" data-route="alerts">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        <svg
+          class="tab-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
         </svg>
         <span>Alerts</span>
       </a>
@@ -288,7 +459,13 @@
 
     <!-- ===== MODALS (unchanged, direct body children) ===== -->
     <div id="temp-modal" class="modal-overlay hidden" onclick="closeTemperatureModal()">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="temp-modal-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="temp-modal-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="temp-modal-heading">Temperature – last 7 days &amp; next 7 days</span>
@@ -310,7 +487,13 @@
     </div>
 
     <div id="humidity-modal" class="modal-overlay hidden" onclick="closeHumidityModal()">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="humidity-modal-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="humidity-modal-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="humidity-modal-heading">Humidity – last 7 days &amp; next 7 days</span>
@@ -328,11 +511,23 @@
     </div>
 
     <div id="wind-unified-modal" class="modal-overlay hidden" onclick="closeWindUnifiedModal()">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wind-unified-modal-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="wind-unified-modal-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="wind-unified-modal-heading">Wind</span>
-          <button id="chart-reset-wind-unified" class="modal-reset" onclick="resetWindUnifiedChart()">Reset</button>
+          <button
+            id="chart-reset-wind-unified"
+            class="modal-reset"
+            onclick="resetWindUnifiedChart()"
+          >
+            Reset
+          </button>
           <button class="modal-close" onclick="closeWindUnifiedModal()">✕</button>
         </div>
         <div class="modal-body">
@@ -348,10 +543,18 @@
     </div>
 
     <div id="precipitation-modal" class="modal-overlay hidden" onclick="closePrecipitationModal()">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="precipitation-modal-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="precipitation-modal-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
-          <span id="precipitation-modal-heading">Precipitation – last 7 days &amp; next 7 days</span>
+          <span id="precipitation-modal-heading"
+            >Precipitation – last 7 days &amp; next 7 days</span
+          >
           <button
             id="chart-reset-precipitation"
             class="modal-reset"
@@ -370,10 +573,18 @@
     </div>
 
     <div id="wind-direction-modal" class="modal-overlay hidden" onclick="closeWindDirectionModal()">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wind-direction-modal-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="wind-direction-modal-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
-          <span id="wind-direction-modal-heading">Wind Direction – last 7 days &amp; next 7 days</span>
+          <span id="wind-direction-modal-heading"
+            >Wind Direction – last 7 days &amp; next 7 days</span
+          >
           <button
             id="chart-reset-wind-direction"
             class="modal-reset"
@@ -406,7 +617,10 @@
           <li><kbd>Shift+Tab</kbd> — move backwards through interactive elements</li>
         </ul>
       </details>
-      <p class="build-info"><a id="build-sha" href="#" target="_blank" rel="noopener">source</a> · <span id="build-time">–</span></p>
+      <p class="build-info">
+        <a id="build-sha" href="#" target="_blank" rel="noopener">source</a> ·
+        <span id="build-time">–</span>
+      </p>
     </footer>
 
     <!-- ===== SCRIPTS (existing order + router last) ===== -->
@@ -423,5 +637,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script>
     <script src="js/moon.js"></script>
     <script src="js/fishing-score.js"></script>
+    <script src="js/dashboard.js"></script>
   </body>
 </html>

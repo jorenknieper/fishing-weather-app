@@ -31,8 +31,10 @@ function generateDay(dateStr) {
   const times = SunCalc.getMoonTimes(new Date(dateStr + 'T00:00:00Z'), LAT, LON);
 
   const H = 60 * 60 * 1000;
-  let majorStart = null, majorEnd = null;
-  let minorStart = null, minorEnd = null;
+  let majorStart = null,
+    majorEnd = null;
+  let minorStart = null,
+    minorEnd = null;
 
   if (times.rise && times.set) {
     const riseMs = times.rise.getTime();
