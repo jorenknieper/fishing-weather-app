@@ -1,8 +1,8 @@
 {
-  "issueNumber": 185,
-  "issueTitle": "Forecast: extend Open-Meteo fetch to 14 days",
-  "prNumber": 240,
-  "commitShaShort": "ef0004b",
-  "commitShaFull": "ef0004bc64048067ffc5f7e054dea3d17eefad8d",
-  "builtAt": "2026-06-08T22:48:16.172Z"
+  "issueNumber": 175,
+  "issueTitle": "Moon: moon card dashboard widget",
+  "prNumber": 241,
+  "commitShaShort": "052b071",
+  "commitShaFull": "052b071eea15771a3c7ef348ba541de092b612e1",
+  "builtAt": "2026-06-09T14:28:51.004Z"
 }
