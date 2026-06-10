@@ -384,9 +384,31 @@
           </div>
         </section>
 
+        <!-- Catches page (#191) -->
         <section id="page-catches" hidden>
-          <h2>Catches</h2>
-          <p>Catch logging coming soon.</p>
+          <div class="catches">
+            <header class="catches__header">
+              <span class="catches__title">CATCHES</span>
+              <select id="catch-species-filter" class="catches__species-select" aria-label="Filter by species">
+                <option value="">All species</option>
+                <option>Mirror Carp</option>
+                <option>Common Carp</option>
+                <option>Grass Carp</option>
+                <option>Tench</option>
+                <option>Pike</option>
+                <option>Bream</option>
+              </select>
+              <button id="catch-filter-btn" class="catches__btn" type="button">Filter</button>
+              <button id="catch-add-btn" class="catches__btn catches__btn--primary" type="button">+ Add Catch</button>
+            </header>
+            <div id="catch-active-chips" class="catches__chips" aria-live="polite"></div>
+            <div id="catch-list" class="catches__list" aria-live="polite"></div>
+            <footer class="catches__footer">
+              <button id="catch-export-btn" class="catches__btn catches__btn--ghost" type="button">Export</button>
+              <button id="catch-import-btn" class="catches__btn catches__btn--ghost" type="button">Import</button>
+              <input id="catch-import-input" type="file" accept="application/json,.json" hidden>
+            </footer>
+          </div>
         </section>
 
         <section id="page-analytics" hidden>
@@ -399,9 +421,48 @@
           <p>Fishing condition alerts coming soon.</p>
         </section>
 
+        <!-- Settings page (#232) -->
         <section id="page-settings" hidden>
-          <h2>Settings</h2>
-          <p>Settings coming soon.</p>
+          <div class="settings">
+            <h2 class="settings__title">Settings</h2>
+            <form id="settings-form" class="settings__form">
+              <div class="settings__group">
+                <label class="settings__label" for="pref-display-name">Display name</label>
+                <input id="pref-display-name" class="settings__input" type="text" placeholder="Your name">
+              </div>
+              <div class="settings__group">
+                <label class="settings__label" for="pref-weight-unit">Weight unit</label>
+                <select id="pref-weight-unit" class="settings__select">
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+              </div>
+              <div class="settings__group">
+                <label class="settings__label" for="pref-wind-unit">Wind unit</label>
+                <select id="pref-wind-unit" class="settings__select">
+                  <option value="km/h">km/h</option>
+                  <option value="m/s">m/s</option>
+                  <option value="knots">knots</option>
+                </select>
+              </div>
+              <div class="settings__group">
+                <label class="settings__label" for="pref-location-name">Location</label>
+                <input id="pref-location-name" class="settings__input" type="text" placeholder="Aalter">
+              </div>
+              <div class="settings__group">
+                <label class="settings__label" for="pref-theme">Theme</label>
+                <select id="pref-theme" class="settings__select">
+                  <option value="auto">Auto (system)</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="settings__actions">
+                <button type="submit" class="catches__btn catches__btn--primary">Save</button>
+                <button type="button" id="settings-reset-btn" class="catches__btn catches__btn--ghost">Reset defaults</button>
+              </div>
+            </form>
+          </div>
         </section>
       </main>
     </div>
@@ -657,6 +718,243 @@
       </p>
     </footer>
 
+    <!-- Catch form datalists -->
+    <datalist id="catch-species-list">
+      <option>Mirror Carp</option>
+      <option>Common Carp</option>
+      <option>Grass Carp</option>
+      <option>Tench</option>
+      <option>Pike</option>
+      <option>Bream</option>
+      <option>Crucian Carp</option>
+      <option>Perch</option>
+    </datalist>
+    <datalist id="catch-bait-list">
+      <option>Krill Boilie</option>
+      <option>Strawberry Boilie</option>
+      <option>Scopex Boilie</option>
+      <option>Sweetcorn</option>
+      <option>Tigernut</option>
+      <option>Hemp</option>
+      <option>Maize</option>
+      <option>Pellets</option>
+      <option>Worm</option>
+    </datalist>
+    <datalist id="catch-rig-list">
+      <option>Blowback Rig</option>
+      <option>KD Rig</option>
+      <option>Ronnie Rig</option>
+      <option>PVA Bag Rig</option>
+      <option>Chod Rig</option>
+      <option>Hair Rig</option>
+      <option>Helicopter Rig</option>
+    </datalist>
+
+    <!-- Add/Edit Catch modal (#196 #198 #199 #233) -->
+    <div id="catch-form-overlay" class="modal-overlay hidden">
+      <div class="modal catch-form__modal" role="dialog" aria-modal="true" aria-labelledby="catch-form-title" onclick="event.stopPropagation()">
+        <div class="modal-drag-handle" aria-hidden="true"></div>
+        <div class="modal-header">
+          <span id="catch-form-title">Add Catch</span>
+          <button class="modal-close" id="catch-form-close" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="catch-form" class="catch-form">
+            <!-- Basic fields -->
+            <div class="catch-form__group">
+              <label class="catch-form__label" for="cf-species">Species</label>
+              <input id="cf-species" class="catch-form__input" type="text" list="catch-species-list" required placeholder="e.g. Mirror Carp">
+            </div>
+            <div class="catch-form__row">
+              <div class="catch-form__group">
+                <label class="catch-form__label" for="cf-weight">Weight (kg)</label>
+                <input id="cf-weight" class="catch-form__input" type="number" min="0" step="0.1" placeholder="0.0">
+              </div>
+              <div class="catch-form__group">
+                <label class="catch-form__label" for="cf-length">Length (cm)</label>
+                <input id="cf-length" class="catch-form__input" type="number" min="0" step="1" placeholder="0">
+              </div>
+            </div>
+            <div class="catch-form__row">
+              <div class="catch-form__group">
+                <label class="catch-form__label" for="cf-date">Date</label>
+                <input id="cf-date" class="catch-form__input" type="date">
+              </div>
+              <div class="catch-form__group">
+                <label class="catch-form__label" for="cf-time">Time</label>
+                <input id="cf-time" class="catch-form__input" type="time">
+              </div>
+            </div>
+            <div class="catch-form__group">
+              <label class="catch-form__label" for="cf-bait">Bait</label>
+              <input id="cf-bait" class="catch-form__input" type="text" list="catch-bait-list" placeholder="e.g. Krill Boilie">
+            </div>
+            <div class="catch-form__group">
+              <label class="catch-form__label" for="cf-rig">Rig</label>
+              <input id="cf-rig" class="catch-form__input" type="text" list="catch-rig-list" placeholder="e.g. Hair Rig">
+            </div>
+            <!-- Photo (#233) -->
+            <div class="catch-form__group">
+              <label class="catch-form__label" for="catch-photo-input">Photo</label>
+              <input id="catch-photo-input" class="catch-form__input" type="file" accept="image/*" capture="environment">
+              <img id="catch-photo-preview" class="catch-form__photo-preview" src="" alt="" hidden>
+              <input type="hidden" id="cf-photo-url">
+            </div>
+            <!-- Auto weather (#199) -->
+            <fieldset id="catch-form-weather" class="catch-form__weather" disabled>
+              <legend class="catch-form__legend">Conditions (auto-populated)</legend>
+              <div class="catch-form__weather-grid">
+                <span class="catch-form__weather-label">Wind</span><span id="cf-wind" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Pressure</span><span id="cf-pressure" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Temp</span><span id="cf-temp" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Precip</span><span id="cf-precip" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Moon</span><span id="cf-moon" class="catch-form__weather-val">—</span>
+              </div>
+            </fieldset>
+            <!-- hidden weather fields stored on save -->
+            <input type="hidden" id="cf-wind-speed">
+            <input type="hidden" id="cf-wind-dir">
+            <input type="hidden" id="cf-pressure-val">
+            <input type="hidden" id="cf-temp-val">
+            <input type="hidden" id="cf-precip-val">
+            <input type="hidden" id="cf-moon-phase">
+            <!-- Advanced (#198) -->
+            <details class="catch-form__advanced">
+              <summary class="catch-form__advanced-toggle">Advanced details</summary>
+              <div class="catch-form__advanced-body">
+                <div class="catch-form__row">
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-hook-size">Hook size</label>
+                    <input id="cf-hook-size" class="catch-form__input" type="number" placeholder="8">
+                  </div>
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-hook-pattern">Hook pattern</label>
+                    <input id="cf-hook-pattern" class="catch-form__input" type="text" placeholder="e.g. Wide Gape">
+                  </div>
+                </div>
+                <div class="catch-form__row">
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-mainline">Mainline (kg)</label>
+                    <input id="cf-mainline" class="catch-form__input" type="number" step="0.1" placeholder="6.8">
+                  </div>
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-leader">Leader (kg)</label>
+                    <input id="cf-leader" class="catch-form__input" type="number" step="0.1" placeholder="6.8">
+                  </div>
+                </div>
+                <div class="catch-form__group">
+                  <label class="catch-form__label" for="cf-leader-material">Leader material</label>
+                  <input id="cf-leader-material" class="catch-form__input" type="text" placeholder="e.g. Fluorocarbon">
+                </div>
+                <div class="catch-form__row">
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-water-temp">Water temp (°C)</label>
+                    <input id="cf-water-temp" class="catch-form__input" type="number" step="0.1">
+                  </div>
+                  <div class="catch-form__group">
+                    <label class="catch-form__label" for="cf-depth">Depth (m)</label>
+                    <input id="cf-depth" class="catch-form__input" type="number" step="0.5">
+                  </div>
+                </div>
+                <div class="catch-form__group">
+                  <label class="catch-form__label" for="cf-clarity">Water clarity</label>
+                  <select id="cf-clarity" class="catch-form__input">
+                    <option value="">— select —</option>
+                    <option value="clear">Clear</option>
+                    <option value="slightly coloured">Slightly coloured</option>
+                    <option value="coloured">Coloured</option>
+                    <option value="murky">Murky</option>
+                  </select>
+                </div>
+                <div class="catch-form__group">
+                  <label class="catch-form__label" for="cf-venue">Venue</label>
+                  <input id="cf-venue" class="catch-form__input" type="text" placeholder="e.g. Patersveld Lake">
+                </div>
+                <div class="catch-form__group">
+                  <label class="catch-form__label" for="cf-swim">Swim description</label>
+                  <input id="cf-swim" class="catch-form__input" type="text" placeholder="e.g. Far bank under the willows">
+                </div>
+              </div>
+            </details>
+            <div class="catch-form__group">
+              <label class="catch-form__label" for="cf-notes">Notes</label>
+              <textarea id="cf-notes" class="catch-form__input catch-form__textarea" rows="3" placeholder="Any observations..."></textarea>
+            </div>
+            <input type="hidden" id="cf-editing-id">
+            <div class="catch-form__actions">
+              <button type="button" id="catch-form-cancel" class="catches__btn catches__btn--ghost">Cancel</button>
+              <button type="submit" class="catches__btn catches__btn--primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catch detail overlay (#204) -->
+    <div id="catch-detail-overlay" class="modal-overlay hidden">
+      <div class="modal catch-detail__modal" role="dialog" aria-modal="true" aria-labelledby="catch-detail-heading" onclick="event.stopPropagation()">
+        <div class="modal-drag-handle" aria-hidden="true"></div>
+        <div class="modal-header">
+          <span id="catch-detail-heading">Catch Details</span>
+          <button class="modal-close" id="catch-detail-close" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body" id="catch-detail-body"></div>
+        <div class="catch-detail__footer">
+          <button id="catch-detail-edit" class="catches__btn catches__btn--ghost" type="button">Edit</button>
+          <button id="catch-detail-delete" class="catches__btn catches__btn--danger" type="button">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter panel (#203) -->
+    <div id="catch-filter-overlay" class="modal-overlay hidden">
+      <div class="modal catch-filter__modal" role="dialog" aria-modal="true" aria-labelledby="catch-filter-heading" onclick="event.stopPropagation()">
+        <div class="modal-drag-handle" aria-hidden="true"></div>
+        <div class="modal-header">
+          <span id="catch-filter-heading">Filter &amp; Sort</span>
+          <button class="modal-close" id="catch-filter-close" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="catch-filter">
+            <div class="catch-filter__group">
+              <label class="catch-filter__label">Species</label>
+              <div id="catch-filter-species-checks" class="catch-filter__checks"></div>
+            </div>
+            <div class="catch-filter__row">
+              <div class="catch-filter__group">
+                <label class="catch-filter__label" for="cf-date-from">Date from</label>
+                <input id="cf-date-from" class="catch-form__input" type="date">
+              </div>
+              <div class="catch-filter__group">
+                <label class="catch-filter__label" for="cf-date-to">Date to</label>
+                <input id="cf-date-to" class="catch-form__input" type="date">
+              </div>
+            </div>
+            <div class="catch-filter__group">
+              <label class="catch-filter__label" for="cf-filter-bait">Bait</label>
+              <input id="cf-filter-bait" class="catch-form__input" type="text" placeholder="Search bait...">
+            </div>
+            <div class="catch-filter__group">
+              <label class="catch-filter__label">Rig</label>
+              <div id="catch-filter-rig-checks" class="catch-filter__checks"></div>
+            </div>
+            <div class="catch-filter__group">
+              <label class="catch-filter__label" for="cf-sort">Sort by</label>
+              <select id="cf-sort" class="catch-form__input">
+                <option value="date-desc">Date (newest first)</option>
+                <option value="date-asc">Date (oldest first)</option>
+                <option value="weight-desc">Weight (heaviest first)</option>
+              </select>
+            </div>
+            <div class="catch-filter__actions">
+              <button id="catch-filter-clear" class="catches__btn catches__btn--ghost" type="button">Clear all</button>
+              <button id="catch-filter-apply" class="catches__btn catches__btn--primary" type="button">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== SCRIPTS (existing order + router last) ===== -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"></script>
@@ -672,6 +970,9 @@
     <script src="js/moon.js"></script>
     <script src="js/fishing-score.js"></script>
     <script src="js/moon-calendar.js"></script>
+    <script src="js/prefs.js"></script>
+    <script src="js/catches-store.js"></script>
+    <script src="js/catches.js"></script>
     <script src="js/forecast.js"></script>
     <script src="js/dashboard.js"></script>
   </body>
