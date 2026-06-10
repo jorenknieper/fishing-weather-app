@@ -1,8 +1,8 @@
 {
-  "issueNumber": 167,
-  "issueTitle": "Moon: monthly calendar grid with phase icons and illumination",
-  "prNumber": 243,
-  "commitShaShort": "e6df6e0",
-  "commitShaFull": "e6df6e0bada6c59e46f2eb2d5a32204112bfade7",
-  "builtAt": "2026-06-10T09:40:50.901Z"
+  "issueNumber": 232,
+  "issueTitle": "Settings: localStorage preferences module (prefs.js)",
+  "prNumber": 244,
+  "commitShaShort": "ca1be97",
+  "commitShaFull": "ca1be97cf45b33a7bfff3575f8c877ee835e137a",
+  "builtAt": "2026-06-10T12:57:29.435Z"
 }
