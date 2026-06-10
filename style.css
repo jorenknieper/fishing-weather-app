@@ -1892,3 +1892,260 @@ html[data-theme='dark'] .kmi-badge--red {
 .card--metric {
   min-width: 0;
 }
+
+/* ===== Forecast page (#184 #187 #190 #192) ===== */
+.fc-page-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin: 0 0 0.75rem;
+}
+
+.fc-tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 0.75rem;
+}
+
+.fc-tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.fc-tab-btn.is-active {
+  color: var(--accent-wind);
+  border-bottom-color: var(--accent-wind);
+}
+
+.fc-tab-btn:hover:not(.is-active) {
+  color: var(--color-text);
+}
+
+/* Daily forecast rows (#187) */
+.fc-row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto 5.5rem 3.5rem 5.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background 0.1s;
+}
+
+.fc-row:hover {
+  background: color-mix(in srgb, var(--accent-wind) 6%, transparent);
+}
+
+.fc-row:last-child {
+  border-bottom: none;
+}
+
+.fc-row__day {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-row__dayname {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--color-card-value);
+}
+
+.fc-row__date {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+.fc-row__moon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fc-row__wind {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.fc-row__wind-dir {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--accent-wind);
+}
+
+.fc-row__wind-spd {
+  font-size: 0.68rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.fc-row__precip {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fc-row__window {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.fc-row__window--excellent {
+  background: color-mix(in srgb, #1a7f37 12%, transparent);
+  color: #1a7f37;
+}
+
+.fc-row__window--good {
+  background: color-mix(in srgb, #9a6700 12%, transparent);
+  color: #9a6700;
+}
+
+.fc-row__window--fair {
+  background: color-mix(in srgb, #bc4c00 12%, transparent);
+  color: #bc4c00;
+}
+
+.fc-row__window--poor {
+  background: color-mix(in srgb, #cf222e 12%, transparent);
+  color: #cf222e;
+}
+
+.fc-row__window--none {
+  color: var(--color-muted);
+}
+
+html[data-theme='dark'] .fc-row__window--excellent { color: #3fb950; }
+html[data-theme='dark'] .fc-row__window--good { color: #d29922; }
+html[data-theme='dark'] .fc-row__window--fair { color: #f0883e; }
+html[data-theme='dark'] .fc-row__window--poor { color: #f85149; }
+
+/* Skeleton loading (#184) */
+.fc-skeleton {
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.fc-skeleton__bar {
+  height: 2rem;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--border-subtle) 25%,
+    color-mix(in srgb, var(--border-subtle) 40%, transparent) 50%,
+    var(--border-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: fc-shimmer 1.4s ease infinite;
+}
+
+@keyframes fc-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Empty state */
+.fc-empty {
+  color: var(--color-muted);
+  text-align: center;
+  padding: 2.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Hourly list (#192) */
+.fc-hour__day-sep {
+  padding: 0.35rem 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.fc-hour-row {
+  display: grid;
+  grid-template-columns: 3.2rem 2.4rem 1fr 3.5rem 2.4rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.8rem;
+}
+
+.fc-hour-row--now {
+  background: color-mix(in srgb, var(--accent-wind) 10%, transparent);
+}
+
+.fc-hour__time {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--color-card-value);
+  font-variant-numeric: tabular-nums;
+}
+
+.fc-hour__temp {
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.fc-hour__wind {
+  color: var(--accent-wind);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fc-hour__wind-unit {
+  color: var(--color-muted);
+  font-size: 0.65rem;
+}
+
+.fc-hour__precip {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fc-hour-row .score-badge {
+  font-size: 0.65rem;
+  padding: 0.1em 0.3em;
+  justify-self: end;
+}
+
+@media (width <= 640px) {
+  .fc-row {
+    grid-template-columns: 4rem 1fr auto 4.5rem 3rem;
+  }
+
+  .fc-row__precip {
+    display: none;
+  }
+}
