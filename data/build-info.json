@@ -1,8 +1,8 @@
 {
-  "issueNumber": 184,
-  "issueTitle": "Forecast: page shell with 14-Days / Hourly tab toggle",
-  "prNumber": 242,
-  "commitShaShort": "3d83d8e",
-  "commitShaFull": "3d83d8ebfcaa222f0b08444088a9ec6ade3d5d6d",
-  "builtAt": "2026-06-10T09:25:29.366Z"
+  "issueNumber": 167,
+  "issueTitle": "Moon: monthly calendar grid with phase icons and illumination",
+  "prNumber": 243,
+  "commitShaShort": "e6df6e0",
+  "commitShaFull": "e6df6e0bada6c59e46f2eb2d5a32204112bfade7",
+  "builtAt": "2026-06-10T09:40:50.901Z"
 }
