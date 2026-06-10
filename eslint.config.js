@@ -207,6 +207,21 @@ module.exports = [
     },
   },
   {
+    files: ['js/moon-calendar.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: { ...globals.browser, Moon: 'readonly' },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
     // js/dashboard.js — widget render functions moved from app.js
     files: ['js/dashboard.js'],
     languageOptions: {

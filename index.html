@@ -366,9 +366,22 @@
           <div id="forecast-hourly-panel" class="forecast-panel" hidden role="tabpanel"></div>
         </section>
 
+        <!-- Moon Calendar page (#174) -->
         <section id="page-moon" hidden>
-          <h2>Moon Calendar</h2>
-          <p>Moon phases and solunar periods coming soon.</p>
+          <div class="moon-page">
+            <div class="moon-page__header">
+              <h2 class="moon-page__title">Moon Calendar</h2>
+              <div class="moon-page__nav">
+                <button id="moon-prev" class="moon-page__nav-btn" type="button" aria-label="Previous month">&larr;</button>
+                <span id="moon-month-label" class="moon-page__month-label"></span>
+                <button id="moon-next" class="moon-page__nav-btn" type="button" aria-label="Next month">&rarr;</button>
+              </div>
+            </div>
+            <div class="moon-page__layout">
+              <div id="moon-calendar-grid" class="moon-cal"></div>
+              <div id="moon-detail-panel" class="moon-detail"></div>
+            </div>
+          </div>
         </section>
 
         <section id="page-catches" hidden>
@@ -658,6 +671,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script>
     <script src="js/moon.js"></script>
     <script src="js/fishing-score.js"></script>
+    <script src="js/moon-calendar.js"></script>
     <script src="js/forecast.js"></script>
     <script src="js/dashboard.js"></script>
   </body>
