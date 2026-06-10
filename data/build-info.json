@@ -1,8 +1,8 @@
 {
-  "issueNumber": 175,
-  "issueTitle": "Moon: moon card dashboard widget",
-  "prNumber": 241,
-  "commitShaShort": "052b071",
-  "commitShaFull": "052b071eea15771a3c7ef348ba541de092b612e1",
-  "builtAt": "2026-06-09T14:28:51.004Z"
+  "issueNumber": 184,
+  "issueTitle": "Forecast: page shell with 14-Days / Hourly tab toggle",
+  "prNumber": 242,
+  "commitShaShort": "3d83d8e",
+  "commitShaFull": "3d83d8ebfcaa222f0b08444088a9ec6ade3d5d6d",
+  "builtAt": "2026-06-10T09:25:29.366Z"
 }
