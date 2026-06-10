@@ -339,10 +339,31 @@
           </div>
         </section>
 
-        <!-- Placeholder pages (content added in later issues) -->
+        <!-- Forecast page (#184) -->
         <section id="page-forecast" hidden>
-          <h2>Forecast</h2>
-          <p>14-day fishing forecast coming soon.</p>
+          <h2 class="fc-page-title">Forecast — Next 14 Days</h2>
+          <div id="forecast-tab-bar" class="fc-tab-bar" role="tablist" aria-label="Forecast view">
+            <button
+              class="fc-tab-btn is-active"
+              data-tab="14days"
+              role="tab"
+              aria-selected="true"
+              aria-controls="forecast-14days-panel"
+            >14 Days</button>
+            <button
+              class="fc-tab-btn"
+              data-tab="hourly"
+              role="tab"
+              aria-selected="false"
+              aria-controls="forecast-hourly-panel"
+            >Hourly</button>
+          </div>
+          <div id="forecast-14days-panel" class="forecast-panel" role="tabpanel">
+            <div class="fc-skeleton"><div class="fc-skeleton__bar"></div></div>
+            <div class="fc-skeleton"><div class="fc-skeleton__bar"></div></div>
+            <div class="fc-skeleton"><div class="fc-skeleton__bar"></div></div>
+          </div>
+          <div id="forecast-hourly-panel" class="forecast-panel" hidden role="tabpanel"></div>
         </section>
 
         <section id="page-moon" hidden>
@@ -637,6 +658,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script>
     <script src="js/moon.js"></script>
     <script src="js/fishing-score.js"></script>
+    <script src="js/forecast.js"></script>
     <script src="js/dashboard.js"></script>
   </body>
 </html>
