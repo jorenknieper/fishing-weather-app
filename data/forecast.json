@@ -21,7 +21,7 @@
     "bestWindowEnd": "11:00",
     "windDir": "SW",
     "windSpeedKmh": 12,
-    "precipMm": 2.6,
+    "precipMm": 3,
     "moonPhase": "waning-crescent",
     "moonIllumination": 17
   },
@@ -34,7 +34,7 @@
     "bestWindowEnd": "14:00",
     "windDir": "W",
     "windSpeedKmh": 19,
-    "precipMm": 3.7,
+    "precipMm": 3,
     "moonPhase": "waning-crescent",
     "moonIllumination": 9
   },
