@@ -7,8 +7,8 @@
     "bestWindowStart": "03:00",
     "bestWindowEnd": "06:00",
     "windDir": "SW",
-    "windSpeedKmh": 13,
-    "precipMm": 0.4,
+    "windSpeedKmh": 12,
+    "precipMm": 0.1,
     "moonPhase": "waning-crescent",
     "moonIllumination": 26
   },
@@ -21,7 +21,7 @@
     "bestWindowEnd": "11:00",
     "windDir": "SW",
     "windSpeedKmh": 12,
-    "precipMm": 4.1,
+    "precipMm": 2.6,
     "moonPhase": "waning-crescent",
     "moonIllumination": 17
   },
@@ -30,11 +30,11 @@
     "dayName": "FRI",
     "fishingScore": 70,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "10:00",
-    "bestWindowEnd": "13:00",
+    "bestWindowStart": "11:00",
+    "bestWindowEnd": "14:00",
     "windDir": "W",
     "windSpeedKmh": 19,
-    "precipMm": 2.5,
+    "precipMm": 3.7,
     "moonPhase": "waning-crescent",
     "moonIllumination": 9
   },
@@ -47,7 +47,7 @@
     "bestWindowEnd": "23:00",
     "windDir": "W",
     "windSpeedKmh": 18,
-    "precipMm": 0.2,
+    "precipMm": 0.1,
     "moonPhase": "waning-crescent",
     "moonIllumination": 4
   },
