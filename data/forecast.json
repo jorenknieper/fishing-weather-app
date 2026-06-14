@@ -20,7 +20,7 @@
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "NW",
-    "windSpeedKmh": 5,
+    "windSpeedKmh": 6,
     "precipMm": 0,
     "moonPhase": "new",
     "moonIllumination": 0
@@ -33,7 +33,7 @@
     "bestWindowStart": "20:00",
     "bestWindowEnd": "23:00",
     "windDir": "W",
-    "windSpeedKmh": 11,
+    "windSpeedKmh": 12,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 3
@@ -46,7 +46,7 @@
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "SW",
-    "windSpeedKmh": 11,
+    "windSpeedKmh": 10,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 8
@@ -54,13 +54,13 @@
   {
     "date": "2026-06-18",
     "dayName": "THU",
-    "fishingScore": 72,
+    "fishingScore": 74,
     "scoreLabel": "GOOD",
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "S",
     "windSpeedKmh": 5,
-    "precipMm": 0.3,
+    "precipMm": 0,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 15
   },
@@ -73,7 +73,7 @@
     "bestWindowEnd": "03:00",
     "windDir": "SE",
     "windSpeedKmh": 10,
-    "precipMm": 9,
+    "precipMm": 3.6,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 24
   },
