@@ -283,6 +283,29 @@ module.exports = [
     },
   },
   {
+    files: ['js/analytics.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.browser,
+        Chart: 'readonly',
+        CatchesStore: 'readonly',
+        Moon: 'readonly',
+        cssVar: 'readonly',
+        degreesToCompass: 'readonly',
+        _themeRerenderCallbacks: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
     files: ['js/catches.js'],
     languageOptions: {
       ecmaVersion: 2022,

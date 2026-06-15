@@ -412,8 +412,100 @@
         </section>
 
         <section id="page-analytics" hidden>
-          <h2>Analytics</h2>
-          <p>Catch analytics coming soon.</p>
+          <div class="analytics">
+            <header class="analytics__header">
+              <span class="analytics__title">ANALYTICS</span>
+              <div class="analytics__range" role="group" aria-label="Date range">
+                <select id="an-range-select" class="an-range-select" aria-label="Date range">
+                  <option value="all" selected>All time</option>
+                  <option value="year">This year</option>
+                  <option value="6m">Last 6 months</option>
+                  <option value="custom">Custom…</option>
+                </select>
+                <div id="an-range-custom" class="an-range-custom" hidden>
+                  <input id="an-range-from" type="date" class="an-range-date" aria-label="From date">
+                  <span class="an-range-sep">–</span>
+                  <input id="an-range-to" type="date" class="an-range-date" aria-label="To date">
+                </div>
+              </div>
+            </header>
+
+            <div class="an-tabs" role="tablist" aria-label="Analytics views">
+              <button class="an-tab is-active" role="tab" data-tab="overview"  id="an-tab-overview"  aria-selected="true"  aria-controls="an-panel-overview">Overview</button>
+              <button class="an-tab"           role="tab" data-tab="pressure"  id="an-tab-pressure"  aria-selected="false" aria-controls="an-panel-pressure">Pressure</button>
+              <button class="an-tab"           role="tab" data-tab="wind"      id="an-tab-wind"      aria-selected="false" aria-controls="an-panel-wind">Wind</button>
+              <button class="an-tab"           role="tab" data-tab="moon"      id="an-tab-moon"      aria-selected="false" aria-controls="an-panel-moon">Moon</button>
+              <button class="an-tab"           role="tab" data-tab="bait"      id="an-tab-bait"      aria-selected="false" aria-controls="an-panel-bait">Bait</button>
+              <button class="an-tab"           role="tab" data-tab="time"      id="an-tab-time"      aria-selected="false" aria-controls="an-panel-time">Time</button>
+              <button class="an-tab"           role="tab" data-tab="spots"     id="an-tab-spots"     aria-selected="false" aria-controls="an-panel-spots">Spots</button>
+            </div>
+
+            <div id="an-empty" class="an-empty" hidden>
+              <p class="an-empty__title">No catches to analyse</p>
+              <p class="an-empty__hint">Log catches on the Catches page, or widen the date range.</p>
+            </div>
+
+            <div id="an-panels" class="an-panels">
+
+              <section id="an-panel-overview" class="an-panel is-active" role="tabpanel" aria-labelledby="an-tab-overview" tabindex="0">
+                <div class="an-stats">
+                  <div class="an-stat-card"><span class="an-stat-card__label">Total Catches</span><span class="an-stat-card__value" id="an-stat-total">—</span></div>
+                  <div class="an-stat-card"><span class="an-stat-card__label">Total Weight</span><span class="an-stat-card__value" id="an-stat-weight">—</span></div>
+                  <div class="an-stat-card"><span class="an-stat-card__label">Average Weight</span><span class="an-stat-card__value" id="an-stat-avg">—</span></div>
+                  <div class="an-stat-card"><span class="an-stat-card__label">Best Catch</span><span class="an-stat-card__value" id="an-stat-best">—</span><span class="an-stat-card__sub" id="an-stat-best-sub"></span></div>
+                </div>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Wind Direction</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-pie"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-bar"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Moon Phase</figcaption><div class="an-chart-wrap"><canvas id="an-chart-moon-donut"></canvas></div></figure>
+                </div>
+                <div class="an-table-grid">
+                  <div class="an-rank"><h3 class="an-rank__title">Top Baits</h3><div class="an-rank__rows" id="an-rank-bait"></div><button class="an-rank__more" type="button" data-rank-more="bait" hidden>Show more</button></div>
+                  <div class="an-rank"><h3 class="an-rank__title">Top Rigs</h3><div class="an-rank__rows" id="an-rank-rig"></div><button class="an-rank__more" type="button" data-rank-more="rig" hidden>Show more</button></div>
+                  <div class="an-rank"><h3 class="an-rank__title">Top Times</h3><div class="an-rank__rows" id="an-rank-time"></div></div>
+                </div>
+              </section>
+
+              <section id="an-panel-pressure" class="an-panel" role="tabpanel" aria-labelledby="an-tab-pressure" tabindex="0" hidden>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Weight vs Pressure</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-scatter"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-bar2"></canvas></div></figure>
+                </div>
+              </section>
+
+              <section id="an-panel-wind" class="an-panel" role="tabpanel" aria-labelledby="an-tab-wind" tabindex="0" hidden>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Wind Rose</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-rose"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Wind Speed Distribution</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-speed"></canvas></div></figure>
+                </div>
+              </section>
+
+              <section id="an-panel-moon" class="an-panel" role="tabpanel" aria-labelledby="an-tab-moon" tabindex="0" hidden>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by 8 Moon Phases</figcaption><div class="an-chart-wrap"><canvas id="an-chart-moon8"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Solunar Period Hits</figcaption><div class="an-chart-wrap"><canvas id="an-chart-solunar"></canvas></div></figure>
+                </div>
+              </section>
+
+              <section id="an-panel-bait" class="an-panel" role="tabpanel" aria-labelledby="an-tab-bait" tabindex="0" hidden>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Average Weight by Bait</figcaption><div class="an-chart-wrap"><canvas id="an-chart-bait-avg"></canvas></div></figure>
+                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Month</figcaption><div class="an-chart-wrap"><canvas id="an-chart-bait-monthly"></canvas></div></figure>
+                </div>
+              </section>
+
+              <section id="an-panel-time" class="an-panel" role="tabpanel" aria-labelledby="an-tab-time" tabindex="0" hidden>
+                <div class="an-chart-grid">
+                  <figure class="an-chart-card an-chart-card--wide"><figcaption class="an-chart-card__title">Catches by Hour of Day</figcaption><div class="an-chart-wrap"><canvas id="an-chart-time-hourly"></canvas></div></figure>
+                </div>
+              </section>
+
+              <section id="an-panel-spots" class="an-panel" role="tabpanel" aria-labelledby="an-tab-spots" tabindex="0" hidden>
+                <div class="an-venue-table" id="an-venue-table"></div>
+              </section>
+
+            </div>
+          </div>
         </section>
 
         <section id="page-alerts" hidden>
@@ -975,5 +1067,6 @@
     <script src="js/catches.js"></script>
     <script src="js/forecast.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/analytics.js"></script>
   </body>
 </html>
