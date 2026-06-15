@@ -28,10 +28,10 @@
   {
     "date": "2026-06-17",
     "dayName": "WED",
-    "fishingScore": 71,
+    "fishingScore": 74,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "00:00",
-    "bestWindowEnd": "03:00",
+    "bestWindowStart": "01:00",
+    "bestWindowEnd": "04:00",
     "windDir": "W",
     "windSpeedKmh": 10,
     "precipMm": 0,
