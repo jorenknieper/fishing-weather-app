@@ -1325,13 +1325,41 @@ html.no-transitions *::after {
   height: calc(100vh - var(--header-height));
   width: var(--sidebar-width);
   overflow-y: auto;
-  background: var(--bg-surface);
+  background: var(--bg-base);
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.75rem 0.5rem;
   z-index: 10;
+}
+
+/* Sidebar brand block (#251) */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.25rem 0.75rem 0.625rem;
+}
+
+.sidebar-brand__logo {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.sidebar-brand__name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.sidebar-brand__divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0 0.25rem 0.5rem;
 }
 
 /* Content area */
@@ -1384,8 +1412,12 @@ html.no-transitions *::after {
 
 .nav-item.is-active {
   color: var(--accent-wind);
-  background: var(--button-ghost-hover);
+  background: rgb(0 212 160 / 8%);
   border-left-color: var(--accent-wind);
+}
+
+.nav-item.is-active .nav-icon {
+  stroke: var(--accent-wind);
 }
 
 .nav-icon {
@@ -1660,12 +1692,25 @@ html[data-theme='dark'] .score-badge--poor {
 }
 
 .score-widget__num {
-  font-size: 3rem;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
+  font-size: 4.5rem;
+  font-weight: 800;
   line-height: 1;
-  color: var(--accent-wind);
+  color: #fff;
+}
+
+.score-widget__denom {
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  align-self: flex-end;
+  margin-bottom: 0.3rem;
+  margin-left: 0.1rem;
+}
+
+.score-widget__num-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
 }
 
 .score-widget__label {
@@ -1708,9 +1753,24 @@ html[data-theme='dark'] .score-widget__label--poor {
 }
 
 .score-widget__window {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
   font-size: 0.75rem;
-  color: var(--color-muted);
+  color: var(--text-muted);
   margin-top: 0.25rem;
+}
+
+.score-widget__window-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-wind);
+  flex-shrink: 0;
+}
+
+.score-widget__window-time {
+  color: var(--text-muted);
 }
 
 .score-widget__radar {
@@ -1900,6 +1960,13 @@ html[data-theme='dark'] .kmi-badge--red {
 /* ===== Metric cards (#181) ===== */
 .card--metric {
   min-width: 0;
+}
+
+.card--metric .value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
 }
 
 /* ===== Forecast page (#184 #187 #190 #192) ===== */
@@ -2476,13 +2543,14 @@ html[data-theme='dark'] .fc-row__window--poor {
 }
 
 .catches__btn--primary {
-  background: var(--accent-wind);
-  color: #fff;
-  border-color: var(--accent-wind);
+  background: linear-gradient(135deg, #00d4a0 0%, #009e78 100%);
+  color: #06111a;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgb(0 212 160 / 25%);
 }
 
 .catches__btn--primary:hover {
-  background: color-mix(in srgb, var(--accent-wind) 85%, #000);
+  box-shadow: 0 6px 16px rgb(0 212 160 / 40%);
 }
 
 .catches__btn--ghost {
