@@ -1,8 +1,8 @@
 {
-  "issueNumber": 213,
-  "issueTitle": "Alerts: page shell and alert card component",
-  "prNumber": 246,
-  "commitShaShort": "37ee4fb",
-  "commitShaFull": "37ee4fb0f023116efc13a2d489ebc87973ce589f",
-  "builtAt": "2026-06-15T07:50:00.915Z"
+  "issueNumber": 218,
+  "issueTitle": "Settings: page shell (Account, Notifications, App sections)",
+  "prNumber": 247,
+  "commitShaShort": "e4a3a8b",
+  "commitShaFull": "e4a3a8b33e92c89961761c295af8fa5e8f271154",
+  "builtAt": "2026-06-15T08:32:21.556Z"
 }
