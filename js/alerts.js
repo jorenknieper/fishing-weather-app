@@ -205,13 +205,24 @@
     el.innerHTML = alerts.map((a) => renderAlertCard(a)).join('');
   }
 
+  // ---- Notification preference filter (#217) ----
+  function _filterByPrefs(alerts) {
+    if (!window.Prefs) return alerts;
+    const { kmi, fishing } = window.Prefs.getPrefs().notifications;
+    return alerts.filter((a) => {
+      if (!fishing && a.type === 'excellent') return false;
+      if (!kmi && a.type === 'kmi') return false;
+      return true;
+    });
+  }
+
   // ---- Page init ----
   function initAlertsPage() {
-    _renderList(_loadCache());
+    _renderList(_filterByPrefs(_loadCache()));
     if (window.hourlyData) {
       const fresh = computeAlerts(window.hourlyData);
       _saveCache(fresh);
-      _renderList(fresh);
+      _renderList(_filterByPrefs(fresh));
     }
   }
 
@@ -221,6 +232,9 @@
   }
 
   window.addEventListener('hashchange', _onRoute);
+  window.addEventListener('prefsChanged', function () {
+    if (location.hash === '#alerts') initAlertsPage();
+  });
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _onRoute);
   } else {
