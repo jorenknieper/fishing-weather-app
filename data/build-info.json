@@ -1,8 +1,8 @@
 {
-  "issueNumber": 249,
-  "issueTitle": "Visual system: card depth — shadow, border-radius, and glow",
-  "prNumber": 264,
-  "commitShaShort": "be0b5b8",
-  "commitShaFull": "be0b5b802eeec49141429895ade3697d079f4597",
-  "builtAt": "2026-06-15T09:02:22.368Z"
+  "issueNumber": null,
+  "issueTitle": null,
+  "prNumber": 265,
+  "commitShaShort": "25410db",
+  "commitShaFull": "25410db93d65b6ad6664cca0e753cac0a67ed9b2",
+  "builtAt": "2026-06-15T09:20:30.821Z"
 }
