@@ -6,6 +6,10 @@
     theme: 'auto',
     locationName: 'Aalter',
     displayName: '',
+    homeLake: '',
+    language: 'en',
+    dateFormat: 'DD/MM/YYYY',
+    notifications: { push: true, kmi: true, fishing: true },
   };
 
   function _read() {
@@ -25,7 +29,12 @@
   }
 
   function getPrefs() {
-    return { ...DEFAULTS, ..._read() };
+    const stored = _read();
+    return {
+      ...DEFAULTS,
+      ...stored,
+      notifications: { ...DEFAULTS.notifications, ...(stored.notifications || {}) },
+    };
   }
 
   function setPrefs(partial) {

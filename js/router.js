@@ -1,5 +1,5 @@
 (function () {
-  const ROUTES = ['dashboard', 'forecast', 'moon', 'catches', 'analytics', 'alerts', 'settings'];
+  const ROUTES = ['dashboard', 'forecast', 'moon', 'catches', 'analytics', 'alerts', 'settings', 'privacy', 'terms'];
   const DEFAULT_ROUTE = 'dashboard';
 
   function currentRoute() {

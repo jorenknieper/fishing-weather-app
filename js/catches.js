@@ -505,44 +505,6 @@
     reader.readAsText(file);
   }
 
-  // ---- settings page ----
-
-  function _initSettingsPage() {
-    const form = document.getElementById('settings-form');
-    if (!form || form.dataset.wired) return;
-    form.dataset.wired = '1';
-
-    const prefs = window.Prefs ? window.Prefs.getPrefs() : {};
-    const el = id => document.getElementById(id);
-    if (el('pref-display-name')) el('pref-display-name').value = prefs.displayName || '';
-    if (el('pref-weight-unit')) el('pref-weight-unit').value = prefs.weightUnit || 'kg';
-    if (el('pref-wind-unit')) el('pref-wind-unit').value = prefs.windUnit || 'km/h';
-    if (el('pref-location-name')) el('pref-location-name').value = prefs.locationName || 'Aalter';
-    if (el('pref-theme')) el('pref-theme').value = prefs.theme || 'auto';
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      if (!window.Prefs) return;
-      window.Prefs.setPrefs({
-        displayName: el('pref-display-name').value.trim(),
-        weightUnit: el('pref-weight-unit').value,
-        windUnit: el('pref-wind-unit').value,
-        locationName: el('pref-location-name').value.trim(),
-        theme: el('pref-theme').value,
-      });
-      alert('Settings saved.');
-    });
-
-    const resetBtn = document.getElementById('settings-reset-btn');
-    if (resetBtn) resetBtn.addEventListener('click', () => {
-      if (!window.Prefs) return;
-      window.Prefs.resetPrefs();
-      // re-populate form
-      form.dataset.wired = '';
-      _initSettingsPage();
-    });
-  }
-
   // ---- page init (#191 #230) ----
 
   function initCatchesPage() {
@@ -626,7 +588,6 @@
 
   function _onRouteChange() {
     if (location.hash === '#catches') initCatchesPage();
-    if (location.hash === '#settings') _initSettingsPage();
   }
   window.addEventListener('hashchange', _onRouteChange);
   _onRouteChange();
