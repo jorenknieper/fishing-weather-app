@@ -47,22 +47,22 @@
 }
 
 html[data-theme='dark'] {
-  /* Maritime instrument palette — dark */
-  --bg-base: #0d1117;
-  --bg-surface: #161b22;
-  --border-subtle: #30363d;
+  /* Premium dark fishing-intelligence palette (#248) */
+  --bg-base: #080c14;
+  --bg-surface: #0f1520;
+  --border-subtle: #1a2535;
   --text-primary: #e6edf3;
   --text-muted: #8b949e;
   --accent-pressure: #f0c040;
-  --accent-wind: #5fb3a1;
+  --accent-wind: #00d4a0;
   --accent-temp: #6aa6ce;
   --accent-pressure-soft: #8a6a20;
-  --accent-wind-soft: #3c7a6e;
+  --accent-wind-soft: #00a07a;
   --accent-temp-soft: #5588a8;
-  --overlay-scrim: rgb(0 0 0 / 65%);
-  --button-ghost-border: rgb(230 237 243 / 25%);
-  --button-ghost-hover: rgb(230 237 243 / 10%);
-  --nav-track: rgb(230 237 243 / 10%);
+  --overlay-scrim: rgb(0 0 0 / 70%);
+  --button-ghost-border: rgb(230 237 243 / 20%);
+  --button-ghost-hover: rgb(230 237 243 / 8%);
+  --nav-track: rgb(230 237 243 / 8%);
 
   /* Semantic aliases */
   --color-bg: var(--bg-base);
@@ -72,13 +72,13 @@ html[data-theme='dark'] {
   --color-card-value: var(--accent-temp);
   --color-header-bg: var(--bg-surface);
   --color-header-text: var(--text-primary);
-  --color-shadow: rgb(0 0 0 / 30%);
+  --color-shadow: rgb(0 0 0 / 60%);
   --trend-rising: #3fb950;
   --trend-falling-fast: #f85149;
 
   /* Wind speed bucket colours */
   --wind-calm: var(--text-muted);
-  --wind-moderate: #5fb3a1;
+  --wind-moderate: #00d4a0;
   --wind-strong: #f0c040;
   --wind-stormy: #f85149;
 
