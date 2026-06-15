@@ -91,8 +91,18 @@ async function renderKmiCard() {
     summary = r.kmiSummary || 'No active warnings';
     ts = r.generatedAt ? formatTimestamp(r.generatedAt) : '–';
   } catch {
-    // fallback: compute from cached hourly data
-    if (window.hourlyData && _currentData) {
+    // fallback: use computed alerts cache (#214), otherwise check current conditions
+    if (window.Alerts) {
+      const cached = window.Alerts.loadCache();
+      const ORDER = { red: 3, orange: 2, yellow: 1, green: 0 };
+      const worst = cached
+        .filter((a) => a.severity !== 'green')
+        .sort((a, b) => (ORDER[b.severity] || 0) - (ORDER[a.severity] || 0))[0];
+      if (worst) {
+        status = worst.severity.toUpperCase();
+        summary = worst.title;
+      }
+    } else if (window.hourlyData && _currentData) {
       const gusts = _currentData.wind_gusts_10m ?? 0;
       const rain = _currentData.precipitation ?? 0;
       if (gusts > 55 || rain > 10) {

@@ -508,9 +508,14 @@
           </div>
         </section>
 
+        <!-- Alerts page (#213 #214) -->
         <section id="page-alerts" hidden>
-          <h2>Alerts</h2>
-          <p>Fishing condition alerts coming soon.</p>
+          <div class="alerts">
+            <header class="alerts__header">
+              <span class="alerts__title">FORECAST ALERTS</span>
+            </header>
+            <div id="alerts-list" class="alerts__list" aria-live="polite" role="list"></div>
+          </div>
         </section>
 
         <!-- Settings page (#232) -->
@@ -1068,5 +1073,6 @@
     <script src="js/forecast.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/analytics.js"></script>
+    <script src="js/alerts.js"></script>
   </body>
 </html>
