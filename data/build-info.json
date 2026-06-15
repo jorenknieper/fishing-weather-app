@@ -1,8 +1,8 @@
 {
-  "issueNumber": 232,
-  "issueTitle": "Settings: localStorage preferences module (prefs.js)",
-  "prNumber": 244,
-  "commitShaShort": "ca1be97",
-  "commitShaFull": "ca1be97cf45b33a7bfff3575f8c877ee835e137a",
-  "builtAt": "2026-06-10T12:57:29.435Z"
+  "issueNumber": 205,
+  "issueTitle": "Analytics: page shell with Overview/Pressure/Wind/Moon/Bait/Time/Spots tabs",
+  "prNumber": 245,
+  "commitShaShort": "75cf7e5",
+  "commitShaFull": "75cf7e5fdea8907feaaf084d7ab6f5e8133917a1",
+  "builtAt": "2026-06-15T07:18:43.091Z"
 }
