@@ -306,6 +306,25 @@ module.exports = [
     },
   },
   {
+    files: ['js/alerts.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.browser,
+        FishingScore: 'readonly',
+        hourlyData: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true }],
+      eqeqeq: ['error', 'smart'],
+      'no-var': 'error',
+      'prefer-const': 'warn',
+    },
+  },
+  {
     files: ['js/catches.js'],
     languageOptions: {
       ecmaVersion: 2022,
