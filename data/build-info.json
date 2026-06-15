@@ -1,8 +1,8 @@
 {
-  "issueNumber": 205,
-  "issueTitle": "Analytics: page shell with Overview/Pressure/Wind/Moon/Bait/Time/Spots tabs",
-  "prNumber": 245,
-  "commitShaShort": "75cf7e5",
-  "commitShaFull": "75cf7e5fdea8907feaaf084d7ab6f5e8133917a1",
-  "builtAt": "2026-06-15T07:18:43.091Z"
+  "issueNumber": 213,
+  "issueTitle": "Alerts: page shell and alert card component",
+  "prNumber": 246,
+  "commitShaShort": "37ee4fb",
+  "commitShaFull": "37ee4fb0f023116efc13a2d489ebc87973ce589f",
+  "builtAt": "2026-06-15T07:50:00.915Z"
 }
