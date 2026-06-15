@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-06-15T09:58:38.101Z",
+  "generatedAt": "2026-06-15T15:49:31.531Z",
   "todayScore": 74,
   "todayLabel": "GOOD",
   "bestWindowStart": "00:00",
   "bestWindowEnd": "03:00",
-  "kmiStatus": "GREEN",
-  "kmiSummary": "No active warnings",
-  "alerts": []
+  "kmiStatus": "ORANGE",
+  "kmiSummary": "2 active warning(s)",
+  "alerts": [
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-16T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-16T22:00:00+00:00"
+    }
+  ]
 }
