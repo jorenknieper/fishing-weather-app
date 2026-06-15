@@ -85,6 +85,24 @@
     <div id="app">
       <!-- ===== SIDEBAR (#151) ===== -->
       <nav id="sidebar" aria-label="Main navigation">
+        <div class="sidebar-brand">
+          <svg class="sidebar-brand__logo" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M14 2 L26 11 L22 26 L6 26 L2 11 Z" fill="var(--accent-wind)" />
+            <text
+              x="14"
+              y="19"
+              text-anchor="middle"
+              font-size="9"
+              font-weight="800"
+              font-family="sans-serif"
+              fill="#06111a"
+            >
+              VK
+            </text>
+          </svg>
+          <span class="sidebar-brand__name">VGK Patersveld</span>
+        </div>
+        <div class="sidebar-brand__divider"></div>
         <a class="nav-item" href="#dashboard" data-route="dashboard">
           <svg
             class="nav-icon"
@@ -350,14 +368,18 @@
               role="tab"
               aria-selected="true"
               aria-controls="forecast-14days-panel"
-            >14 Days</button>
+            >
+              14 Days
+            </button>
             <button
               class="fc-tab-btn"
               data-tab="hourly"
               role="tab"
               aria-selected="false"
               aria-controls="forecast-hourly-panel"
-            >Hourly</button>
+            >
+              Hourly
+            </button>
           </div>
           <div id="forecast-14days-panel" class="forecast-panel" role="tabpanel">
             <div class="fc-skeleton"><div class="fc-skeleton__bar"></div></div>
@@ -373,9 +395,23 @@
             <div class="moon-page__header">
               <h2 class="moon-page__title">Moon Calendar</h2>
               <div class="moon-page__nav">
-                <button id="moon-prev" class="moon-page__nav-btn" type="button" aria-label="Previous month">&larr;</button>
+                <button
+                  id="moon-prev"
+                  class="moon-page__nav-btn"
+                  type="button"
+                  aria-label="Previous month"
+                >
+                  &larr;
+                </button>
                 <span id="moon-month-label" class="moon-page__month-label"></span>
-                <button id="moon-next" class="moon-page__nav-btn" type="button" aria-label="Next month">&rarr;</button>
+                <button
+                  id="moon-next"
+                  class="moon-page__nav-btn"
+                  type="button"
+                  aria-label="Next month"
+                >
+                  &rarr;
+                </button>
               </div>
             </div>
             <div class="moon-page__layout">
@@ -390,7 +426,11 @@
           <div class="catches">
             <header class="catches__header">
               <span class="catches__title">CATCHES</span>
-              <select id="catch-species-filter" class="catches__species-select" aria-label="Filter by species">
+              <select
+                id="catch-species-filter"
+                class="catches__species-select"
+                aria-label="Filter by species"
+              >
                 <option value="">All species</option>
                 <option>Mirror Carp</option>
                 <option>Common Carp</option>
@@ -400,14 +440,20 @@
                 <option>Bream</option>
               </select>
               <button id="catch-filter-btn" class="catches__btn" type="button">Filter</button>
-              <button id="catch-add-btn" class="catches__btn catches__btn--primary" type="button">+ Add Catch</button>
+              <button id="catch-add-btn" class="catches__btn catches__btn--primary" type="button">
+                + Add Catch
+              </button>
             </header>
             <div id="catch-active-chips" class="catches__chips" aria-live="polite"></div>
             <div id="catch-list" class="catches__list" aria-live="polite"></div>
             <footer class="catches__footer">
-              <button id="catch-export-btn" class="catches__btn catches__btn--ghost" type="button">Export</button>
-              <button id="catch-import-btn" class="catches__btn catches__btn--ghost" type="button">Import</button>
-              <input id="catch-import-input" type="file" accept="application/json,.json" hidden>
+              <button id="catch-export-btn" class="catches__btn catches__btn--ghost" type="button">
+                Export
+              </button>
+              <button id="catch-import-btn" class="catches__btn catches__btn--ghost" type="button">
+                Import
+              </button>
+              <input id="catch-import-input" type="file" accept="application/json,.json" hidden />
             </footer>
           </div>
         </section>
@@ -424,87 +470,269 @@
                   <option value="custom">Custom…</option>
                 </select>
                 <div id="an-range-custom" class="an-range-custom" hidden>
-                  <input id="an-range-from" type="date" class="an-range-date" aria-label="From date">
+                  <input
+                    id="an-range-from"
+                    type="date"
+                    class="an-range-date"
+                    aria-label="From date"
+                  />
                   <span class="an-range-sep">–</span>
-                  <input id="an-range-to" type="date" class="an-range-date" aria-label="To date">
+                  <input id="an-range-to" type="date" class="an-range-date" aria-label="To date" />
                 </div>
               </div>
             </header>
 
             <div class="an-tabs" role="tablist" aria-label="Analytics views">
-              <button class="an-tab is-active" role="tab" data-tab="overview"  id="an-tab-overview"  aria-selected="true"  aria-controls="an-panel-overview">Overview</button>
-              <button class="an-tab"           role="tab" data-tab="pressure"  id="an-tab-pressure"  aria-selected="false" aria-controls="an-panel-pressure">Pressure</button>
-              <button class="an-tab"           role="tab" data-tab="wind"      id="an-tab-wind"      aria-selected="false" aria-controls="an-panel-wind">Wind</button>
-              <button class="an-tab"           role="tab" data-tab="moon"      id="an-tab-moon"      aria-selected="false" aria-controls="an-panel-moon">Moon</button>
-              <button class="an-tab"           role="tab" data-tab="bait"      id="an-tab-bait"      aria-selected="false" aria-controls="an-panel-bait">Bait</button>
-              <button class="an-tab"           role="tab" data-tab="time"      id="an-tab-time"      aria-selected="false" aria-controls="an-panel-time">Time</button>
-              <button class="an-tab"           role="tab" data-tab="spots"     id="an-tab-spots"     aria-selected="false" aria-controls="an-panel-spots">Spots</button>
+              <button
+                class="an-tab is-active"
+                role="tab"
+                data-tab="overview"
+                id="an-tab-overview"
+                aria-selected="true"
+                aria-controls="an-panel-overview"
+              >
+                Overview
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="pressure"
+                id="an-tab-pressure"
+                aria-selected="false"
+                aria-controls="an-panel-pressure"
+              >
+                Pressure
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="wind"
+                id="an-tab-wind"
+                aria-selected="false"
+                aria-controls="an-panel-wind"
+              >
+                Wind
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="moon"
+                id="an-tab-moon"
+                aria-selected="false"
+                aria-controls="an-panel-moon"
+              >
+                Moon
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="bait"
+                id="an-tab-bait"
+                aria-selected="false"
+                aria-controls="an-panel-bait"
+              >
+                Bait
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="time"
+                id="an-tab-time"
+                aria-selected="false"
+                aria-controls="an-panel-time"
+              >
+                Time
+              </button>
+              <button
+                class="an-tab"
+                role="tab"
+                data-tab="spots"
+                id="an-tab-spots"
+                aria-selected="false"
+                aria-controls="an-panel-spots"
+              >
+                Spots
+              </button>
             </div>
 
             <div id="an-empty" class="an-empty" hidden>
               <p class="an-empty__title">No catches to analyse</p>
-              <p class="an-empty__hint">Log catches on the Catches page, or widen the date range.</p>
+              <p class="an-empty__hint">
+                Log catches on the Catches page, or widen the date range.
+              </p>
             </div>
 
             <div id="an-panels" class="an-panels">
-
-              <section id="an-panel-overview" class="an-panel is-active" role="tabpanel" aria-labelledby="an-tab-overview" tabindex="0">
+              <section
+                id="an-panel-overview"
+                class="an-panel is-active"
+                role="tabpanel"
+                aria-labelledby="an-tab-overview"
+                tabindex="0"
+              >
                 <div class="an-stats">
-                  <div class="an-stat-card"><span class="an-stat-card__label">Total Catches</span><span class="an-stat-card__value" id="an-stat-total">—</span></div>
-                  <div class="an-stat-card"><span class="an-stat-card__label">Total Weight</span><span class="an-stat-card__value" id="an-stat-weight">—</span></div>
-                  <div class="an-stat-card"><span class="an-stat-card__label">Average Weight</span><span class="an-stat-card__value" id="an-stat-avg">—</span></div>
-                  <div class="an-stat-card"><span class="an-stat-card__label">Best Catch</span><span class="an-stat-card__value" id="an-stat-best">—</span><span class="an-stat-card__sub" id="an-stat-best-sub"></span></div>
+                  <div class="an-stat-card">
+                    <span class="an-stat-card__label">Total Catches</span
+                    ><span class="an-stat-card__value" id="an-stat-total">—</span>
+                  </div>
+                  <div class="an-stat-card">
+                    <span class="an-stat-card__label">Total Weight</span
+                    ><span class="an-stat-card__value" id="an-stat-weight">—</span>
+                  </div>
+                  <div class="an-stat-card">
+                    <span class="an-stat-card__label">Average Weight</span
+                    ><span class="an-stat-card__value" id="an-stat-avg">—</span>
+                  </div>
+                  <div class="an-stat-card">
+                    <span class="an-stat-card__label">Best Catch</span
+                    ><span class="an-stat-card__value" id="an-stat-best">—</span
+                    ><span class="an-stat-card__sub" id="an-stat-best-sub"></span>
+                  </div>
                 </div>
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Wind Direction</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-pie"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-bar"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Moon Phase</figcaption><div class="an-chart-wrap"><canvas id="an-chart-moon-donut"></canvas></div></figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by Wind Direction</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-wind-pie"></canvas></div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-pressure-bar"></canvas></div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by Moon Phase</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-moon-donut"></canvas></div>
+                  </figure>
                 </div>
                 <div class="an-table-grid">
-                  <div class="an-rank"><h3 class="an-rank__title">Top Baits</h3><div class="an-rank__rows" id="an-rank-bait"></div><button class="an-rank__more" type="button" data-rank-more="bait" hidden>Show more</button></div>
-                  <div class="an-rank"><h3 class="an-rank__title">Top Rigs</h3><div class="an-rank__rows" id="an-rank-rig"></div><button class="an-rank__more" type="button" data-rank-more="rig" hidden>Show more</button></div>
-                  <div class="an-rank"><h3 class="an-rank__title">Top Times</h3><div class="an-rank__rows" id="an-rank-time"></div></div>
+                  <div class="an-rank">
+                    <h3 class="an-rank__title">Top Baits</h3>
+                    <div class="an-rank__rows" id="an-rank-bait"></div>
+                    <button class="an-rank__more" type="button" data-rank-more="bait" hidden>
+                      Show more
+                    </button>
+                  </div>
+                  <div class="an-rank">
+                    <h3 class="an-rank__title">Top Rigs</h3>
+                    <div class="an-rank__rows" id="an-rank-rig"></div>
+                    <button class="an-rank__more" type="button" data-rank-more="rig" hidden>
+                      Show more
+                    </button>
+                  </div>
+                  <div class="an-rank">
+                    <h3 class="an-rank__title">Top Times</h3>
+                    <div class="an-rank__rows" id="an-rank-time"></div>
+                  </div>
                 </div>
               </section>
 
-              <section id="an-panel-pressure" class="an-panel" role="tabpanel" aria-labelledby="an-tab-pressure" tabindex="0" hidden>
+              <section
+                id="an-panel-pressure"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-pressure"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Weight vs Pressure</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-scatter"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption><div class="an-chart-wrap"><canvas id="an-chart-pressure-bar2"></canvas></div></figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Weight vs Pressure</figcaption>
+                    <div class="an-chart-wrap">
+                      <canvas id="an-chart-pressure-scatter"></canvas>
+                    </div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by Pressure Range</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-pressure-bar2"></canvas></div>
+                  </figure>
                 </div>
               </section>
 
-              <section id="an-panel-wind" class="an-panel" role="tabpanel" aria-labelledby="an-tab-wind" tabindex="0" hidden>
+              <section
+                id="an-panel-wind"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-wind"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Wind Rose</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-rose"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Wind Speed Distribution</figcaption><div class="an-chart-wrap"><canvas id="an-chart-wind-speed"></canvas></div></figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Wind Rose</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-wind-rose"></canvas></div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Wind Speed Distribution</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-wind-speed"></canvas></div>
+                  </figure>
                 </div>
               </section>
 
-              <section id="an-panel-moon" class="an-panel" role="tabpanel" aria-labelledby="an-tab-moon" tabindex="0" hidden>
+              <section
+                id="an-panel-moon"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-moon"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by 8 Moon Phases</figcaption><div class="an-chart-wrap"><canvas id="an-chart-moon8"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Solunar Period Hits</figcaption><div class="an-chart-wrap"><canvas id="an-chart-solunar"></canvas></div></figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by 8 Moon Phases</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-moon8"></canvas></div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Solunar Period Hits</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-solunar"></canvas></div>
+                  </figure>
                 </div>
               </section>
 
-              <section id="an-panel-bait" class="an-panel" role="tabpanel" aria-labelledby="an-tab-bait" tabindex="0" hidden>
+              <section
+                id="an-panel-bait"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-bait"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Average Weight by Bait</figcaption><div class="an-chart-wrap"><canvas id="an-chart-bait-avg"></canvas></div></figure>
-                  <figure class="an-chart-card"><figcaption class="an-chart-card__title">Catches by Month</figcaption><div class="an-chart-wrap"><canvas id="an-chart-bait-monthly"></canvas></div></figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Average Weight by Bait</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-bait-avg"></canvas></div>
+                  </figure>
+                  <figure class="an-chart-card">
+                    <figcaption class="an-chart-card__title">Catches by Month</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-bait-monthly"></canvas></div>
+                  </figure>
                 </div>
               </section>
 
-              <section id="an-panel-time" class="an-panel" role="tabpanel" aria-labelledby="an-tab-time" tabindex="0" hidden>
+              <section
+                id="an-panel-time"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-time"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-chart-grid">
-                  <figure class="an-chart-card an-chart-card--wide"><figcaption class="an-chart-card__title">Catches by Hour of Day</figcaption><div class="an-chart-wrap"><canvas id="an-chart-time-hourly"></canvas></div></figure>
+                  <figure class="an-chart-card an-chart-card--wide">
+                    <figcaption class="an-chart-card__title">Catches by Hour of Day</figcaption>
+                    <div class="an-chart-wrap"><canvas id="an-chart-time-hourly"></canvas></div>
+                  </figure>
                 </div>
               </section>
 
-              <section id="an-panel-spots" class="an-panel" role="tabpanel" aria-labelledby="an-tab-spots" tabindex="0" hidden>
+              <section
+                id="an-panel-spots"
+                class="an-panel"
+                role="tabpanel"
+                aria-labelledby="an-tab-spots"
+                tabindex="0"
+                hidden
+              >
                 <div class="an-venue-table" id="an-venue-table"></div>
               </section>
-
             </div>
           </div>
         </section>
@@ -522,20 +750,27 @@
         <!-- Settings page (#218 #219 #220 #221 #222 #234 #235 #237) -->
         <section id="page-settings" hidden>
           <div class="settings">
-
             <!-- Main settings list panel -->
             <div id="settings-main">
               <!-- ACCOUNT section -->
               <div class="settings__section">
                 <span class="settings__section-title">ACCOUNT</span>
-                <button class="settings__row settings__row--nav" type="button" data-subpanel="profile">
+                <button
+                  class="settings__row settings__row--nav"
+                  type="button"
+                  data-subpanel="profile"
+                >
                   <div class="settings__row-content">
                     <span class="settings__row-label">Profile</span>
                     <span class="settings__row-subtitle">Display name, home lake</span>
                   </div>
                   <span class="settings__chevron">›</span>
                 </button>
-                <button class="settings__row settings__row--nav" type="button" data-subpanel="preferences">
+                <button
+                  class="settings__row settings__row--nav"
+                  type="button"
+                  data-subpanel="preferences"
+                >
                   <div class="settings__row-content">
                     <span class="settings__row-label">Preferences</span>
                     <span class="settings__row-subtitle">Units, language, theme</span>
@@ -553,7 +788,7 @@
                     <span class="settings__row-subtitle">Coming soon</span>
                   </div>
                   <label class="toggle" aria-label="Push notifications">
-                    <input class="toggle__input" type="checkbox" id="notif-push" disabled>
+                    <input class="toggle__input" type="checkbox" id="notif-push" disabled />
                     <span class="toggle__track"></span>
                   </label>
                 </div>
@@ -563,7 +798,7 @@
                     <span class="settings__row-subtitle">Show weather warnings</span>
                   </div>
                   <label class="toggle" aria-label="KMI warnings">
-                    <input class="toggle__input" type="checkbox" id="notif-kmi">
+                    <input class="toggle__input" type="checkbox" id="notif-kmi" />
                     <span class="toggle__track"></span>
                   </label>
                 </div>
@@ -573,7 +808,7 @@
                     <span class="settings__row-subtitle">Excellent condition alerts</span>
                   </div>
                   <label class="toggle" aria-label="Fishing conditions">
-                    <input class="toggle__input" type="checkbox" id="notif-fishing">
+                    <input class="toggle__input" type="checkbox" id="notif-fishing" />
                     <span class="toggle__track"></span>
                   </label>
                 </div>
@@ -601,7 +836,8 @@
                   <span class="settings__chevron">›</span>
                 </a>
               </div>
-            </div><!-- /#settings-main -->
+            </div>
+            <!-- /#settings-main -->
 
             <!-- Profile sub-panel (#219) -->
             <div id="settings-profile" hidden>
@@ -609,13 +845,25 @@
               <div class="settings__subpanel-title">Profile</div>
               <div class="settings__group">
                 <label class="settings__label" for="profile-display-name">Display Name</label>
-                <input id="profile-display-name" class="settings__input" type="text" placeholder="Your name" maxlength="50">
+                <input
+                  id="profile-display-name"
+                  class="settings__input"
+                  type="text"
+                  placeholder="Your name"
+                  maxlength="50"
+                />
               </div>
               <div class="settings__group">
                 <label class="settings__label" for="profile-home-lake">Home Lake / Venue</label>
-                <input id="profile-home-lake" class="settings__input" type="text" placeholder="e.g. Patersveld">
+                <input
+                  id="profile-home-lake"
+                  class="settings__input"
+                  type="text"
+                  placeholder="e.g. Patersveld"
+                />
               </div>
-            </div><!-- /#settings-profile -->
+            </div>
+            <!-- /#settings-profile -->
 
             <!-- Preferences sub-panel (#220 #234) -->
             <div id="settings-preferences" hidden>
@@ -659,9 +907,10 @@
                   <option value="dark">Dark</option>
                 </select>
               </div>
-            </div><!-- /#settings-preferences -->
-
-          </div><!-- /.settings -->
+            </div>
+            <!-- /#settings-preferences -->
+          </div>
+          <!-- /.settings -->
         </section>
 
         <!-- Privacy Policy stub (#222) -->
@@ -669,10 +918,10 @@
           <div class="settings">
             <button class="settings__back" type="button" onclick="history.back()">‹ Back</button>
             <h2 class="settings__title">Privacy Policy</h2>
-            <p style="color:var(--color-muted);font-size:0.875rem;line-height:1.6">
-              This app stores your fishing log data locally in your browser.
-              No personal data is sent to any server. Weather data is fetched
-              from Open-Meteo (open-source, no account required).
+            <p style="color: var(--color-muted); font-size: 0.875rem; line-height: 1.6">
+              This app stores your fishing log data locally in your browser. No personal data is
+              sent to any server. Weather data is fetched from Open-Meteo (open-source, no account
+              required).
             </p>
           </div>
         </section>
@@ -682,14 +931,13 @@
           <div class="settings">
             <button class="settings__back" type="button" onclick="history.back()">‹ Back</button>
             <h2 class="settings__title">Terms of Service</h2>
-            <p style="color:var(--color-muted);font-size:0.875rem;line-height:1.6">
-              This app is provided as-is for personal use. Weather forecasts are
-              provided by Open-Meteo and may not always be accurate. Use your own
-              judgement when planning fishing trips.
+            <p style="color: var(--color-muted); font-size: 0.875rem; line-height: 1.6">
+              This app is provided as-is for personal use. Weather forecasts are provided by
+              Open-Meteo and may not always be accurate. Use your own judgement when planning
+              fishing trips.
             </p>
           </div>
         </section>
-
       </main>
     </div>
     <!-- /#app -->
@@ -978,89 +1226,166 @@
 
     <!-- Welcome / display name modal (#235) -->
     <div id="welcome-overlay" class="modal-overlay hidden">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title" onclick="event.stopPropagation()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-title"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-header">
           <span id="welcome-title">Welcome to VGK Patersveld</span>
         </div>
         <div class="modal-body">
-          <p style="margin:0 0 0.75rem;font-size:0.875rem;color:var(--color-muted)">What should we call you?</p>
-          <input id="welcome-name" class="settings__input" type="text" placeholder="Your name" maxlength="50" autocomplete="name">
+          <p style="margin: 0 0 0.75rem; font-size: 0.875rem; color: var(--color-muted)">
+            What should we call you?
+          </p>
+          <input
+            id="welcome-name"
+            class="settings__input"
+            type="text"
+            placeholder="Your name"
+            maxlength="50"
+            autocomplete="name"
+          />
         </div>
         <div class="modal-footer">
-          <button id="welcome-submit" class="catches__btn catches__btn--primary" type="button">Get started</button>
-          <button id="welcome-skip" class="catches__btn catches__btn--ghost" type="button">Skip for now</button>
+          <button id="welcome-submit" class="catches__btn catches__btn--primary" type="button">
+            Get started
+          </button>
+          <button id="welcome-skip" class="catches__btn catches__btn--ghost" type="button">
+            Skip for now
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Add/Edit Catch modal (#196 #198 #199 #233) -->
     <div id="catch-form-overlay" class="modal-overlay hidden">
-      <div class="modal catch-form__modal" role="dialog" aria-modal="true" aria-labelledby="catch-form-title" onclick="event.stopPropagation()">
+      <div
+        class="modal catch-form__modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="catch-form-title"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="catch-form-title">Add Catch</span>
-          <button class="modal-close" id="catch-form-close" type="button" aria-label="Close">✕</button>
+          <button class="modal-close" id="catch-form-close" type="button" aria-label="Close">
+            ✕
+          </button>
         </div>
         <div class="modal-body">
           <form id="catch-form" class="catch-form">
             <!-- Basic fields -->
             <div class="catch-form__group">
               <label class="catch-form__label" for="cf-species">Species</label>
-              <input id="cf-species" class="catch-form__input" type="text" list="catch-species-list" required placeholder="e.g. Mirror Carp">
+              <input
+                id="cf-species"
+                class="catch-form__input"
+                type="text"
+                list="catch-species-list"
+                required
+                placeholder="e.g. Mirror Carp"
+              />
             </div>
             <div class="catch-form__row">
               <div class="catch-form__group">
                 <label class="catch-form__label" for="cf-weight">Weight (kg)</label>
-                <input id="cf-weight" class="catch-form__input" type="number" min="0" step="0.1" placeholder="0.0">
+                <input
+                  id="cf-weight"
+                  class="catch-form__input"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  placeholder="0.0"
+                />
               </div>
               <div class="catch-form__group">
                 <label class="catch-form__label" for="cf-length">Length (cm)</label>
-                <input id="cf-length" class="catch-form__input" type="number" min="0" step="1" placeholder="0">
+                <input
+                  id="cf-length"
+                  class="catch-form__input"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="0"
+                />
               </div>
             </div>
             <div class="catch-form__row">
               <div class="catch-form__group">
                 <label class="catch-form__label" for="cf-date">Date</label>
-                <input id="cf-date" class="catch-form__input" type="date">
+                <input id="cf-date" class="catch-form__input" type="date" />
               </div>
               <div class="catch-form__group">
                 <label class="catch-form__label" for="cf-time">Time</label>
-                <input id="cf-time" class="catch-form__input" type="time">
+                <input id="cf-time" class="catch-form__input" type="time" />
               </div>
             </div>
             <div class="catch-form__group">
               <label class="catch-form__label" for="cf-bait">Bait</label>
-              <input id="cf-bait" class="catch-form__input" type="text" list="catch-bait-list" placeholder="e.g. Krill Boilie">
+              <input
+                id="cf-bait"
+                class="catch-form__input"
+                type="text"
+                list="catch-bait-list"
+                placeholder="e.g. Krill Boilie"
+              />
             </div>
             <div class="catch-form__group">
               <label class="catch-form__label" for="cf-rig">Rig</label>
-              <input id="cf-rig" class="catch-form__input" type="text" list="catch-rig-list" placeholder="e.g. Hair Rig">
+              <input
+                id="cf-rig"
+                class="catch-form__input"
+                type="text"
+                list="catch-rig-list"
+                placeholder="e.g. Hair Rig"
+              />
             </div>
             <!-- Photo (#233) -->
             <div class="catch-form__group">
               <label class="catch-form__label" for="catch-photo-input">Photo</label>
-              <input id="catch-photo-input" class="catch-form__input" type="file" accept="image/*" capture="environment">
-              <img id="catch-photo-preview" class="catch-form__photo-preview" src="" alt="" hidden>
-              <input type="hidden" id="cf-photo-url">
+              <input
+                id="catch-photo-input"
+                class="catch-form__input"
+                type="file"
+                accept="image/*"
+                capture="environment"
+              />
+              <img
+                id="catch-photo-preview"
+                class="catch-form__photo-preview"
+                src=""
+                alt=""
+                hidden
+              />
+              <input type="hidden" id="cf-photo-url" />
             </div>
             <!-- Auto weather (#199) -->
             <fieldset id="catch-form-weather" class="catch-form__weather" disabled>
               <legend class="catch-form__legend">Conditions (auto-populated)</legend>
               <div class="catch-form__weather-grid">
-                <span class="catch-form__weather-label">Wind</span><span id="cf-wind" class="catch-form__weather-val">—</span>
-                <span class="catch-form__weather-label">Pressure</span><span id="cf-pressure" class="catch-form__weather-val">—</span>
-                <span class="catch-form__weather-label">Temp</span><span id="cf-temp" class="catch-form__weather-val">—</span>
-                <span class="catch-form__weather-label">Precip</span><span id="cf-precip" class="catch-form__weather-val">—</span>
-                <span class="catch-form__weather-label">Moon</span><span id="cf-moon" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Wind</span
+                ><span id="cf-wind" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Pressure</span
+                ><span id="cf-pressure" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Temp</span
+                ><span id="cf-temp" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Precip</span
+                ><span id="cf-precip" class="catch-form__weather-val">—</span>
+                <span class="catch-form__weather-label">Moon</span
+                ><span id="cf-moon" class="catch-form__weather-val">—</span>
               </div>
             </fieldset>
             <!-- hidden weather fields stored on save -->
-            <input type="hidden" id="cf-wind-speed">
-            <input type="hidden" id="cf-wind-dir">
-            <input type="hidden" id="cf-pressure-val">
-            <input type="hidden" id="cf-temp-val">
-            <input type="hidden" id="cf-precip-val">
-            <input type="hidden" id="cf-moon-phase">
+            <input type="hidden" id="cf-wind-speed" />
+            <input type="hidden" id="cf-wind-dir" />
+            <input type="hidden" id="cf-pressure-val" />
+            <input type="hidden" id="cf-temp-val" />
+            <input type="hidden" id="cf-precip-val" />
+            <input type="hidden" id="cf-moon-phase" />
             <!-- Advanced (#198) -->
             <details class="catch-form__advanced">
               <summary class="catch-form__advanced-toggle">Advanced details</summary>
@@ -1068,35 +1393,62 @@
                 <div class="catch-form__row">
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-hook-size">Hook size</label>
-                    <input id="cf-hook-size" class="catch-form__input" type="number" placeholder="8">
+                    <input
+                      id="cf-hook-size"
+                      class="catch-form__input"
+                      type="number"
+                      placeholder="8"
+                    />
                   </div>
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-hook-pattern">Hook pattern</label>
-                    <input id="cf-hook-pattern" class="catch-form__input" type="text" placeholder="e.g. Wide Gape">
+                    <input
+                      id="cf-hook-pattern"
+                      class="catch-form__input"
+                      type="text"
+                      placeholder="e.g. Wide Gape"
+                    />
                   </div>
                 </div>
                 <div class="catch-form__row">
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-mainline">Mainline (kg)</label>
-                    <input id="cf-mainline" class="catch-form__input" type="number" step="0.1" placeholder="6.8">
+                    <input
+                      id="cf-mainline"
+                      class="catch-form__input"
+                      type="number"
+                      step="0.1"
+                      placeholder="6.8"
+                    />
                   </div>
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-leader">Leader (kg)</label>
-                    <input id="cf-leader" class="catch-form__input" type="number" step="0.1" placeholder="6.8">
+                    <input
+                      id="cf-leader"
+                      class="catch-form__input"
+                      type="number"
+                      step="0.1"
+                      placeholder="6.8"
+                    />
                   </div>
                 </div>
                 <div class="catch-form__group">
                   <label class="catch-form__label" for="cf-leader-material">Leader material</label>
-                  <input id="cf-leader-material" class="catch-form__input" type="text" placeholder="e.g. Fluorocarbon">
+                  <input
+                    id="cf-leader-material"
+                    class="catch-form__input"
+                    type="text"
+                    placeholder="e.g. Fluorocarbon"
+                  />
                 </div>
                 <div class="catch-form__row">
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-water-temp">Water temp (°C)</label>
-                    <input id="cf-water-temp" class="catch-form__input" type="number" step="0.1">
+                    <input id="cf-water-temp" class="catch-form__input" type="number" step="0.1" />
                   </div>
                   <div class="catch-form__group">
                     <label class="catch-form__label" for="cf-depth">Depth (m)</label>
-                    <input id="cf-depth" class="catch-form__input" type="number" step="0.5">
+                    <input id="cf-depth" class="catch-form__input" type="number" step="0.5" />
                   </div>
                 </div>
                 <div class="catch-form__group">
@@ -1111,21 +1463,38 @@
                 </div>
                 <div class="catch-form__group">
                   <label class="catch-form__label" for="cf-venue">Venue</label>
-                  <input id="cf-venue" class="catch-form__input" type="text" placeholder="e.g. Patersveld Lake">
+                  <input
+                    id="cf-venue"
+                    class="catch-form__input"
+                    type="text"
+                    placeholder="e.g. Patersveld Lake"
+                  />
                 </div>
                 <div class="catch-form__group">
                   <label class="catch-form__label" for="cf-swim">Swim description</label>
-                  <input id="cf-swim" class="catch-form__input" type="text" placeholder="e.g. Far bank under the willows">
+                  <input
+                    id="cf-swim"
+                    class="catch-form__input"
+                    type="text"
+                    placeholder="e.g. Far bank under the willows"
+                  />
                 </div>
               </div>
             </details>
             <div class="catch-form__group">
               <label class="catch-form__label" for="cf-notes">Notes</label>
-              <textarea id="cf-notes" class="catch-form__input catch-form__textarea" rows="3" placeholder="Any observations..."></textarea>
+              <textarea
+                id="cf-notes"
+                class="catch-form__input catch-form__textarea"
+                rows="3"
+                placeholder="Any observations..."
+              ></textarea>
             </div>
-            <input type="hidden" id="cf-editing-id">
+            <input type="hidden" id="cf-editing-id" />
             <div class="catch-form__actions">
-              <button type="button" id="catch-form-cancel" class="catches__btn catches__btn--ghost">Cancel</button>
+              <button type="button" id="catch-form-cancel" class="catches__btn catches__btn--ghost">
+                Cancel
+              </button>
               <button type="submit" class="catches__btn catches__btn--primary">Save</button>
             </div>
           </form>
@@ -1135,27 +1504,47 @@
 
     <!-- Catch detail overlay (#204) -->
     <div id="catch-detail-overlay" class="modal-overlay hidden">
-      <div class="modal catch-detail__modal" role="dialog" aria-modal="true" aria-labelledby="catch-detail-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal catch-detail__modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="catch-detail-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="catch-detail-heading">Catch Details</span>
-          <button class="modal-close" id="catch-detail-close" type="button" aria-label="Close">✕</button>
+          <button class="modal-close" id="catch-detail-close" type="button" aria-label="Close">
+            ✕
+          </button>
         </div>
         <div class="modal-body" id="catch-detail-body"></div>
         <div class="catch-detail__footer">
-          <button id="catch-detail-edit" class="catches__btn catches__btn--ghost" type="button">Edit</button>
-          <button id="catch-detail-delete" class="catches__btn catches__btn--danger" type="button">Delete</button>
+          <button id="catch-detail-edit" class="catches__btn catches__btn--ghost" type="button">
+            Edit
+          </button>
+          <button id="catch-detail-delete" class="catches__btn catches__btn--danger" type="button">
+            Delete
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Filter panel (#203) -->
     <div id="catch-filter-overlay" class="modal-overlay hidden">
-      <div class="modal catch-filter__modal" role="dialog" aria-modal="true" aria-labelledby="catch-filter-heading" onclick="event.stopPropagation()">
+      <div
+        class="modal catch-filter__modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="catch-filter-heading"
+        onclick="event.stopPropagation()"
+      >
         <div class="modal-drag-handle" aria-hidden="true"></div>
         <div class="modal-header">
           <span id="catch-filter-heading">Filter &amp; Sort</span>
-          <button class="modal-close" id="catch-filter-close" type="button" aria-label="Close">✕</button>
+          <button class="modal-close" id="catch-filter-close" type="button" aria-label="Close">
+            ✕
+          </button>
         </div>
         <div class="modal-body">
           <div class="catch-filter">
@@ -1166,16 +1555,21 @@
             <div class="catch-filter__row">
               <div class="catch-filter__group">
                 <label class="catch-filter__label" for="cf-date-from">Date from</label>
-                <input id="cf-date-from" class="catch-form__input" type="date">
+                <input id="cf-date-from" class="catch-form__input" type="date" />
               </div>
               <div class="catch-filter__group">
                 <label class="catch-filter__label" for="cf-date-to">Date to</label>
-                <input id="cf-date-to" class="catch-form__input" type="date">
+                <input id="cf-date-to" class="catch-form__input" type="date" />
               </div>
             </div>
             <div class="catch-filter__group">
               <label class="catch-filter__label" for="cf-filter-bait">Bait</label>
-              <input id="cf-filter-bait" class="catch-form__input" type="text" placeholder="Search bait...">
+              <input
+                id="cf-filter-bait"
+                class="catch-form__input"
+                type="text"
+                placeholder="Search bait..."
+              />
             </div>
             <div class="catch-filter__group">
               <label class="catch-filter__label">Rig</label>
@@ -1190,8 +1584,20 @@
               </select>
             </div>
             <div class="catch-filter__actions">
-              <button id="catch-filter-clear" class="catches__btn catches__btn--ghost" type="button">Clear all</button>
-              <button id="catch-filter-apply" class="catches__btn catches__btn--primary" type="button">Apply</button>
+              <button
+                id="catch-filter-clear"
+                class="catches__btn catches__btn--ghost"
+                type="button"
+              >
+                Clear all
+              </button>
+              <button
+                id="catch-filter-apply"
+                class="catches__btn catches__btn--primary"
+                type="button"
+              >
+                Apply
+              </button>
             </div>
           </div>
         </div>

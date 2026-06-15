@@ -175,13 +175,16 @@ async function renderScoreWidget(current, hourly) {
   const variantClass = `score-widget__label--${colour === 'green' ? 'excellent' : colour === 'yellow' ? 'good' : colour === 'orange' ? 'fair' : 'poor'}`;
 
   el.innerHTML =
-    `<span class="label">Fishing Score</span>` +
+    `<span class="label">FISHING SCORE</span>` +
     `<div class="score-widget__body">` +
     `<div class="score-widget__info">` +
+    `<div class="score-widget__num-wrap">` +
     `<span class="score-widget__num">${score}</span>` +
+    `<span class="score-widget__denom">/100</span>` +
+    `</div>` +
     `<span class="score-widget__label ${variantClass}">${label}</span>` +
     (windowStr
-      ? `<span class="score-widget__window">&#128336; Best window ${windowStr}</span>`
+      ? `<span class="score-widget__window"><span class="score-widget__window-dot"></span><span class="score-widget__window-time">Best window ${windowStr}</span></span>`
       : '') +
     `</div>` +
     `<div class="score-widget__radar">` +
