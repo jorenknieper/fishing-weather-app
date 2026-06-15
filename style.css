@@ -264,12 +264,12 @@ main {
 .card {
   background: var(--color-card-bg);
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 0.875rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  box-shadow: 0 1px 3px var(--color-shadow);
+  box-shadow: 0 4px 24px var(--color-shadow);
   transition:
     background-color 200ms ease,
     color 200ms ease,
@@ -344,8 +344,10 @@ footer {
 
 .card--clickable:hover {
   transform: translateY(-1px);
-  border-color: var(--border-subtle);
-  box-shadow: 0 2px 8px var(--color-shadow);
+  border-color: var(--accent-wind);
+  box-shadow:
+    0 8px 32px var(--color-shadow),
+    0 0 0 1px var(--accent-wind);
 }
 
 .card--clickable:focus-visible {
@@ -357,6 +359,13 @@ footer {
 
 .card--hero.card--clickable:focus-visible {
   outline-color: var(--accent-pressure);
+}
+
+/* Ambient teal glow for prominent cards (#249) */
+.glow-teal {
+  box-shadow:
+    0 4px 24px var(--color-shadow),
+    0 0 20px rgb(0 212 160 / 12%);
 }
 
 .card--hero {
