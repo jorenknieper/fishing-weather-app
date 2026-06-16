@@ -19,7 +19,7 @@
     "scoreLabel": "GOOD",
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
-    "windDir": "W",
+    "windDir": "SW",
     "windSpeedKmh": 11,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
@@ -33,8 +33,8 @@
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "SE",
-    "windSpeedKmh": 7,
-    "precipMm": 0.5,
+    "windSpeedKmh": 6,
+    "precipMm": 2.4,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 15
   },
@@ -47,7 +47,7 @@
     "bestWindowEnd": "03:00",
     "windDir": "S",
     "windSpeedKmh": 10,
-    "precipMm": 2,
+    "precipMm": 0.6,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 24
   },
