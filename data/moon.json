@@ -1,16 +1,5 @@
 [
   {
-    "date": "2026-06-16",
-    "phase": "waxing-crescent",
-    "illumination": 3,
-    "moonrise": "2026-06-16T04:11:11.116Z",
-    "moonset": "2026-06-16T22:05:36.521Z",
-    "majorStart": "2026-06-16T12:08:23.818Z",
-    "majorEnd": "2026-06-16T14:08:23.818Z",
-    "minorStart": "2026-06-16T03:41:11.116Z",
-    "minorEnd": "2026-06-16T04:41:11.116Z"
-  },
-  {
     "date": "2026-06-17",
     "phase": "waxing-crescent",
     "illumination": 8,
@@ -328,5 +317,16 @@
     "majorEnd": "2026-07-15T13:51:14.815Z",
     "minorStart": "2026-07-15T04:11:21.829Z",
     "minorEnd": "2026-07-15T05:11:21.829Z"
+  },
+  {
+    "date": "2026-07-16",
+    "phase": "waxing-crescent",
+    "illumination": 6,
+    "moonrise": "2026-07-16T06:09:35.880Z",
+    "moonset": "2026-07-16T21:18:12.773Z",
+    "majorStart": "2026-07-16T12:43:54.326Z",
+    "majorEnd": "2026-07-16T14:43:54.326Z",
+    "minorStart": "2026-07-16T05:39:35.880Z",
+    "minorEnd": "2026-07-16T06:39:35.880Z"
   }
 ]
