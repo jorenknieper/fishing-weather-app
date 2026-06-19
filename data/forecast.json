@@ -1,27 +1,14 @@
 [
   {
-    "date": "2026-06-18",
-    "dayName": "TODAY",
-    "fishingScore": 74,
-    "scoreLabel": "GOOD",
-    "bestWindowStart": "00:00",
-    "bestWindowEnd": "03:00",
-    "windDir": "S",
-    "windSpeedKmh": 5,
-    "precipMm": 0,
-    "moonPhase": "waxing-crescent",
-    "moonIllumination": 15
-  },
-  {
     "date": "2026-06-19",
-    "dayName": "FRI",
+    "dayName": "TODAY",
     "fishingScore": 64,
     "scoreLabel": "FAIR",
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "S",
-    "windSpeedKmh": 11,
-    "precipMm": 11.9,
+    "windSpeedKmh": 10,
+    "precipMm": 0.1,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 24
   },
@@ -30,9 +17,9 @@
     "dayName": "SAT",
     "fishingScore": 74,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "17:00",
-    "bestWindowEnd": "20:00",
-    "windDir": "W",
+    "bestWindowStart": "13:00",
+    "bestWindowEnd": "16:00",
+    "windDir": "NW",
     "windSpeedKmh": 9,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
@@ -43,11 +30,11 @@
     "dayName": "SUN",
     "fishingScore": 78,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "00:00",
-    "bestWindowEnd": "03:00",
+    "bestWindowStart": "20:00",
+    "bestWindowEnd": "23:00",
     "windDir": "E",
     "windSpeedKmh": 8,
-    "precipMm": 2.1,
+    "precipMm": 0.3,
     "moonPhase": "first-quarter",
     "moonIllumination": 45
   },
@@ -180,5 +167,18 @@
     "precipMm": 74.7,
     "moonPhase": "waning-gibbous",
     "moonIllumination": 98
+  },
+  {
+    "date": "2026-07-02",
+    "dayName": "THU",
+    "fishingScore": 64,
+    "scoreLabel": "FAIR",
+    "bestWindowStart": "20:00",
+    "bestWindowEnd": "23:00",
+    "windDir": "SW",
+    "windSpeedKmh": 16,
+    "precipMm": 2.4,
+    "moonPhase": "waning-gibbous",
+    "moonIllumination": 94
   }
 ]
