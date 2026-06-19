@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-19T00:22:52.897Z",
-  "todayScore": 64,
-  "todayLabel": "FAIR",
+  "generatedAt": "2026-06-19T06:13:20.335Z",
+  "todayScore": 65,
+  "todayLabel": "GOOD",
   "bestWindowStart": "00:00",
   "bestWindowEnd": "03:00",
   "kmiStatus": "RED",
@@ -11,7 +11,7 @@
       "type": "high-wind",
       "severity": "ORANGE",
       "title": "High wind gusts",
-      "description": "Gusts up to 66 km/h expected today",
+      "description": "Gusts up to 46 km/h expected today",
       "validFrom": "2026-06-19T00:00:00",
       "validTo": "2026-06-19T23:59:59"
     },
