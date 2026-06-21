@@ -1,12 +1,28 @@
 {
-  "generatedAt": "2026-06-20T23:03:26.301Z",
-  "todayScore": 72,
+  "generatedAt": "2026-06-21T03:41:15.286Z",
+  "todayScore": 78,
   "todayLabel": "GOOD",
-  "bestWindowStart": "20:00",
-  "bestWindowEnd": "23:00",
+  "bestWindowStart": "05:00",
+  "bestWindowEnd": "08:00",
   "kmiStatus": "RED",
-  "kmiSummary": "38 active warning(s)",
+  "kmiSummary": "39 active warning(s)",
   "alerts": [
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green Thunderstorm Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-21T03:35:01+00:00",
+      "validTo": "2026-06-21T05:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Yellow Thunderstorm Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-21T03:00:00+00:00"
+    },
     {
       "type": "kmi",
       "severity": "ORANGE",
@@ -22,14 +38,6 @@
       "description": "",
       "validFrom": "",
       "validTo": "2026-06-20T22:00:00+00:00"
-    },
-    {
-      "type": "kmi",
-      "severity": "ORANGE",
-      "title": "Yellow Thunderstorm Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-06-21T05:00:00+00:00"
     },
     {
       "type": "kmi",

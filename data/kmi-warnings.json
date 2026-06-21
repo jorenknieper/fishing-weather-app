@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-06-20T23:03:24.917Z",
+  "updatedAt": "2026-06-21T03:41:13.815Z",
   "warnings": [
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/1eaee274-53f3-499e-b7a2-a42a86b808cd?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green Thunderstorm Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-21T03:35:01+00:00",
+      "validTo": "2026-06-21T05:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/1cc37e6b-11b9-4b2c-87be-586575bd01af?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Yellow Thunderstorm Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-21T03:00:00+00:00",
+      "area": "West Flanders"
+    },
     {
       "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/f96c9afc-128b-4e3f-acdb-da1f1e8fae38?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
@@ -20,16 +40,6 @@
       "validFrom": "",
       "validTo": "2026-06-20T22:00:00+00:00",
       "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/0486a7bd-6eee-479e-9eb7-077dcd55cb5a?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Yellow Thunderstorm Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-06-21T05:00:00+00:00",
-      "area": "East Flanders"
     },
     {
       "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/03002ee1-1cdc-4fcc-a856-d5fac61b3d24?index_info=2&amp;index_area=0&amp;index_geocode=0",
