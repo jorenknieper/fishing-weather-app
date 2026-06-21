@@ -15,12 +15,12 @@
   {
     "date": "2026-06-22",
     "dayName": "MON",
-    "fishingScore": 80,
-    "scoreLabel": "EXCELLENT",
+    "fishingScore": 77,
+    "scoreLabel": "GOOD",
     "bestWindowStart": "01:00",
     "bestWindowEnd": "04:00",
     "windDir": "NE",
-    "windSpeedKmh": 10,
+    "windSpeedKmh": 11,
     "precipMm": 0,
     "moonPhase": "first-quarter",
     "moonIllumination": 56
