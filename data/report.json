@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-23T19:55:17.236Z",
+  "generatedAt": "2026-06-23T21:28:51.227Z",
   "todayScore": 80,
   "todayLabel": "EXCELLENT",
   "bestWindowStart": "00:00",
   "bestWindowEnd": "03:00",
   "kmiStatus": "RED",
-  "kmiSummary": "32 active warning(s)",
+  "kmiSummary": "46 active warning(s)",
   "alerts": [
     {
       "type": "excellent",
@@ -14,6 +14,118 @@
       "description": "Score 80 – best window 00:00–03:00",
       "validFrom": "2026-06-23T00:00:00",
       "validTo": "2026-06-23T23:59:59"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Orange High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-24T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Orange High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-24T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-23T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-23T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:16:08+00:00",
+      "validTo": "2026-06-27T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:16:06+00:00",
+      "validTo": "2026-06-27T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:51+00:00",
+      "validTo": "2026-06-26T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:49+00:00",
+      "validTo": "2026-06-26T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:34+00:00",
+      "validTo": "2026-06-25T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:32+00:00",
+      "validTo": "2026-06-25T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:17+00:00",
+      "validTo": "2026-06-24T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:15+00:00",
+      "validTo": "2026-06-24T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:02+00:00",
+      "validTo": "2026-06-23T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-23T20:15:00+00:00",
+      "validTo": "2026-06-23T22:00:00+00:00"
     },
     {
       "type": "kmi",
