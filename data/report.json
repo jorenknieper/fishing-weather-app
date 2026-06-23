@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-23T14:48:56.645Z",
+  "generatedAt": "2026-06-23T17:13:46.567Z",
   "todayScore": 80,
   "todayLabel": "EXCELLENT",
-  "bestWindowStart": "03:00",
-  "bestWindowEnd": "06:00",
+  "bestWindowStart": "00:00",
+  "bestWindowEnd": "03:00",
   "kmiStatus": "RED",
   "kmiSummary": "32 active warning(s)",
   "alerts": [
@@ -11,7 +11,7 @@
       "type": "excellent",
       "severity": "GREEN",
       "title": "Excellent fishing conditions",
-      "description": "Score 80 – best window 03:00–06:00",
+      "description": "Score 80 – best window 00:00–03:00",
       "validFrom": "2026-06-23T00:00:00",
       "validTo": "2026-06-23T23:59:59"
     },
