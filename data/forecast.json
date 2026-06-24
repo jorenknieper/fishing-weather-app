@@ -20,7 +20,7 @@
     "bestWindowStart": "03:00",
     "bestWindowEnd": "06:00",
     "windDir": "NE",
-    "windSpeedKmh": 12,
+    "windSpeedKmh": 11,
     "precipMm": 0,
     "moonPhase": "waxing-gibbous",
     "moonIllumination": 83
@@ -28,13 +28,13 @@
   {
     "date": "2026-06-26",
     "dayName": "FRI",
-    "fishingScore": 64,
-    "scoreLabel": "FAIR",
-    "bestWindowStart": "18:00",
-    "bestWindowEnd": "21:00",
+    "fishingScore": 65,
+    "scoreLabel": "GOOD",
+    "bestWindowStart": "19:00",
+    "bestWindowEnd": "22:00",
     "windDir": "W",
-    "windSpeedKmh": 10,
-    "precipMm": 0.3,
+    "windSpeedKmh": 11,
+    "precipMm": 0,
     "moonPhase": "waxing-gibbous",
     "moonIllumination": 89
   },
@@ -46,7 +46,7 @@
     "bestWindowStart": "04:00",
     "bestWindowEnd": "07:00",
     "windDir": "SE",
-    "windSpeedKmh": 8,
+    "windSpeedKmh": 9,
     "precipMm": 0.6,
     "moonPhase": "waxing-gibbous",
     "moonIllumination": 94
