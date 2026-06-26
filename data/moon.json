@@ -1,16 +1,5 @@
 [
   {
-    "date": "2026-06-25",
-    "phase": "waxing-gibbous",
-    "illumination": 83,
-    "moonrise": "2026-06-25T16:18:14.450Z",
-    "moonset": "2026-06-25T00:17:21.369Z",
-    "majorStart": "2026-06-25T07:17:47.909Z",
-    "majorEnd": "2026-06-25T09:17:47.909Z",
-    "minorStart": "2026-06-25T15:48:14.450Z",
-    "minorEnd": "2026-06-25T16:48:14.450Z"
-  },
-  {
     "date": "2026-06-26",
     "phase": "waxing-gibbous",
     "illumination": 89,
@@ -328,5 +317,16 @@
     "majorEnd": "2026-07-24T21:00:48.201Z",
     "minorStart": "2026-07-24T15:56:15.594Z",
     "minorEnd": "2026-07-24T16:56:15.594Z"
+  },
+  {
+    "date": "2026-07-25",
+    "phase": "waxing-gibbous",
+    "illumination": 85,
+    "moonrise": "2026-07-25T17:27:42.129Z",
+    "moonset": null,
+    "majorStart": null,
+    "majorEnd": null,
+    "minorStart": null,
+    "minorEnd": null
   }
 ]
