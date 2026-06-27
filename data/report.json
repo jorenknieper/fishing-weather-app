@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-06-27T07:45:54.702Z",
+  "generatedAt": "2026-06-27T10:02:23.731Z",
   "todayScore": 72,
   "todayLabel": "GOOD",
   "bestWindowStart": "00:00",
   "bestWindowEnd": "03:00",
   "kmiStatus": "RED",
-  "kmiSummary": "66 active warning(s)",
+  "kmiSummary": "76 active warning(s)",
   "alerts": [
     {
       "type": "high-wind",
       "severity": "ORANGE",
       "title": "High wind gusts",
-      "description": "Gusts up to 49 km/h expected today",
+      "description": "Gusts up to 51 km/h expected today",
       "validFrom": "2026-06-27T00:00:00",
       "validTo": "2026-06-27T23:59:59"
     },
@@ -33,18 +33,98 @@
     },
     {
       "type": "kmi",
-      "severity": "RED",
-      "title": "Orange High-temperature Warning issued for Belgium - East Flanders",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
       "description": "",
       "validFrom": "",
       "validTo": "2026-06-27T22:00:00+00:00"
     },
     {
       "type": "kmi",
-      "severity": "RED",
-      "title": "Orange High-temperature Warning issued for Belgium - West Flanders",
+      "severity": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
       "description": "",
       "validFrom": "",
+      "validTo": "2026-06-27T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:57+00:00",
+      "validTo": "2026-07-01T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:55+00:00",
+      "validTo": "2026-07-01T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:42+00:00",
+      "validTo": "2026-06-30T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:40+00:00",
+      "validTo": "2026-06-30T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:27+00:00",
+      "validTo": "2026-06-29T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:26+00:00",
+      "validTo": "2026-06-29T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:14+00:00",
+      "validTo": "2026-06-28T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:12+00:00",
+      "validTo": "2026-06-28T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:02+00:00",
+      "validTo": "2026-06-27T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-06-27T09:45:01+00:00",
       "validTo": "2026-06-27T22:00:00+00:00"
     },
     {
