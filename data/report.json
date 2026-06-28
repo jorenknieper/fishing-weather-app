@@ -1,12 +1,36 @@
 {
-  "generatedAt": "2026-06-27T23:57:55.805Z",
-  "todayScore": 72,
+  "generatedAt": "2026-06-28T04:07:21.689Z",
+  "todayScore": 70,
   "todayLabel": "GOOD",
-  "bestWindowStart": "00:00",
-  "bestWindowEnd": "03:00",
+  "bestWindowStart": "20:00",
+  "bestWindowEnd": "23:00",
   "kmiStatus": "RED",
-  "kmiSummary": "86 active warning(s)",
+  "kmiSummary": "88 active warning(s)",
   "alerts": [
+    {
+      "type": "high-wind",
+      "severity": "ORANGE",
+      "title": "High wind gusts",
+      "description": "Gusts up to 55 km/h expected today",
+      "validFrom": "2026-06-28T00:00:00",
+      "validTo": "2026-06-28T23:59:59"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Orange Thunderstorm Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-28T02:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "RED",
+      "title": "Orange Thunderstorm Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-06-28T02:00:00+00:00"
+    },
     {
       "type": "kmi",
       "severity": "ORANGE",
