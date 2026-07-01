@@ -17,11 +17,11 @@
     "dayName": "THU",
     "fishingScore": 76,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "20:00",
-    "bestWindowEnd": "23:00",
+    "bestWindowStart": "00:00",
+    "bestWindowEnd": "03:00",
     "windDir": "W",
     "windSpeedKmh": 13,
-    "precipMm": 0.3,
+    "precipMm": 0.2,
     "moonPhase": "waning-gibbous",
     "moonIllumination": 94
   },
@@ -33,7 +33,7 @@
     "bestWindowStart": "01:00",
     "bestWindowEnd": "04:00",
     "windDir": "W",
-    "windSpeedKmh": 6,
+    "windSpeedKmh": 7,
     "precipMm": 0,
     "moonPhase": "waning-gibbous",
     "moonIllumination": 89
