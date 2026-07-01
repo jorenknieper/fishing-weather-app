@@ -1,16 +1,5 @@
 [
   {
-    "date": "2026-06-30",
-    "phase": "full-moon",
-    "illumination": 100,
-    "moonrise": "2026-06-30T20:55:19.662Z",
-    "moonset": "2026-06-30T03:22:38.363Z",
-    "majorStart": "2026-06-30T11:08:59.012Z",
-    "majorEnd": "2026-06-30T13:08:59.012Z",
-    "minorStart": "2026-06-30T20:25:19.662Z",
-    "minorEnd": "2026-06-30T21:25:19.662Z"
-  },
-  {
     "date": "2026-07-01",
     "phase": "waning-gibbous",
     "illumination": 98,
@@ -328,5 +317,16 @@
     "majorEnd": "2026-07-29T12:37:51.423Z",
     "minorStart": "2026-07-29T19:16:19.451Z",
     "minorEnd": "2026-07-29T20:16:19.451Z"
+  },
+  {
+    "date": "2026-07-30",
+    "phase": "waning-gibbous",
+    "illumination": 99,
+    "moonrise": "2026-07-30T20:02:13.940Z",
+    "moonset": "2026-07-30T04:44:46.948Z",
+    "majorStart": "2026-07-30T11:23:30.444Z",
+    "majorEnd": "2026-07-30T13:23:30.444Z",
+    "minorStart": "2026-07-30T19:32:13.940Z",
+    "minorEnd": "2026-07-30T20:32:13.940Z"
   }
 ]
