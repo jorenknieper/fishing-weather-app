@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T06:37:35.384Z",
+  "generatedAt": "2026-07-02T09:58:21.883Z",
   "todayScore": 76,
   "todayLabel": "GOOD",
   "bestWindowStart": "20:00",
@@ -11,7 +11,7 @@
       "type": "high-wind",
       "severity": "ORANGE",
       "title": "High wind gusts",
-      "description": "Gusts up to 43 km/h expected today",
+      "description": "Gusts up to 40 km/h expected today",
       "validFrom": "2026-07-02T00:00:00",
       "validTo": "2026-07-02T23:59:59"
     },
