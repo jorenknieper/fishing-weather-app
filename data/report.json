@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T09:58:21.883Z",
+  "generatedAt": "2026-07-02T12:10:22.830Z",
   "todayScore": 76,
   "todayLabel": "GOOD",
   "bestWindowStart": "20:00",
@@ -7,14 +7,6 @@
   "kmiStatus": "ORANGE",
   "kmiSummary": "6 active warning(s)",
   "alerts": [
-    {
-      "type": "high-wind",
-      "severity": "ORANGE",
-      "title": "High wind gusts",
-      "description": "Gusts up to 40 km/h expected today",
-      "validFrom": "2026-07-02T00:00:00",
-      "validTo": "2026-07-02T23:59:59"
-    },
     {
       "type": "kmi",
       "severity": "ORANGE",
