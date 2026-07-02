@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-01T23:09:48.796Z",
-  "todayScore": 80,
-  "todayLabel": "EXCELLENT",
-  "bestWindowStart": "00:00",
-  "bestWindowEnd": "03:00",
+  "generatedAt": "2026-07-02T02:50:40.072Z",
+  "todayScore": 76,
+  "todayLabel": "GOOD",
+  "bestWindowStart": "20:00",
+  "bestWindowEnd": "23:00",
   "kmiStatus": "ORANGE",
   "kmiSummary": "6 active warning(s)",
   "alerts": [
     {
-      "type": "excellent",
-      "severity": "GREEN",
-      "title": "Excellent fishing conditions",
-      "description": "Score 80 – best window 00:00–03:00",
-      "validFrom": "2026-07-01T00:00:00",
-      "validTo": "2026-07-01T23:59:59"
+      "type": "high-wind",
+      "severity": "ORANGE",
+      "title": "High wind gusts",
+      "description": "Gusts up to 41 km/h expected today",
+      "validFrom": "2026-07-02T00:00:00",
+      "validTo": "2026-07-02T23:59:59"
     },
     {
       "type": "kmi",
