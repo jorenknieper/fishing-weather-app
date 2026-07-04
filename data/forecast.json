@@ -15,12 +15,12 @@
   {
     "date": "2026-07-05",
     "dayName": "SUN",
-    "fishingScore": 77,
-    "scoreLabel": "GOOD",
-    "bestWindowStart": "03:00",
-    "bestWindowEnd": "06:00",
+    "fishingScore": 80,
+    "scoreLabel": "EXCELLENT",
+    "bestWindowStart": "04:00",
+    "bestWindowEnd": "07:00",
     "windDir": "NW",
-    "windSpeedKmh": 11,
+    "windSpeedKmh": 9,
     "precipMm": 0,
     "moonPhase": "waning-gibbous",
     "moonIllumination": 73
