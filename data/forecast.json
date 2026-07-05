@@ -7,7 +7,7 @@
     "bestWindowStart": "04:00",
     "bestWindowEnd": "07:00",
     "windDir": "NW",
-    "windSpeedKmh": 11,
+    "windSpeedKmh": 10,
     "precipMm": 0,
     "moonPhase": "waning-gibbous",
     "moonIllumination": 73
@@ -30,10 +30,10 @@
     "dayName": "TUE",
     "fishingScore": 71,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "05:00",
-    "bestWindowEnd": "08:00",
+    "bestWindowStart": "04:00",
+    "bestWindowEnd": "07:00",
     "windDir": "W",
-    "windSpeedKmh": 12,
+    "windSpeedKmh": 11,
     "precipMm": 0,
     "moonPhase": "last-quarter",
     "moonIllumination": 52
