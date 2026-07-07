@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-07-07T21:19:22.279Z",
+  "updatedAt": "2026-07-07T22:56:41.418Z",
   "warnings": [
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/b5337247-bc5c-4999-99d4-016638a7d1d1?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/6c7bfec1-3aaf-4a4f-8801-7307c22fa415?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
       "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
@@ -12,7 +12,7 @@
       "area": "East Flanders"
     },
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/705ebf10-b0aa-4bd0-b000-61cd340403b1?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/efb25f5f-a4b5-420a-a263-df76e0b52b56?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
       "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
@@ -22,23 +22,243 @@
       "area": "West Flanders"
     },
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/740c6f96-a2db-4290-a9eb-eacd04e641d4?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/a1db318b-f3c7-4b25-93b2-a4ca9f2cd9f1?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
       "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
       "description": "",
       "validFrom": "",
-      "validTo": "2026-07-06T22:00:00+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
       "area": "East Flanders"
     },
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/adf3a227-ec7d-4436-b66e-fb2fa838e641?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/f53102ba-15bd-4d78-b1a3-e83d09543f7c?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
       "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
       "description": "",
       "validFrom": "",
-      "validTo": "2026-07-06T22:00:00+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/cbeb4e11-284f-48c7-84e2-b8f24857a7df?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/c131fdb2-3acf-4617-ba41-d2b8c2aa6b29?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/66ca3ad0-f41d-4934-a61c-cf2b3c098881?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-07-07T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/cbb5eb45-8593-4b45-b74b-4ae5130d7532?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "",
+      "validTo": "2026-07-07T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/0d001640-f2d9-4252-bd3f-3aa3c9237583?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:42+00:00",
+      "validTo": "2026-07-11T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/7e913430-1ceb-4746-a725-5f429aa97adf?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:40+00:00",
+      "validTo": "2026-07-11T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/9d94f8e6-3878-40df-9b28-315ea2550e56?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:27+00:00",
+      "validTo": "2026-07-10T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/c0cf5d7c-3088-47e6-9d08-284d0bc9715c?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:25+00:00",
+      "validTo": "2026-07-10T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/03129bec-ff0f-4edb-b6e6-c72fa61a16d0?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:00+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/50afc539-3e42-4114-92da-726e5445adda?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:21:02+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/a0ef9733-802f-4dce-8225-145acc3645dd?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:20:25+00:00",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/95d7eb21-2a13-4bcb-87f3-a3b6f6976709?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:20:19+00:00",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/bbe1647a-f420-4dba-9a06-f2cb2a899c45?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:20:01+00:00",
+      "validTo": "2026-07-07T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/61737102-3fc0-42e5-9d57-907581824a39?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T09:20:00+00:00",
+      "validTo": "2026-07-07T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/34fee159-2d32-406e-8df1-5738d05311be?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:47+00:00",
+      "validTo": "2026-07-10T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/c255dad4-818c-44b1-9f79-f556a2217bbd?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:45+00:00",
+      "validTo": "2026-07-10T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/ddb5be9d-8749-404a-8d82-38a82d0fbff5?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:31+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/280f769e-ecf1-4485-97a8-b30764cf8f8b?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:29+00:00",
+      "validTo": "2026-07-09T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/00b02a8e-1cf0-4bac-a423-6ecfdefb4bcf?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:14+00:00",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/f9353158-0d26-4890-952e-3c216489edcc?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:13+00:00",
+      "validTo": "2026-07-08T22:00:00+00:00",
+      "area": "West Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/9606f50f-1ceb-4fb0-be68-e6a295b75cb5?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:01+00:00",
+      "validTo": "2026-07-07T22:00:00+00:00",
+      "area": "East Flanders"
+    },
+    {
+      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/c4b21a36-7a34-42f1-874b-a3d31fdc9fcd?index_info=2&amp;index_area=0&amp;index_geocode=0",
+      "severity": "Moderate",
+      "colour": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-07T00:30:00+00:00",
+      "validTo": "2026-07-07T22:00:00+00:00",
       "area": "West Flanders"
     },
     {
@@ -122,26 +342,6 @@
       "area": "West Flanders"
     },
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/03ad4820-100f-49ca-a7bb-f4a1699891a1?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-06T13:30:01+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/1189a36e-3f3a-4c80-a2c7-6315c3190d1d?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-06T13:30:00+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
       "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/7a586e04-c25b-448e-8bc0-5f5679c9c093?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
@@ -199,66 +399,6 @@
       "description": "",
       "validFrom": "2026-07-06T03:00:12+00:00",
       "validTo": "2026-07-07T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/ab412cf4-4744-430c-a6b9-fb1f9553b80a?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-06T03:00:02+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/edf0f0c9-67fe-4333-b927-3686258f9a22?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-06T03:00:00+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/d3be4704-59ab-4581-bdc4-d1d29fe71d03?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/98f11025-9b70-4f83-b87a-6485e295f1d0?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/f45a44ea-45ec-4b30-8114-f8a2bbaea781?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Yellow High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/0d0e0512-49fb-4620-8c4e-4d3034b6e5f1?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "",
-      "validTo": "2026-07-05T22:00:00+00:00",
       "area": "West Flanders"
     },
     {
@@ -322,46 +462,6 @@
       "area": "West Flanders"
     },
     {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/51a286b1-a390-42e3-8413-0d156151ef82?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T11:30:15+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/7a984baa-7c5c-4188-8ee8-730e94f3e4ab?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T11:30:13+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/0a73ef1c-b0d0-407a-9f64-17d444b3d5c2?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T11:30:01+00:00",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/5114e091-5135-4d98-9085-3b15345aa131?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T11:30:00+00:00",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
       "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/be009bf3-2ada-4b7d-9883-eed6b3ee3a2f?index_info=2&amp;index_area=0&amp;index_geocode=0",
       "severity": "Moderate",
       "colour": "ORANGE",
@@ -399,46 +499,6 @@
       "description": "",
       "validFrom": "2026-07-05T03:00:27+00:00",
       "validTo": "2026-07-07T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/ef5663d3-1d5b-4389-8519-f5cf3257732b?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T03:00:15+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/57bae85a-ba46-4367-b171-cc03d66d3c27?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T03:00:13+00:00",
-      "validTo": "2026-07-06T22:00:00+00:00",
-      "area": "West Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/a9c07b87-bb2f-4560-9c78-f85061117cc3?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T03:00:02+00:00",
-      "validTo": "2026-07-05T22:00:00+00:00",
-      "area": "East Flanders"
-    },
-    {
-      "id": "https://feeds.meteoalarm.org/api/v1/warnings/feeds-belgium/2cbc3ba6-b0ef-4734-8c4b-8ece6997ca5b?index_info=2&amp;index_area=0&amp;index_geocode=0",
-      "severity": "Moderate",
-      "colour": "ORANGE",
-      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
-      "description": "",
-      "validFrom": "2026-07-05T03:00:00+00:00",
-      "validTo": "2026-07-05T22:00:00+00:00",
       "area": "West Flanders"
     }
   ]
