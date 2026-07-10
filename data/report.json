@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-09T22:18:04.040Z",
-  "todayScore": 74,
+  "generatedAt": "2026-07-10T00:00:30.590Z",
+  "todayScore": 71,
   "todayLabel": "GOOD",
-  "bestWindowStart": "00:00",
-  "bestWindowEnd": "03:00",
+  "bestWindowStart": "02:00",
+  "bestWindowEnd": "05:00",
   "kmiStatus": "ORANGE",
   "kmiSummary": "56 active warning(s)",
   "alerts": [
