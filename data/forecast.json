@@ -20,7 +20,7 @@
     "bestWindowStart": "09:00",
     "bestWindowEnd": "12:00",
     "windDir": "NE",
-    "windSpeedKmh": 14,
+    "windSpeedKmh": 13,
     "precipMm": 0,
     "moonPhase": "waning-crescent",
     "moonIllumination": 11
@@ -30,10 +30,10 @@
     "dayName": "SUN",
     "fishingScore": 77,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "07:00",
-    "bestWindowEnd": "10:00",
+    "bestWindowStart": "02:00",
+    "bestWindowEnd": "05:00",
     "windDir": "E",
-    "windSpeedKmh": 15,
+    "windSpeedKmh": 14,
     "precipMm": 0,
     "moonPhase": "waning-crescent",
     "moonIllumination": 5
