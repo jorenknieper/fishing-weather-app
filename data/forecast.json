@@ -20,7 +20,7 @@
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "E",
-    "windSpeedKmh": 15,
+    "windSpeedKmh": 16,
     "precipMm": 0,
     "moonPhase": "waning-crescent",
     "moonIllumination": 5
@@ -33,7 +33,7 @@
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
     "windDir": "NE",
-    "windSpeedKmh": 16,
+    "windSpeedKmh": 17,
     "precipMm": 0,
     "moonPhase": "waning-crescent",
     "moonIllumination": 1
@@ -43,10 +43,10 @@
     "dayName": "TUE",
     "fishingScore": 71,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "00:00",
-    "bestWindowEnd": "03:00",
+    "bestWindowStart": "03:00",
+    "bestWindowEnd": "06:00",
     "windDir": "NE",
-    "windSpeedKmh": 15,
+    "windSpeedKmh": 14,
     "precipMm": 0,
     "moonPhase": "new",
     "moonIllumination": 0
@@ -58,8 +58,8 @@
     "scoreLabel": "GOOD",
     "bestWindowStart": "00:00",
     "bestWindowEnd": "03:00",
-    "windDir": "NE",
-    "windSpeedKmh": 16,
+    "windDir": "E",
+    "windSpeedKmh": 15,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 2
