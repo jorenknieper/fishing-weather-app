@@ -30,10 +30,10 @@
     "dayName": "TUE",
     "fishingScore": 71,
     "scoreLabel": "GOOD",
-    "bestWindowStart": "04:00",
-    "bestWindowEnd": "07:00",
+    "bestWindowStart": "03:00",
+    "bestWindowEnd": "06:00",
     "windDir": "NE",
-    "windSpeedKmh": 14,
+    "windSpeedKmh": 13,
     "precipMm": 0,
     "moonPhase": "new",
     "moonIllumination": 0
