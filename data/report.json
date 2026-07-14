@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-14T07:55:14.999Z",
+  "generatedAt": "2026-07-14T09:53:52.281Z",
   "todayScore": 71,
   "todayLabel": "GOOD",
   "bestWindowStart": "04:00",
   "bestWindowEnd": "07:00",
   "kmiStatus": "RED",
-  "kmiSummary": "52 active warning(s)",
+  "kmiSummary": "60 active warning(s)",
   "alerts": [
     {
       "type": "kmi",
@@ -37,6 +37,70 @@
       "title": "Yellow High-temperature Warning issued for Belgium - West Flanders",
       "description": "",
       "validFrom": "",
+      "validTo": "2026-07-14T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:06:03+00:00",
+      "validTo": "2026-07-17T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:06:01+00:00",
+      "validTo": "2026-07-17T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:40+00:00",
+      "validTo": "2026-07-16T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:36+00:00",
+      "validTo": "2026-07-16T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:17+00:00",
+      "validTo": "2026-07-15T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:16+00:00",
+      "validTo": "2026-07-15T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - East Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:02+00:00",
+      "validTo": "2026-07-14T22:00:00+00:00"
+    },
+    {
+      "type": "kmi",
+      "severity": "ORANGE",
+      "title": "Green High-temperature Warning issued for Belgium - West Flanders",
+      "description": "",
+      "validFrom": "2026-07-14T09:05:01+00:00",
       "validTo": "2026-07-14T22:00:00+00:00"
     },
     {
