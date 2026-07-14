@@ -7,7 +7,7 @@
     "bestWindowStart": "06:00",
     "bestWindowEnd": "09:00",
     "windDir": "NE",
-    "windSpeedKmh": 14,
+    "windSpeedKmh": 13,
     "precipMm": 0,
     "moonPhase": "new",
     "moonIllumination": 0
@@ -33,7 +33,7 @@
     "bestWindowStart": "04:00",
     "bestWindowEnd": "07:00",
     "windDir": "N",
-    "windSpeedKmh": 11,
+    "windSpeedKmh": 12,
     "precipMm": 0,
     "moonPhase": "waxing-crescent",
     "moonIllumination": 6
